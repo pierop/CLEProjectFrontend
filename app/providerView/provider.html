@@ -28,19 +28,19 @@ and open the template in the editor.
     </div>
     
     <div ng-if="isManageServicesShown()">
-        Please the services you want to offer.
+        Please select the services you want to offer.
         <form>
-            <input type="checkbox" /> Network (private subnets) <br />
-            <input type="checkbox" /> Auto templates <br />
-            <input type="checkbox" /> Manual templates
-            <ul class="manual-template-list">
-                <li><input type="checkbox" /> RAM </li>
-                <li><input type="checkbox" /> HDD </li>
-                <li><input type="checkbox" /> OS </li>
-                <li><input type="checkbox" /> Swap </li>
-                <li><input type="checkbox" /> CPU </li>
-                <li><input type="checkbox" /> IP address </li>
-                <li><input type="checkbox" /> Authentication </li>
+            <input type="checkbox" ng-model="services.network" /> Network (private subnets) <br />
+            <input type="checkbox" ng-model="services.autoTemplates" ng-change="autoTemplatesChoiceChanged()" /> Auto templates <br />
+            <input type="checkbox" ng-model="services.manualTemplates" ng-change="manualTemplatesChoiceChanged()" /> Manual templates
+            <ul class="manual-template-list" ng-if="manualTemplatesShown()">
+                <li><input type="checkbox" ng-model="services.ram" /> RAM </li>
+                <li><input type="checkbox" ng-model="services.hdd" /> HDD </li>
+                <li><input type="checkbox" ng-model="services.os" /> OS </li>
+                <li><input type="checkbox" ng-model="services.swap" /> Swap </li>
+                <li><input type="checkbox" ng-model="services.cpu" /> CPU </li>
+                <li><input type="checkbox" ng-model="services.ipAddress" /> IP address </li>
+                <li><input type="checkbox" ng-model="services.authentication" /> Authentication </li>
             </ul>               
         </form>
         <button type="button" ng-click="saveServices()">Save</button>

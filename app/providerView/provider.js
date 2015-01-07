@@ -6,6 +6,16 @@
 'use strict';
 
 lanj.controller('ProviderController', function($scope) {
+    $scope.services = { network: false,
+                        autoTemplates: false,
+                        manualTemplates: false,
+                        ram:false,
+                        hdd: false,
+                        os: false,
+                        swap: false,
+                        cpu: false,
+                        ipAddress: false,
+                        authentication: false };
     $scope.admin = { login: "", password: ""};
     // 0 for 'Manage Services' tab
     // 1 for 'Create Admin' tab
@@ -22,6 +32,28 @@ lanj.controller('ProviderController', function($scope) {
     $scope.saveServices = function() {
         $scope.initServices = true;
         console.log("your services have been saved.");
+        console.log("network: " + $scope.services.network 
+                + " - autoTemplates: " + $scope.services.autoTemplates
+                + " - manualTemplates: " + $scope.services.manualTemplates
+                + " - ram: " + $scope.services.ram
+                + " - hdd: " + $scope.services.hdd
+                + " - os: " + $scope.services.os
+                + " - swap: " + $scope.services.swap
+                + " - cpu: " + $scope.services.cpu
+                + " - ipAddress: " + $scope.services.ipAddress
+                + " - authentication: " + $scope.services.authentication);
+    };
+    
+    $scope.manualTemplatesChoiceChanged = function() {
+        $scope.services.autoTemplates = false;
+    };
+    
+    $scope.autoTemplatesChoiceChanged = function() {
+      $scope.services.manualTemplates = false;  
+    };
+    
+    $scope.manualTemplatesShown = function() {
+      return $scope.services.manualTemplates;  
     };
     
     $scope.areServicesInitialized = function() {
