@@ -6,7 +6,8 @@ var lanj = angular.module('lanjApp', ['ngRoute']);
 lanj.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
                 .when('/provider', {
-                    templateUrl: 'providerView/provider.html'
+                    templateUrl: 'providerView/provider.html',
+                    controller: 'ProviderController'
                 })
                 .when('/admin', {
                     templateUrl: 'adminView/admin.html'

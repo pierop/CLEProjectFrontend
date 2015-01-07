@@ -1,5 +1,5 @@
 /* app css stylesheet */
-
+/***** index.html ******/
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
@@ -27,4 +27,17 @@
 .menu > li:nth-child(1):before {
   content: "";
   padding: 0;
+}
+
+/***** Menu en haut de page *****/
+.nav-buttons {
+    list-style: none;
+}
+
+.nav-buttons > li {
+    display: inline-block;
+}
+
+.manual-template-list {
+    list-style: none;
 }
