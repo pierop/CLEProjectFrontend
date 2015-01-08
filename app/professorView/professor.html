@@ -26,67 +26,80 @@ and open the template in the editor.
         <div ng-show="isCreateVMPageShown()">
             Create a virtual machine with the following parameters. <br />
 
-            <div ng-if="isNetworkServiceOffered()">
-                <input type="checkbox" ng-model="toDisplay.groupOfVMs" /> Create a group of virtual machines <br />
-
-                <div ng-if="isGroupOfVMsShown()">
-                    Number of virtual machines
-                    <input type="number" min="1" ng-model="vm.numberOfVMs" /> <br />
-                </div>
-            </div>
-
-            Name 
-            <input type="text" ng-model="vm.name" /> <br />
-            Description
-            <textarea ng-model="vm.description"></textarea> <br />
-
-            <div ng-if="isAutoTemplatesServiceOffered()">
-                Template
-                <select ng-model="vm.template">
-                    <option ng-repeat="template in availableTemplates" value="{{template}}">{{template}}</option>
-                </select> <br />
-            </div>
-
-            <div ng-if="isManualTemplatesServiceOffered()">
-                <div ng-if="isRAMShown()">
-                    RAM
-                    <input type="number" ng-model="vm.ram" /> <br />
+            <form name="createVMForm" ng-submit="createVMForm.$valid && createVM()">
+                <div ng-if="isNetworkServiceOffered()">
+                    <input type="checkbox" ng-model="toDisplay.groupOfVMs" /> Create a group of virtual machines 
+                    <br />
+                    <div ng-if="isGroupOfVMsShown()">
+                        Number of virtual machines
+                        <input type="number" min="1" ng-model="vm.numberOfVMs" required/> 
+                        <br />
+                    </div>
                 </div>
 
-                <div ng-if="isHDDShown()">
-                    HDD
-                    <input type="number" ng-model="vm.hdd" /> <br />
+                Name 
+                <input type="text" ng-model="vm.name" required /> 
+                <br />
+                Description
+                <textarea ng-model="vm.description"></textarea> 
+                <br />
+
+                <div ng-if="isAutoTemplatesServiceOffered()">
+                    Template
+                    <select ng-model="vm.template" required>
+                        <option ng-repeat="template in availableTemplates" value="{{template}}">{{template}}</option>
+                    </select> 
+                    <br />
                 </div>
 
-                <div ng-if="isOSShown()">
-                    OS
-                    <select ng-model="vm.os">
-                        <option ng-repeat="template in osTemplates" value="{{template}}">{{template}}</option>
-                    </select> <br />
+                <div ng-if="isManualTemplatesServiceOffered()">
+                    <div ng-if="isRAMShown()">
+                        RAM
+                        <input type="number" ng-model="vm.ram" required/> 
+                        <br />
+                    </div>
+
+                    <div ng-if="isHDDShown()">
+                        HDD
+                        <input type="number" ng-model="vm.hdd" required/> 
+                        <br />
+                    </div>
+
+                    <div ng-if="isOSShown()">
+                        OS
+                        <select ng-model="vm.os" required>
+                            <option ng-repeat="template in osTemplates" value="{{template}}">{{template}}</option>
+                        </select> 
+                        <br />
+                    </div>
+
+                    <div ng-if="isSWAPShown()">
+                        SWAP
+                        <input type="number" ng-model="vm.swap" required/> 
+                        <br />
+                    </div>
+
+                    <div ng-if="isCPUsShown()">
+                        CPUs
+                        <input type="number" ng-model="vm.cpus" required/> 
+                        <br />
+                    </div>
+
+                    <div ng-if="isIPAddressShown()">
+                        IP Address
+                        <input type="text" ng-model="vm.ipAddress" required/> 
+                        <br />
+                    </div>
+
+                    <div ng-if="isAuthenticationShown()">
+                        Password
+                        <input type="password" ng-model="vm.password" required/> 
+                        <br />
+                    </div>
                 </div>
 
-                <div ng-if="isSWAPShown()">
-                    SWAP
-                    <input type="number" ng-model="vm.swap" /> <br />
-                </div>
-
-                <div ng-if="isCPUsShown()">
-                    CPUs
-                    <input type="number" ng-model="vm.cpus" /> <br />
-                </div>
-
-                <div ng-if="isIPAddressShown()">
-                    IP Address
-                    <input type="text" ng-model="vm.ipAddress" /> <br />
-                </div>
-
-                <div ng-if="isAuthenticationShown()">
-                    Password
-                    <input type="password" ng-model="vm.password" /> <br />
-                </div>
-            </div>
-
-            <button type="button" ng-click="createVM()">Create</button>
+                <input type="submit" value="Create" />
+            </form>
         </div>
     </div>
 

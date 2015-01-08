@@ -26,14 +26,8 @@ lanj.controller('ProviderController', function ($scope) {
     $scope.initServices = false;
 
     $scope.createAdminAccount = function () {
-        if (($scope.admin.login !== "" && $scope.admin.login !== undefined)
-                && ($scope.admin.password !== "" && $scope.admin.password !== undefined)) {
-            console.log("login: " + $scope.admin.login + " - password: " + $scope.admin.password);
-            // Call to API: POST /{provider}/admin
-        }
-        else {
-            console.log("you should specify a correct login and a correct password.");
-        }
+        console.log("login: " + $scope.admin.login + " - password: " + $scope.admin.password);
+        // Call to API: POST /{provider}/admin
     };
 
     $scope.saveServices = function () {

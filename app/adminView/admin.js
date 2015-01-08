@@ -15,34 +15,28 @@ lanj.controller('AdminController', function ($scope) {
     $scope.user = {type: "", login: "", password: ""};
 
     $scope.createUserAccount = function () {
-        if (($scope.user.login !== "" && $scope.user.login !== undefined)
-                && ($scope.user.password !== "" && $scope.user.password !== undefined)) {
-            $scope.user.type = $scope.select.selectedType.value;
-            console.log("userType: " + $scope.user.type +
-                    " - login: " + $scope.user.login +
-                    " - password: " + $scope.user.password);
+        $scope.user.type = $scope.select.selectedType.value;
+        console.log("userType: " + $scope.user.type +
+                " - login: " + $scope.user.login +
+                " - password: " + $scope.user.password);
 
-            switch ($scope.user.type) {
-                case 0:
-                    // Create a professor account
-                    // Call to API: POST /{provider}/professor
-                    console.log("professor account created.");
-                    break;
-                case 1:
-                    // Create a student account
-                    // Call to API: POST /{provider}/student
-                    console.log("user account created.");
-                    break;
-                default:
-                    console.log("User type unknown.");
-            }
+        switch ($scope.user.type) {
+            case 0:
+                // Create a professor account
+                // Call to API: POST /{provider}/professor
+                console.log("professor account created.");
+                break;
+            case 1:
+                // Create a student account
+                // Call to API: POST /{provider}/student
+                console.log("user account created.");
+                break;
+            default:
+                console.log("User type unknown.");
+        }
 
-            //Reset the user object
-            $scope.user = {type: "", login: "", password: ""};
-        }
-        else {
-            console.log("you should specify a correct login and a correct password.");
-        }
+        //Reset the user object
+        $scope.user = {type: "", login: "", password: ""};
     };
 
     $scope.showVMsTab = function () {

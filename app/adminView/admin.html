@@ -21,16 +21,18 @@ and open the template in the editor.
     </div>
 
     <div ng-if="isCreateUserShown()">
-        Select a type
-        <select ng-model="select.selectedType" ng-options="type.name for type in userTypes" >
-        </select>
-        <br/>
-        Login
-        <input type="text" ng-model="user.login" required />
-        <br />
-        Password
-        <input type="password" ng-model="user.password" required />
-        <br />
-        <button type="button" ng-click="createUserAccount()">Create</button>
+        <form name="createUserForm" ng-submit="createUserForm.$valid && createUserAccount()">
+            Select a type
+            <select ng-model="select.selectedType" ng-options="type.name for type in userTypes" required>
+            </select>
+            <br/>
+            Login
+            <input type="text" ng-model="user.login" required />
+            <br />
+            Password
+            <input type="password" ng-model="user.password" required />
+            <br />
+            <input type="submit" value="Create" />
+        </form>
     </div>
 </div>

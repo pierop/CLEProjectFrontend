@@ -21,13 +21,13 @@ lanj.controller('ProfessorController', function ($scope) {
         manualTemplates: true,
         ram: true,
         hdd: true,
-        os: false,
+        os: true,
         swap: false,
         cpus: true,
         ipAddress: true,
         authentication: true};
 
-    $scope.vm = {name: "", description: ""};
+    $scope.vm = {};
     $scope.toDisplay = { groupOfVMs: false,
         ram: false,
         hdd: false,
@@ -38,6 +38,10 @@ lanj.controller('ProfessorController', function ($scope) {
         authentication: false };
 
     $scope.initVM = function () {
+        console.log("initialize the vm");
+        $scope.vm = { name: "", description: "" };
+        $scope.toDisplay.groupOfVMs = false;
+        
         if ($scope.services.network) {
             $scope.vm['numberOfVMs'] = 1;
         }
@@ -114,8 +118,8 @@ lanj.controller('ProfessorController', function ($scope) {
     };
 
     $scope.createVM = function () {
+        console.log("create the vm");
         console.log($scope.vm);
-        $scope.initVM();
         $scope.showCreateVMPage = false;
         /*
          * TODO: Call the API: POST /{provider}/vm/{login}
@@ -125,6 +129,8 @@ lanj.controller('ProfessorController', function ($scope) {
 
     $scope.showVMsTab = function () {
         $scope.show = 0;
+        // By default, we see the list of VMs
+        $scope.showCreateVMPage = false;
     };
 
     $scope.showTemplatesTab = function () {
