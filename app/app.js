@@ -14,7 +14,8 @@ lanj.config(['$routeProvider', function ($routeProvider) {
                     controller: 'AdminController'
                 })
                 .when('/professor', {
-                    templateUrl: 'professorView/professor.html'
+                    templateUrl: 'professorView/professor.html',
+                    controller: 'ProfessorController'
                 })
                 .when('/student', {
                     templateUrl: 'studentView/student.html'

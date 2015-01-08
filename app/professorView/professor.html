@@ -4,4 +4,29 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<h1>Professor view</h1>
+<div ng-controller="ProfessorController">
+    <h1>Professor view</h1>
+
+    <ul class="nav-buttons">
+        <li>
+            <button type="button" ng-click="showVMsTab()">Virtual Machines</button>
+        </li>
+        <li>
+            <button type="button" ng-if="isTemplatesServiceOffered()" ng-click="showTemplatesTab()">Templates</button>
+        </li>
+    </ul>
+    
+    <div ng-if="areVMsShown()">
+        Here is the list of your virtual machines. <br/>
+        
+        <button type="button">Create a new virtual machine</button>
+    </div>
+    
+    <div ng-if="areTemplatesShown()">
+        Here is the list of available templates. <br/>
+        
+        <ul>
+            <li ng-repeat="template in availableTemplates">{{template}}</li>
+        </ul>
+    </div>
+</div>
