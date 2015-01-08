@@ -13,7 +13,7 @@ lanj.controller('ProviderController', function ($scope) {
         hdd: false,
         os: false,
         swap: false,
-        cpu: false,
+        cpus: false,
         ipAddress: false,
         authentication: false};
     $scope.admin = {login: "", password: ""};
@@ -46,7 +46,7 @@ lanj.controller('ProviderController', function ($scope) {
                 + " - hdd: " + $scope.services.hdd
                 + " - os: " + $scope.services.os
                 + " - swap: " + $scope.services.swap
-                + " - cpu: " + $scope.services.cpu
+                + " - cpus: " + $scope.services.cpus
                 + " - ipAddress: " + $scope.services.ipAddress
                 + " - authentication: " + $scope.services.authentication);
     };

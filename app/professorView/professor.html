@@ -12,19 +12,87 @@ and open the template in the editor.
             <button type="button" ng-click="showVMsTab()">Virtual Machines</button>
         </li>
         <li>
-            <button type="button" ng-if="isTemplatesServiceOffered()" ng-click="showTemplatesTab()">Templates</button>
+            <button type="button" ng-if="isAutoTemplatesServiceOffered()" ng-click="showTemplatesTab()">Templates</button>
         </li>
     </ul>
-    
+
     <div ng-if="areVMsShown()">
-        Here is the list of your virtual machines. <br/>
-        
-        <button type="button">Create a new virtual machine</button>
+        <div ng-hide="isCreateVMPageShown()">
+            Here is the list of your virtual machines. <br/>
+
+            <button type="button" ng-click="initVM()">Create a new virtual machine</button>
+        </div>
+
+        <div ng-show="isCreateVMPageShown()">
+            Create a virtual machine with the following parameters. <br />
+
+            <div ng-if="isNetworkServiceOffered()">
+                <input type="checkbox" ng-model="toDisplay.groupOfVMs" /> Create a group of virtual machines <br />
+
+                <div ng-if="isGroupOfVMsShown()">
+                    Number of virtual machines
+                    <input type="number" min="1" ng-model="vm.numberOfVMs" /> <br />
+                </div>
+            </div>
+
+            Name 
+            <input type="text" ng-model="vm.name" /> <br />
+            Description
+            <textarea ng-model="vm.description"></textarea> <br />
+
+            <div ng-if="isAutoTemplatesServiceOffered()">
+                Template
+                <select ng-model="vm.template">
+                    <option ng-repeat="template in availableTemplates" value="{{template}}">{{template}}</option>
+                </select> <br />
+            </div>
+
+            <div ng-if="isManualTemplatesServiceOffered()">
+                <div ng-if="isRAMShown()">
+                    RAM
+                    <input type="number" ng-model="vm.ram" /> <br />
+                </div>
+
+                <div ng-if="isHDDShown()">
+                    HDD
+                    <input type="number" ng-model="vm.hdd" /> <br />
+                </div>
+
+                <div ng-if="isOSShown()">
+                    OS
+                    <select ng-model="vm.os">
+                        <option ng-repeat="template in osTemplates" value="{{template}}">{{template}}</option>
+                    </select> <br />
+                </div>
+
+                <div ng-if="isSWAPShown()">
+                    SWAP
+                    <input type="number" ng-model="vm.swap" /> <br />
+                </div>
+
+                <div ng-if="isCPUsShown()">
+                    CPUs
+                    <input type="number" ng-model="vm.cpus" /> <br />
+                </div>
+
+                <div ng-if="isIPAddressShown()">
+                    IP Address
+                    <input type="text" ng-model="vm.ipAddress" /> <br />
+                </div>
+
+                <div ng-if="isAuthenticationShown()">
+                    Password
+                    <input type="password" ng-model="vm.password" /> <br />
+                </div>
+            </div>
+
+            <button type="button" ng-click="createVM()">Create</button>
+        </div>
     </div>
-    
+
     <div ng-if="areTemplatesShown()">
         Here is the list of available templates. <br/>
-        
+
         <ul>
             <li ng-repeat="template in availableTemplates">{{template}}</li>
         </ul>
