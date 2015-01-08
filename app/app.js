@@ -5,6 +5,10 @@ var lanj = angular.module('lanjApp', ['ngRoute']);
 
 lanj.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
+                .when('/', {
+                    templateUrl: 'loginView/login.html',
+                    controller: 'LoginController as loginCtrl'
+                })
                 .when('/provider', {
                     templateUrl: 'providerView/provider.html',
                     controller: 'ProviderController'
@@ -18,7 +22,8 @@ lanj.config(['$routeProvider', function ($routeProvider) {
                     controller: 'ProfessorController'
                 })
                 .when('/student', {
-                    templateUrl: 'studentView/student.html'
+                    templateUrl: 'studentView/student.html',
+                    controller: 'StudentController'
                 })
                 .otherwise({redirectTo: '/view1'});
     }]);

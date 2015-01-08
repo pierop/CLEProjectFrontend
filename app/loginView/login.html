@@ -1,0 +1,17 @@
+<div ng-controller="LoginController as loginCtrl">
+    <h1>Login view</h1>
+    <form name="loginForm" ng-submit="loginForm.$valid && loginCtrl.logIn()" novalidate>
+        <fieldset>
+            <label>Login</label><br/>
+            <input type="text" ng-model="loginCtrl.login" size="20" required/>
+        </fieldset>
+        <fieldset>
+            <label>Password</label><br/>
+            <input type="password" ng-model="loginCtrl.password" size="20" required/>
+        </fieldset>
+        <fieldset>
+            <input type="submit" name="Sign in"/>
+        </fieldset>
+    </form>
+    <!-- to have validation css use class .ng-invalid.ng-dirty border-color to red and .ng-valid.ng-dirty border-color to green -->
+</div>

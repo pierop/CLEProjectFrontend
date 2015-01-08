@@ -1,7 +1,14 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <h1>Student view</h1>
+<h2>My space</h2>
+<ul ng-controller="StudentController as studentCtrl">
+    <li ng-repeat="vm in studentCtrl.userVMs" ng-show="studentCtrl.userVMs.length">
+        <div>
+            <span>{{vm.name}}</span>
+            <button type="button" ng-show="vm.state === 'on'" ng-click="studentCtrl.stopVM(vm)">stop</button>
+            <button type="button" ng-show="vm.state === 'off'" ng-click="studentCtrl.startVM(vm)">start</button>
+            <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
+        </div>
+        <div> Description</div>
+        <div>{{vm.description}}</div>
+    </li>
+</ul>
