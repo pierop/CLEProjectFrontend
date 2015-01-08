@@ -10,7 +10,8 @@ lanj.config(['$routeProvider', function ($routeProvider) {
                     controller: 'ProviderController'
                 })
                 .when('/admin', {
-                    templateUrl: 'adminView/admin.html'
+                    templateUrl: 'adminView/admin.html',
+                    controller: 'AdminController'
                 })
                 .when('/professor', {
                     templateUrl: 'professorView/professor.html'

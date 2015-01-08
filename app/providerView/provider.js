@@ -5,18 +5,18 @@
  */
 'use strict';
 
-lanj.controller('ProviderController', function($scope) {
-    $scope.services = { network: false,
-                        autoTemplates: false,
-                        manualTemplates: false,
-                        ram:false,
-                        hdd: false,
-                        os: false,
-                        swap: false,
-                        cpu: false,
-                        ipAddress: false,
-                        authentication: false };
-    $scope.admin = { login: "", password: ""};
+lanj.controller('ProviderController', function ($scope) {
+    $scope.services = {network: false,
+        autoTemplates: false,
+        manualTemplates: false,
+        ram: false,
+        hdd: false,
+        os: false,
+        swap: false,
+        cpu: false,
+        ipAddress: false,
+        authentication: false};
+    $scope.admin = {login: "", password: ""};
     // 0 for 'Manage Services' tab
     // 1 for 'Create Admin' tab
     $scope.show = 0;
@@ -24,15 +24,22 @@ lanj.controller('ProviderController', function($scope) {
     // false before the first click on 'Save' button
     // true after
     $scope.initServices = false;
-    
-    $scope.createAdminAccount = function() {
-      console.log("login: " + $scope.admin.login + " - password: " + $scope.admin.password);  
+
+    $scope.createAdminAccount = function () {
+        if (($scope.admin.login !== "" && $scope.admin.login !== undefined)
+                && ($scope.admin.password !== "" && $scope.admin.password !== undefined)) {
+            console.log("login: " + $scope.admin.login + " - password: " + $scope.admin.password);
+            // Call to API: POST /{provider}/admin
+        }
+        else {
+            console.log("you should specify a correct login and a correct password.");
+        }
     };
-    
-    $scope.saveServices = function() {
+
+    $scope.saveServices = function () {
         $scope.initServices = true;
         console.log("your services have been saved.");
-        console.log("network: " + $scope.services.network 
+        console.log("network: " + $scope.services.network
                 + " - autoTemplates: " + $scope.services.autoTemplates
                 + " - manualTemplates: " + $scope.services.manualTemplates
                 + " - ram: " + $scope.services.ram
@@ -43,36 +50,36 @@ lanj.controller('ProviderController', function($scope) {
                 + " - ipAddress: " + $scope.services.ipAddress
                 + " - authentication: " + $scope.services.authentication);
     };
-    
-    $scope.manualTemplatesChoiceChanged = function() {
+
+    $scope.manualTemplatesChoiceChanged = function () {
         $scope.services.autoTemplates = false;
     };
-    
-    $scope.autoTemplatesChoiceChanged = function() {
-      $scope.services.manualTemplates = false;  
+
+    $scope.autoTemplatesChoiceChanged = function () {
+        $scope.services.manualTemplates = false;
     };
-    
-    $scope.manualTemplatesShown = function() {
-      return $scope.services.manualTemplates;  
+
+    $scope.manualTemplatesShown = function () {
+        return $scope.services.manualTemplates;
     };
-    
-    $scope.areServicesInitialized = function() {
-      return $scope.initServices;  
+
+    $scope.areServicesInitialized = function () {
+        return $scope.initServices;
     };
-    
-    $scope.showManageServicesTab = function() {
-      $scope.show = 0;  
+
+    $scope.showManageServicesTab = function () {
+        $scope.show = 0;
     };
-    
-    $scope.showCreateAdminTab = function() {
+
+    $scope.showCreateAdminTab = function () {
         $scope.show = 1;
     };
-    
-    $scope.isManageServicesShown = function() {
+
+    $scope.isManageServicesShown = function () {
         return $scope.show === 0;
     };
-    
-    $scope.isCreateAdminShown = function() {
+
+    $scope.isCreateAdminShown = function () {
         return $scope.show === 1;
     };
 });
