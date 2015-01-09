@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-lanj.controller('LoginController', function($scope, $location){
+lanj.controller('LoginController', function($location, authenticationFactory, userFactory){
     this.login = "";
     this.password = "";
-    this.users = users;
     
     this.logIn = function (){
         // try the authenticate the user
-        if (this.isValidUser()) {
+        var user = authenticationFactory(this.login, this.password);
+        if (user){
             console.log("authentication success");
+            userFactory.setUser(user);
             // Redirect url
-            var type = this.login;
+            var type = user.type;
             if (type === 'admin'){
                 $location.path("/admin");
             } else if (type === 'student'){
@@ -32,20 +33,4 @@ lanj.controller('LoginController', function($scope, $location){
         this.login =  "";
         this.password = "";
     }
-    
-    // try to search the login/password among users ' data
-    this.isValidUser = function () {
-        var i = 0;
-        var found = false;
-        while (!found && i < this.users.length){
-            //console.log("loop user password : " + this.users[i][this.login]);
-            if (this.users[i][this.login] === this.password){
-                found = true;
-            }
-            i++;
-        }
-        return found;
-    }
 });
-
-var users = [ {"admin" : "admin"}, {"provider" : "provider"}, {"student" : "student"}, {"professor" : "professor"} ];

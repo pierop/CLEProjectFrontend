@@ -18,8 +18,16 @@ and open the template in the editor.
 
     <div ng-if="areVMsShown()">
         <div ng-hide="isCreateVMPageShown()">
-            Here is the list of your virtual machines. <br/>
-
+            Here is the list of your virtual machines <br/>
+            <li ng-repeat="vm in userVMs" ng-show="userVMs.length">
+                <div>
+                    <span>{{vm.name}}</span>
+                    <button type="button" ng-show="vm.state === 'on'" ng-click="stopVM(vm)">stop</button>
+                    <button type="button" ng-show="vm.state === 'off'" ng-click="startVM(vm)">start</button>
+                    <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
+                </div>
+                <div> Description : {{vm.description}}</div>
+            </li>
             <button type="button" ng-click="initVM()">Create a new virtual machine</button>
         </div>
 

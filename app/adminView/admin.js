@@ -5,7 +5,7 @@
  */
 'use strict';
 
-lanj.controller('AdminController', function ($scope) {
+lanj.controller('AdminController', function ($scope, userFactory) {
     // 0 for 'VMs' tab
     // 1 for 'Create User' tab
     $scope.show = 0;
@@ -13,6 +13,7 @@ lanj.controller('AdminController', function ($scope) {
         {name: 'Student', value: 1}];
     $scope.select = {selectedType: $scope.userTypes[0]};
     $scope.user = {type: "", login: "", password: ""};
+    $scope.userVMs = userFactory.getUser().vms;
 
     $scope.createUserAccount = function () {
         $scope.user.type = $scope.select.selectedType.value;
@@ -54,5 +55,19 @@ lanj.controller('AdminController', function ($scope) {
     $scope.isCreateUserShown = function () {
         return $scope.show === 1;
     };
+    
+    $scope.startVM = function(vm){
+       console.log("start vm with name " + vm.name + " and id " + vm.id);
+       this.changeVMState(vm,"on");
+   };
+   
+   $scope.stopVM = function(vm){
+       console.log("stop vm with name " + vm.name + " and id " + vm.id);
+       this.changeVMState(vm,"off");
+   };
+   
+   $scope.changeVMState = function (vm, state){
+       vm.state = state;
+   };
 });
 

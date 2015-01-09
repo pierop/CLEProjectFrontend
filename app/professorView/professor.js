@@ -5,7 +5,7 @@
  */
 'use strict';
 
-lanj.controller('ProfessorController', function ($scope) {
+lanj.controller('ProfessorController', function ($scope, userFactory) {
     // 0 for 'VMs' tab
     // 1 for 'Templates' tab
     $scope.show = 0;
@@ -26,8 +26,9 @@ lanj.controller('ProfessorController', function ($scope) {
         cpus: true,
         ipAddress: true,
         authentication: true};
+    $scope.userVMs = userFactory.getUser().vms;
 
-    $scope.vm = {};
+    $scope.vm = {}; // vm variable for the creation
     $scope.toDisplay = { groupOfVMs: false,
         ram: false,
         hdd: false,
@@ -160,5 +161,19 @@ lanj.controller('ProfessorController', function ($scope) {
     $scope.isCreateVMPageShown = function() {
         return $scope.showCreateVMPage;
     };
+    
+    $scope.startVM = function(vm){
+       console.log("start vm with name " + vm.name + " and id " + vm.id);
+       this.changeVMState(vm,"on");
+   };
+   
+   $scope.stopVM = function(vm){
+       console.log("stop vm with name " + vm.name + " and id " + vm.id);
+       this.changeVMState(vm,"off");
+   };
+   
+   $scope.changeVMState = function (vm, state){
+       vm.state = state;
+   };
 });
 
