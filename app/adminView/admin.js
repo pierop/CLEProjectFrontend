@@ -5,13 +5,14 @@
  */
 'use strict';
 
-lanj.controller('AdminController', function ($scope, userFactory) {
+lanj.controller('AdminController', function ($scope, backendFactory, userFactory) {
     // 0 for 'VMs' tab
     // 1 for 'Create User' tab
     $scope.show = 0;
     $scope.userTypes = [{name: 'Professor', value: 0},
         {name: 'Student', value: 1}];
     $scope.select = {selectedType: $scope.userTypes[0]};
+    
     $scope.user = {type: "", login: "", password: ""};
     $scope.userVMs = userFactory.getUser().vms;
 
@@ -31,6 +32,9 @@ lanj.controller('AdminController', function ($scope, userFactory) {
                 // Create a student account
                 // Call to API: POST /{provider}/student
                 console.log("user account created.");
+                /*$scope.user = backendFactory.createStudent($scope.user).success(function(){
+                    console.log("student added");
+                });*/
                 break;
             default:
                 console.log("User type unknown.");

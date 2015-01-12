@@ -3,34 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-lanj.controller('LoginController', function($location, authenticationFactory, userFactory){
+lanj.controller('LoginController', function($location, backendFactory, userFactory){ //authenticationFactory
     this.login = "";
     this.password = "";
     
     this.logIn = function (){
         // try the authenticate the user
-        var user = authenticationFactory(this.login, this.password);
-        if (user){
-            console.log("authentication success");
-            userFactory.setUser(user);
-            // Redirect url
-            var type = user.type;
-            if (type === 'admin'){
-                $location.path("/admin");
-            } else if (type === 'student'){
-                $location.path("/student");
-            } else if (type === 'provider'){
-                $location.path("/provider");
-            } else if (type === 'professor') {
-                $location.path("/professor");
+        //var getUser = authenticationFactory(this.login, this.password);
+        var authentication = backendFactory.authenticate(this.login, this.password);
+        authentication.success(function(user){
+            if (user.success !== "false"){
+                console.log("authentication success");
+                userFactory.setUser(user);
+                // Redirect url
+                var type = user.role;
+                if (type === 'admin'){
+                    $location.path("/admin");
+                } else if (type === 'student'){
+                    $location.path("/student");
+                } else if (type === 'provider'){
+                    $location.path("/provider");
+                } else if (type === 'professor') {
+                    $location.path("/professor");
+                } else {
+                    console.error("unknown user type");
+                }
             } else {
-                console.error("unknown user type");
+                console.log("authentication fail");
             }
-        } else {
-            console.log("authentication fail");
-        }
-        // reset the form
-        this.login =  "";
-        this.password = "";
+            
+            // reset the form
+            this.login =  "";
+            this.password = "";
+        }).
+        error(function(){
+            console.log("ERROR : [login.js - logIn] an error occured on post");
+        });
     }
 });
