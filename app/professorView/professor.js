@@ -8,81 +8,95 @@
 lanj.controller('ProfessorController', function ($scope, userFactory) {
     // 0 for 'VMs' tab
     // 1 for 'Templates' tab
-    $scope.show = 0;
+    var show = 0;
     // True is 'Create VM' page is shown
     // False if only the VMs page is shown
-    $scope.showCreateVMPage = false;
-    // This will be initialized with the real list of available templates after authentication
-    $scope.availableTemplates = ['Template1', 'Template2', 'Template3'];
-    $scope.osTemplates = ['Linux', 'Windows', 'Mac'];
+    var showCreateVMPage = false;
     // This will be initialized with the real services after authentication
-    $scope.services = {network: true,
-        autoTemplates: true,
-        manualTemplates: true,
-        ram: true,
-        hdd: true,
-        os: true,
-        swap: false,
-        cpus: true,
-        ipAddress: true,
-        authentication: true};
+   $scope.services = {
+        network: {
+            selected: true
+        },
+        autoTemplates: {
+            selected: true,
+            templates: ['Template1', 'Template2', 'Template3']
+        },
+        manualTemplates: {
+            selected: true
+        },
+        ram: {
+            selected: true,
+            min: "0",
+            max: "10"
+        },
+        hdd: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        os: {
+            selected: true,
+            templates: ['Linux', 'Windows', 'Mac']
+        },
+        swap: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        cpus: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        ipAddress: {
+            selected: true
+        },
+        authentication: {
+            selected: true
+        }};
     $scope.userVMs = userFactory.getUser().vms;
 
     $scope.vm = {}; // vm variable for the creation
-    $scope.toDisplay = { groupOfVMs: false,
-        ram: false,
-        hdd: false,
-        os: false,
-        swap: false,
-        cpus: false,
-        ipAddress: false,
-        authentication: false };
+    $scope.toDisplay = { groupOfVMs: false };
 
     $scope.initVM = function () {
         console.log("initialize the vm");
         $scope.vm = { name: "", description: "" };
         $scope.toDisplay.groupOfVMs = false;
         
-        if ($scope.services.network) {
+        if ($scope.services.network.selected) {
             $scope.vm['numberOfVMs'] = 1;
         }
-        if ($scope.services.autoTemplates) {
+        if ($scope.services.autoTemplates.selected) {
             $scope.vm['usePredefinedTemplate'] = true;
             $scope.vm['template'] = "";
         }
-        if ($scope.services.manualTemplates) {
+        if ($scope.services.manualTemplates.selected) {
             $scope.vm['usePredefinedTemplate'] = false;
-            if ($scope.services.ram) {
+            if ($scope.services.ram.selected) {
                 $scope.vm['ram'] = 0;
-                $scope.toDisplay.ram = true;
             }
-            if ($scope.services.hdd) {
+            if ($scope.services.hdd.selected) {
                 $scope.vm['hdd'] = 0;
-                $scope.toDisplay.hdd = true;
             }
-            if ($scope.services.os) {
+            if ($scope.services.os.selected) {
                 $scope.vm['os'] = "";
-                $scope.toDisplay.os = true;
             }
-            if ($scope.services.swap) {
+            if ($scope.services.swap.selected) {
                 $scope.vm['swap'] = 0;
-                $scope.toDisplay.swap = true;
             }
-            if ($scope.services.cpus) {
+            if ($scope.services.cpus.selected) {
                 $scope.vm['cpus'] = 0;
-                $scope.toDisplay.cpus = true;
             }
-            if ($scope.services.ipAddress) {
+            if ($scope.services.ipAddress.selected) {
                 $scope.vm['ipAddress'] = "";
-                $scope.toDisplay.ipAddress = true;
             }
-            if ($scope.services.authentication) {
+            if ($scope.services.authentication.selected) {
                 $scope.vm['password'] = "";
-                $scope.toDisplay.authentication = true;
             }
         }
         
-        $scope.showCreateVMPage = true;
+        showCreateVMPage = true;
         console.log($scope.vm);
     };
 
@@ -91,37 +105,37 @@ lanj.controller('ProfessorController', function ($scope, userFactory) {
     };
     
     $scope.isRAMShown = function() {
-        return $scope.toDisplay.ram;
+        return $scope.services.ram.selected;
     };
     
     $scope.isHDDShown = function() {
-        return $scope.toDisplay.hdd;
+        return $scope.services.hdd.selected;
     };
     
     $scope.isOSShown = function() {
-        return $scope.toDisplay.os;
+        return $scope.services.os.selected;
     };
     
     $scope.isCPUsShown = function() {
-        return $scope.toDisplay.cpus;
+        return $scope.services.cpus.selected;
     };
     
     $scope.isSWAPShown = function() {
-        return $scope.toDisplay.swap;
+        return $scope.services.swap.selected;
     };
     
     $scope.isIPAddressShown = function() {
-        return $scope.toDisplay.ipAddress;
+        return $scope.services.ipAddress.selected;
     };
     
     $scope.isAuthenticationShown = function() {
-        return $scope.toDisplay.authentication;
+        return $scope.services.authentication.selected;
     };
 
     $scope.createVM = function () {
         console.log("create the vm");
         console.log($scope.vm);
-        $scope.showCreateVMPage = false;
+        showCreateVMPage = false;
         /*
          * TODO: Call the API: POST /{provider}/vm/{login}
          * Add the created VM to the list of VMs displayed
@@ -129,37 +143,37 @@ lanj.controller('ProfessorController', function ($scope, userFactory) {
     };
 
     $scope.showVMsTab = function () {
-        $scope.show = 0;
+        show = 0;
         // By default, we see the list of VMs
-        $scope.showCreateVMPage = false;
+        showCreateVMPage = false;
     };
 
     $scope.showTemplatesTab = function () {
-        $scope.show = 1;
+        show = 1;
     };
 
     $scope.areVMsShown = function () {
-        return $scope.show === 0;
+        return show === 0;
     };
 
     $scope.areTemplatesShown = function () {
-        return $scope.show === 1;
+        return show === 1;
     };
 
     $scope.isAutoTemplatesServiceOffered = function () {
-        return $scope.services.autoTemplates;
+        return $scope.services.autoTemplates.selected;
     };
 
     $scope.isManualTemplatesServiceOffered = function () {
-        return $scope.services.manualTemplates;
+        return $scope.services.manualTemplates.selected;
     };
 
     $scope.isNetworkServiceOffered = function () {
-        return $scope.services.network;
+        return $scope.services.network.selected;
     };
     
     $scope.isCreateVMPageShown = function() {
-        return $scope.showCreateVMPage;
+        return showCreateVMPage;
     };
     
     $scope.startVM = function(vm){

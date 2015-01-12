@@ -13,5 +13,5 @@ lanj.factory('userFactory', function(){
         getUser : function(){
             return user;
         }
-    }
-})
+    };
+});
