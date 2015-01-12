@@ -27,24 +27,73 @@ and open the template in the editor.
             <br />
             <input type="submit" value="Create" />
         </form>
+
+        <div ng-if="isMessageShown()">The admin account has been created.</div>
     </div>
 
     <div ng-if="isManageServicesShown()">
         Please select the services you want to offer. <br />
 
+        <form name="servicesForm" ng-submit="servicesForm.$valid && saveServices()">
         <input type="checkbox" ng-model="services.network" /> Network (private subnets) <br />
         <input type="checkbox" ng-model="services.autoTemplates" ng-change="autoTemplatesChoiceChanged()" /> Auto templates <br />
+        <div ng-if="areAutoTemplatesShown()">
+            Please enter the name of your templates. <br />
+            <div ng-repeat="template in autoTemplates">
+                Name <input type="text" ng-model="template.name" required /> 
+                <br />
+            </div>
+            <button type="button" ng-click="addAutoTemplate()">New template</button>
+        </div>
         <input type="checkbox" ng-model="services.manualTemplates" ng-change="manualTemplatesChoiceChanged()" /> Manual templates <br />
-        <ul class="manual-template-list" ng-if="manualTemplatesShown()">
-            <li><input type="checkbox" ng-model="services.ram" /> RAM </li>
-            <li><input type="checkbox" ng-model="services.hdd" /> HDD </li>
-            <li><input type="checkbox" ng-model="services.os" /> OS </li>
-            <li><input type="checkbox" ng-model="services.swap" /> Swap </li>
-            <li><input type="checkbox" ng-model="services.cpus" /> CPU </li>
-            <li><input type="checkbox" ng-model="services.ipAddress" /> IP address </li>
-            <li><input type="checkbox" ng-model="services.authentication" /> Authentication </li>
+        <ul class="manual-template-list" ng-if="areManualTemplatesShown()">
+            <li><input type="checkbox" ng-model="services.ram" /> RAM 
+                <div ng-if="isRAMShown()">
+                    Min <input type="text" ng-model="ram.min" required />
+                    <br />
+                    Max <input type="text" ng-model="ram.max" required />
+                </div>
+            </li>
+            <li><input type="checkbox" ng-model="services.hdd" /> HDD 
+                <div ng-if="isHDDShown()">
+                    Min <input type="text" ng-model="hdd.min" required />
+                    <br />
+                    Max <input type="text" ng-model="hdd.max" required />
+                </div>
+            </li>
+            <li><input type="checkbox" ng-model="services.os" /> OS 
+                <div id="osTemplatesList" ng-if="isOSShown()">
+                    Please enter the name of OS templates. <br />
+                    <div ng-repeat="template in osTemplates">
+                        Name <input type="text" ng-model="template.name" required /> 
+                        <br />
+                    </div>
+                    <button type="button" ng-click="addOSTemplate()">New template</button>
+                </div>
+            </li>
+            <li><input type="checkbox" ng-model="services.swap" /> Swap 
+                <div ng-if="isSWAPShown()">
+                    Min <input type="text" ng-model="swap.min" required />
+                    <br />
+                    Max <input type="text" ng-model="swap.max" required />
+                </div>
+            </li>
+            <li><input type="checkbox" ng-model="services.cpus" /> CPU 
+                <div ng-if="isCPUsShown()">
+                    Min <input type="text" ng-model="cpus.min" required />
+                    <br />
+                    Max <input type="text" ng-model="cpus.max" required />
+                </div>
+            </li>
+            <li><input type="checkbox" ng-model="services.ipAddress" /> IP address 
+            </li>
+            <li><input type="checkbox" ng-model="services.authentication" /> Authentication 
+            </li>
         </ul>               
 
-        <button type="button" ng-click="saveServices()">Save</button>
+        <input type="submit" value="Save" />
+        </form>
+    
+        <div ng-id="isMessageShown()">{{message}}</div>
     </div>
 </div>

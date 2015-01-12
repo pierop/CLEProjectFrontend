@@ -14,6 +14,11 @@ lanj.controller('AdminController', function ($scope, userFactory) {
     $scope.select = {selectedType: $scope.userTypes[0]};
     $scope.user = {type: "", login: "", password: ""};
     $scope.userVMs = userFactory.getUser().vms;
+    $scope.showMessage = false;
+    
+    $scope.isMessageShown = function() {
+        return $scope.showMessage;
+    };
 
     $scope.createUserAccount = function () {
         $scope.user.type = $scope.select.selectedType.value;
@@ -38,6 +43,7 @@ lanj.controller('AdminController', function ($scope, userFactory) {
 
         //Reset the user object
         $scope.user = {type: "", login: "", password: ""};
+        $scope.showMessage = true;
     };
 
     $scope.showVMsTab = function () {

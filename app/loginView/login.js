@@ -32,5 +32,5 @@ lanj.controller('LoginController', function($location, authenticationFactory, us
         // reset the form
         this.login =  "";
         this.password = "";
-    }
+    };
 });
