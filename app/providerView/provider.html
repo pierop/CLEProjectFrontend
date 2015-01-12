@@ -35,59 +35,61 @@ and open the template in the editor.
         Please select the services you want to offer. <br />
 
         <form name="servicesForm" ng-submit="servicesForm.$valid && saveServices()">
-        <input type="checkbox" ng-model="services.network" /> Network (private subnets) <br />
-        <input type="checkbox" ng-model="services.autoTemplates" ng-change="autoTemplatesChoiceChanged()" /> Auto templates <br />
+        <input type="checkbox" ng-model="services.network.selected" /> Network (private subnets) <br />
+        
+        <input type="checkbox" ng-model="services.autoTemplates.selected" ng-change="autoTemplatesChoiceChanged()" /> Auto templates <br />
         <div ng-if="areAutoTemplatesShown()">
             Please enter the name of your templates. <br />
-            <div ng-repeat="template in autoTemplates">
+            <div ng-repeat="template in services.autoTemplates.templates">
                 Name <input type="text" ng-model="template.name" required /> 
                 <br />
             </div>
             <button type="button" ng-click="addAutoTemplate()">New template</button>
         </div>
-        <input type="checkbox" ng-model="services.manualTemplates" ng-change="manualTemplatesChoiceChanged()" /> Manual templates <br />
+        
+        <input type="checkbox" ng-model="services.manualTemplates.selected" ng-change="manualTemplatesChoiceChanged()" /> Manual templates <br />
         <ul class="manual-template-list" ng-if="areManualTemplatesShown()">
-            <li><input type="checkbox" ng-model="services.ram" /> RAM 
+            <li><input type="checkbox" ng-model="services.ram.selected" /> RAM 
                 <div ng-if="isRAMShown()">
-                    Min <input type="text" ng-model="ram.min" required />
+                    Min <input type="text" ng-model="services.ram.min" required />
                     <br />
-                    Max <input type="text" ng-model="ram.max" required />
+                    Max <input type="text" ng-model="services.ram.max" required />
                 </div>
             </li>
-            <li><input type="checkbox" ng-model="services.hdd" /> HDD 
+            <li><input type="checkbox" ng-model="services.hdd.selected" /> HDD 
                 <div ng-if="isHDDShown()">
-                    Min <input type="text" ng-model="hdd.min" required />
+                    Min <input type="text" ng-model="services.hdd.min" required />
                     <br />
-                    Max <input type="text" ng-model="hdd.max" required />
+                    Max <input type="text" ng-model="services.hdd.max" required />
                 </div>
             </li>
-            <li><input type="checkbox" ng-model="services.os" /> OS 
+            <li><input type="checkbox" ng-model="services.os.selected" /> OS 
                 <div id="osTemplatesList" ng-if="isOSShown()">
                     Please enter the name of OS templates. <br />
-                    <div ng-repeat="template in osTemplates">
+                    <div ng-repeat="template in services.os.templates">
                         Name <input type="text" ng-model="template.name" required /> 
                         <br />
                     </div>
                     <button type="button" ng-click="addOSTemplate()">New template</button>
                 </div>
             </li>
-            <li><input type="checkbox" ng-model="services.swap" /> Swap 
+            <li><input type="checkbox" ng-model="services.swap.selected" /> Swap 
                 <div ng-if="isSWAPShown()">
-                    Min <input type="text" ng-model="swap.min" required />
+                    Min <input type="text" ng-model="services.swap.min" required />
                     <br />
-                    Max <input type="text" ng-model="swap.max" required />
+                    Max <input type="text" ng-model="services.swap.max" required />
                 </div>
             </li>
-            <li><input type="checkbox" ng-model="services.cpus" /> CPU 
+            <li><input type="checkbox" ng-model="services.cpus.selected" /> CPU 
                 <div ng-if="isCPUsShown()">
-                    Min <input type="text" ng-model="cpus.min" required />
+                    Min <input type="text" ng-model="services.cpus.min" required />
                     <br />
-                    Max <input type="text" ng-model="cpus.max" required />
+                    Max <input type="text" ng-model="services.cpus.max" required />
                 </div>
             </li>
-            <li><input type="checkbox" ng-model="services.ipAddress" /> IP address 
+            <li><input type="checkbox" ng-model="services.ipAddress.selected" /> IP address 
             </li>
-            <li><input type="checkbox" ng-model="services.authentication" /> Authentication 
+            <li><input type="checkbox" ng-model="services.authentication.selected" /> Authentication 
             </li>
         </ul>               
 

@@ -5,17 +5,48 @@
  */
 'use strict';
 
-lanj.controller('ProviderController', function ($scope, $document) {
-    $scope.services = {network: false,
-        autoTemplates: false,
-        manualTemplates: false,
-        ram: false,
-        hdd: false,
-        os: false,
-        swap: false,
-        cpus: false,
-        ipAddress: false,
-        authentication: false};
+lanj.controller('ProviderController', function ($scope) {
+    $scope.services = {
+        network: {
+            selected: false
+        },
+        autoTemplates: {
+            selected: false,
+            templates: []
+        },
+        manualTemplates: {
+            selected: false
+        },
+        ram: {
+            selected: false,
+            min: "",
+            max: ""
+        },
+        hdd: {
+            selected: false,
+            min: "",
+            max: ""
+        },
+        os: {
+            selected: false,
+            templates: []
+        },
+        swap: {
+            selected: false,
+            min: "",
+            max: ""
+        },
+        cpus: {
+            selected: false,
+            min: "",
+            max: ""
+        },
+        ipAddress: {
+            selected: false
+        },
+        authentication: {
+            selected: false
+        }};
     $scope.admin = {login: "", password: ""};
     // 0 for 'Manage Services' tab
     // 1 for 'Create Admin' tab
@@ -47,67 +78,67 @@ lanj.controller('ProviderController', function ($scope, $document) {
 
     $scope.saveServices = function () {
         // Check that at least one service is selected
-        if (!$scope.services.network && !$scope.services.autoTemplates && !$scope.services.manualTemplates) {
+        if (!$scope.services.network.selected && !$scope.services.autoTemplates.selected && !$scope.services.manualTemplates.selected) {
             showMessage = true;
             $scope.message = "You have to select at least one service!";
         }
         // Check that the user have choosen between manual and auto templates
-        else if (!$scope.services.autoTemplates && !$scope.services.manualTemplates) {
+        else if (!$scope.services.autoTemplates.selected && !$scope.services.manualTemplates.selected) {
             showMessage = true;
             $scope.message = "You have to select manual or auto templates.";
         }
         // Check that user have indicated at least one template
-        else if ($scope.services.autoTemplates && $scope.autoTemplates.length === 0) {
+        else if ($scope.services.autoTemplates.selected && $scope.services.autoTemplates.templates.length === 0) {
             showMessage = true;
             $scope.message = "You should indicate at least one template.";
         }
-        else if ($scope.services.manualTemplates && !$scope.services.ram && !$scope.services.hdd
-                && !$scope.services.os && !$scope.services.swap && !$scope.services.cpus
-                && !$scope.services.ipAddress && !$scope.services.authentication) {
+        else if ($scope.services.manualTemplates.selected && !$scope.services.ram.selected && !$scope.services.hdd.selected
+                && !$scope.services.os.selected && !$scope.services.swap.selected && !$scope.services.cpus.selected
+                && !$scope.services.ipAddress.selected && !$scope.services.authentication.selected) {
             showMessage = true;
             $scope.message = "You should select at least one field.";
         }
         // Check that user have indicated at least one OS template
-        else if ($scope.services.os && $scope.osTemplates.length === 0) {
+        else if ($scope.services.os.selected && $scope.services.os.templates.length === 0) {
             $scope.message = "You should indicate at least one OS.";
         }
         // Everything is ok
         else {
             initServices = true;
             console.log("your services have been saved.");
-            console.log("network: " + $scope.services.network
-                    + " - autoTemplates: " + $scope.services.autoTemplates
-                    + " - manualTemplates: " + $scope.services.manualTemplates
-                    + " - ram: " + $scope.services.ram
-                    + " - hdd: " + $scope.services.hdd
-                    + " - os: " + $scope.services.os
-                    + " - swap: " + $scope.services.swap
-                    + " - cpus: " + $scope.services.cpus
-                    + " - ipAddress: " + $scope.services.ipAddress
-                    + " - authentication: " + $scope.services.authentication);
+            console.log("network: " + $scope.services.network.selected
+                    + " - autoTemplates: " + $scope.services.autoTemplates.selected
+                    + " - manualTemplates: " + $scope.services.manualTemplates.selected
+                    + " - ram: " + $scope.services.ram.selected
+                    + " - hdd: " + $scope.services.hdd.selected
+                    + " - os: " + $scope.services.os.selected
+                    + " - swap: " + $scope.services.swap.selected
+                    + " - cpus: " + $scope.services.cpus.selected
+                    + " - ipAddress: " + $scope.services.ipAddress.selected
+                    + " - authentication: " + $scope.services.authentication.selected);
 
-            if ($scope.services.os) {
+            if ($scope.services.os.selected) {
                 console.log("OS templates:");
-                for (var i = 0; i < $scope.osTemplates.length; i++) {
-                    console.log($scope.osTemplates[i].name);
+                for (var i = 0; i < $scope.services.os.templates.length; i++) {
+                    console.log($scope.services.os.templates[i].name);
                 }
             }
-            if ($scope.services.ram) {
-                console.log("ram: min: " + $scope.ram.min + " - max: " + $scope.ram.max);
+            if ($scope.services.ram.selected) {
+                console.log("ram: min: " + $scope.services.ram.min + " - max: " + $scope.services.ram.max);
             }
-            if ($scope.services.hdd) {
-                console.log("hdd: min: " + $scope.hdd.min + " - max: " + $scope.hdd.max);
+            if ($scope.services.hdd.selected) {
+                console.log("hdd: min: " + $scope.services.hdd.min + " - max: " + $scope.services.hdd.max);
             }
-            if ($scope.services.swap) {
-                console.log("swap: min: " + $scope.swap.min + " - max: " + $scope.swap.max);
+            if ($scope.services.swap.selected) {
+                console.log("swap: min: " + $scope.services.swap.min + " - max: " + $scope.services.swap.max);
             }
-            if ($scope.services.cpus) {
-                console.log("cpus: min: " + $scope.cpus.min + " - max: " + $scope.cpus.max);
+            if ($scope.services.cpus.selected) {
+                console.log("cpus: min: " + $scope.services.cpus.min + " - max: " + $scope.services.cpus.max);
             }
-            if ($scope.services.autoTemplates) {
+            if ($scope.services.autoTemplates.selected) {
                 console.log("templates:");
-                for (var i = 0; i < $scope.autoTemplates.length; i++) {
-                    console.log($scope.autoTemplates[i].name);
+                for (var i = 0; i < $scope.services.autoTemplates.templates.length; i++) {
+                    console.log($scope.services.autoTemplates.templates[i].name);
                 }
             }
 
@@ -117,39 +148,39 @@ lanj.controller('ProviderController', function ($scope, $document) {
     };
 
     $scope.manualTemplatesChoiceChanged = function () {
-        $scope.services.autoTemplates = false;
+        $scope.services.autoTemplates.selected = false;
     };
 
     $scope.autoTemplatesChoiceChanged = function () {
-        $scope.services.manualTemplates = false;
+        $scope.services.manualTemplates.selected = false;
     };
 
     $scope.areAutoTemplatesShown = function () {
-        return $scope.services.autoTemplates;
+        return $scope.services.autoTemplates.selected;
     };
 
     $scope.areManualTemplatesShown = function () {
-        return $scope.services.manualTemplates;
+        return $scope.services.manualTemplates.selected;
     };
 
     $scope.isRAMShown = function () {
-        return $scope.services.ram;
+        return $scope.services.ram.selected;
     };
 
     $scope.isHDDShown = function () {
-        return $scope.services.hdd;
+        return $scope.services.hdd.selected;
     };
 
     $scope.isCPUsShown = function () {
-        return $scope.services.cpus;
+        return $scope.services.cpus.selected;
     };
 
     $scope.isSWAPShown = function () {
-        return $scope.services.swap;
+        return $scope.services.swap.selected;
     };
 
     $scope.isOSShown = function () {
-        return $scope.services.os;
+        return $scope.services.os.selected;
     };
 
     $scope.areServicesInitialized = function () {
@@ -173,13 +204,13 @@ lanj.controller('ProviderController', function ($scope, $document) {
     };
 
     $scope.addOSTemplate = function () {
-        $scope.osTemplates.push({
+        $scope.services.os.templates.push({
             name: ""
         });
     };
 
     $scope.addAutoTemplate = function () {
-        $scope.autoTemplates.push({
+        $scope.services.autoTemplates.templates.push({
             name: ""
         });
     };
