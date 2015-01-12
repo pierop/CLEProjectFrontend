@@ -6,6 +6,7 @@
 lanj.factory('backendFactory', function($http){
     var baseUrl = 'http://localhost:9001/api';
     return {
+        /* User endpoints */
         authenticate : function(login, password){
             return $http.post(baseUrl + '/users/authenticate', { login : login, password : password });
         },
@@ -17,8 +18,32 @@ lanj.factory('backendFactory', function($http){
         },
         createStudent : function(student){
             return $http.post(baseUrl + '/:provider/users/students', student);
+        },        
+        /* Services endpoints */
+        createVM : function(vm){
+            return $http.post(baseUrl + '/:provider/vm/:login', vm);
+        },
+        deleteVM : function(){
+            return $http.delete(baseUrl + '/:provider/vm/:vmid');
+        },
+        startVM : function(){
+            return $http.get(baseUrl + '/:provider/vm/:vmid/start');
+        },
+        stopVM : function(){
+            return $http.get(baseUrl + '/:provider/vm/:vmid/stop');
         }
-    };     
+        /* endpoint restants
+         * getVMState
+         * GET /{provider}/vm/{vmid}/state
+         * 
+         * selectServices
+         * POST /{provider}/services
+         * 
+         * getOSTemplates
+         * GET /{provider}/templates/OS
+         * 
+         * getTemplates
+         * GET /{provider}/templates/{user}
+         */
+    };   
 });
-
-
