@@ -24,22 +24,23 @@ lanj.factory('backendFactory', function($http, userFactory){
             //var data = { login : userFactory};
             return $http.post(baseUrl + '/:provider/vm/:login', vm);
         },
+        
         deleteVM : function(vmid){
             return $http.delete(baseUrl + '/:provider/vm/:vmid',vmid);
         },
+        
         startVM : function(vmid){
             return $http.get(baseUrl + '/:provider/vm/:vmid/start',vmid);
         },
+        
         stopVM : function(vmid){
             return $http.get(baseUrl + '/:provider/vm/:vmid/stop');
         },
         
-        /*********/
-        
         getVMState: function() {
             return $http.get(baseUrl + '/:provider/vm/:vmid/state');
         },
-        
+        /* Fait */
         selectServices: function(services) {
             return $http.post(baseUrl + '/:provider/services', services);
         }
