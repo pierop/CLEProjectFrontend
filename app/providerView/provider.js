@@ -144,10 +144,15 @@ lanj.controller('ProviderController', function ($scope, backendFactory) {
 
             // Call to API
             backendFactory.selectServices($scope.services)
-                    .succes(function () {
-                        showMessage = true;
-                        $scope.message = "Your choices have been saved. Yay!";
-
+                    .succes(function (data) {
+                        if (data.success === 1) {
+                            showMessage = true;
+                            $scope.message = "Your choices have been saved. Yay!";
+                        }
+                        else {
+                            showMessage = true;
+                            $scope.message = "Unable to save your choices, sorry.";
+                        }
                     })
                     .error(function (error) {
                         showMessage = true;
