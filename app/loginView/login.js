@@ -12,12 +12,13 @@ lanj.controller('LoginController', function($location, backendFactory, userFacto
         //var getUser = authenticationFactory(this.login, this.password);
         var authentication = backendFactory.authenticate(this.login, this.password);
         authentication.success(function(user){
-            if (user.success !== "false"){
-                console.log("authentication success");
-                userFactory.setUser(user);
+            if (user.success){
+                console.log("authentication success for " + user.user.role);
+                userFactory.setUser(user.user);
                 // Redirect url
-                var type = user.role;
-                if (type === 'admin'){
+                //var type = user.role;
+                $location.path('/' + user.user.role.toLowerCase());
+                /*if (type === 'admin'){
                     $location.path("/admin");
                 } else if (type === 'student'){
                     $location.path("/student");
@@ -27,7 +28,7 @@ lanj.controller('LoginController', function($location, backendFactory, userFacto
                     $location.path("/professor");
                 } else {
                     console.error("unknown user type");
-                }
+                }*/
             } else {
                 console.log("authentication fail");
                 document.getElementById("logAlert").innerHTML = "Invalid login or password";

@@ -9,44 +9,69 @@ lanj.controller('AdminController', function ($scope, backendFactory, userFactory
     // 0 for 'VMs' tab
     // 1 for 'Create User' tab
     $scope.show = 0;
-    $scope.userTypes = [{name: 'Professor', value: 0},
-        {name: 'Student', value: 1}];
-    $scope.select = {selectedType: $scope.userTypes[0]};
-    
-    $scope.user = {role: "", login: "", password: ""};
+    $scope.userRoles = ['Professor', 'Student'];
+    $scope.select = {selectedType: $scope.userRoles[0]};
+
+    $scope.user = {login: "", password: ""};
     $scope.userVMs = userFactory.getUser().vms;
     $scope.showMessage = false;
-    
-    $scope.isMessageShown = function() {
+
+    $scope.isMessageShown = function () {
         return $scope.showMessage;
     };
 
     $scope.createUserAccount = function () {
-        $scope.user.type = $scope.select.selectedType.value;
-        console.log("userType: " + $scope.user.type +
-                " - login: " + $scope.user.login +
+        //$scope.user.role = $scope.select.selectedType.toLowerCase();
+        console.log("login: " + $scope.user.login +
                 " - password: " + $scope.user.password);
+        console.dir($scope.user);
 
-        switch ($scope.user.type) {
-            case 0:
+        switch ($scope.select.selectedType) {
+            case 'Professor':
                 // Create a professor account
                 // Call to API: POST /{provider}/professor
-                console.log("professor account created.");
+                backendFactory.createProfessor($scope.user).success(function (data) {
+                    if (data.success === 1) {
+                        console.log("professor added");
+                        $scope.message = "The professor account has been successfully created.";
+                        $scope.showMessage = true;
+                    } else {
+                        console.log("professor creation failed");
+                        $scope.message = "The professor creation has failed.";
+                        $scope.showMessage = true;
+                    }
+                })
+                .error(function (error) {
+                    $scope.message = "Oooops, an error occured: " + error.message;
+                    $scope.showMessage = true;
+                });
                 break;
-            case 1:
+            case 'Student':
                 // Create a student account
                 // Call to API: POST /{provider}/student
                 console.log("user account created.");
-                /*$scope.user = backendFactory.createStudent($scope.user).success(function(){
-                    console.log("student added");
-                });*/
+                backendFactory.createStudent($scope.user).success(function (data) {
+                    if (data.success === 1) {
+                        console.log("student added");
+                        $scope.message = "The student account has been successfully created.";
+                        $scope.showMessage = true;
+                    } else {
+                        console.log("student creation failed");
+                        $scope.message = "The student creation has failed.";
+                        $scope.showMessage = true;
+                    }
+                })
+                        .error(function (error) {
+                            $scope.message = "Oooops, an error occured: " + error.message;
+                            $scope.showMessage = true;
+                        });
                 break;
             default:
                 console.log("User type unknown.");
         }
 
         //Reset the user object
-        $scope.user = {type: "", login: "", password: ""};
+        $scope.user = {login: "", password: ""};
         $scope.showMessage = true;
     };
 
@@ -65,19 +90,19 @@ lanj.controller('AdminController', function ($scope, backendFactory, userFactory
     $scope.isCreateUserShown = function () {
         return $scope.show === 1;
     };
-    
-    $scope.startVM = function(vm){
-       console.log("start vm with name " + vm.name + " and id " + vm.id);
-       this.changeVMState(vm,"on");
-   };
-   
-   $scope.stopVM = function(vm){
-       console.log("stop vm with name " + vm.name + " and id " + vm.id);
-       this.changeVMState(vm,"off");
-   };
-   
-   $scope.changeVMState = function (vm, state){
-       vm.state = state;
-   };
+
+    $scope.startVM = function (vm) {
+        console.log("start vm with name " + vm.name + " and id " + vm.id);
+        this.changeVMState(vm, "on");
+    };
+
+    $scope.stopVM = function (vm) {
+        console.log("stop vm with name " + vm.name + " and id " + vm.id);
+        this.changeVMState(vm, "off");
+    };
+
+    $scope.changeVMState = function (vm, state) {
+        vm.state = state;
+    };
 });
 
