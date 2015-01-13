@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-lanj.factory('authenticationFactory', function(){
+lanj.factory('authenticationFactory', ['$http', function($http){
     var userProvider = {
         login : "provider", 
         password : "provider",
@@ -98,7 +98,23 @@ lanj.factory('authenticationFactory', function(){
     };
     
     return function(login, password){
-        var isProvider = (login === userProvider.login && password === userProvider.password);
+        var data = { login : login, password : password };
+        return $http.post('http://localhost:9001/api/users/authenticate', data);//.
+        /*success(function(user){
+            console.log(user.login);
+             if (user == null){
+                console.log("error user undefined");
+                return null;
+            }else{
+                return user;
+            }
+        }).
+        error(function(data, status, headers, config){
+            console.log("data" + data + " status " + status);
+            return null;
+        });*/
+        
+        /*var isProvider = (login === userProvider.login && password === userProvider.password);
         var isAdmin = (login === userAdmin.login && password === userAdmin.password);
         var isProf = (login === userProf.login && password === userProf.password);
         var isStudent = (login === userStudent.login && password === userStudent.password);
@@ -111,6 +127,6 @@ lanj.factory('authenticationFactory', function(){
         else if (isStudent)
             return userStudent;
         else
-            return null;
+            return null;*/
     }; 
-});
+}]);
