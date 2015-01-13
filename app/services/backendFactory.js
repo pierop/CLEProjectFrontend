@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-lanj.factory('backendFactory', function($http){
+lanj.factory('backendFactory', function($http, userFactory){
     var baseUrl = 'http://localhost:9001/api';
     return {
         /* User endpoints */
@@ -21,18 +21,19 @@ lanj.factory('backendFactory', function($http){
         },        
         /* Services endpoints */
         createVM : function(vm){
+            //var data = { login : userFactory};
             return $http.post(baseUrl + '/:provider/vm/:login', vm);
         },
-        deleteVM : function(){
-            return $http.delete(baseUrl + '/:provider/vm/:vmid');
+        deleteVM : function(vmid){
+            return $http.delete(baseUrl + '/:provider/vm/:vmid',vmid);
         },
-        startVM : function(){
-            return $http.get(baseUrl + '/:provider/vm/:vmid/start');
+        startVM : function(vmid){
+            return $http.get(baseUrl + '/:provider/vm/:vmid/start',vmid);
         },
-        stopVM : function(){
+        stopVM : function(vmid){
             return $http.get(baseUrl + '/:provider/vm/:vmid/stop');
         }
-        /* endpoint restants
+        /* Endpoint restants
          * getVMState
          * GET /{provider}/vm/{vmid}/state
          * 

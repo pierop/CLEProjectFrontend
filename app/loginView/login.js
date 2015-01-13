@@ -30,6 +30,10 @@ lanj.controller('LoginController', function($location, backendFactory, userFacto
                 }
             } else {
                 console.log("authentication fail");
+                document.getElementById("logAlert").innerHTML = "Invalid login or password";
+                setTimeout(function(){
+                    document.getElementById("logAlert").innerHTML = ""
+                },3000);
             }
             
             // reset the form

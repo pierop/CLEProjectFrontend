@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-lanj.controller('StudentController', function($scope, userFactory){
+lanj.controller('StudentController', function($scope, backendFactory, userFactory){
    this.userVMs =  userFactory.getUser().vms;
    
    this.startVM = function(vm){
        console.log("start vm with name " + vm.name + " and id " + vm.id);
+       backendFactory.startVM
        this.changeVMState(vm,"on");
    };
    
