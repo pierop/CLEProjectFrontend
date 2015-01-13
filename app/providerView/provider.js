@@ -5,7 +5,7 @@
  */
 'use strict';
 
-lanj.controller('ProviderController', function ($scope) {
+lanj.controller('ProviderController', function ($scope, backendFactory) {
     $scope.services = {
         network: {
             selected: false
@@ -141,6 +141,23 @@ lanj.controller('ProviderController', function ($scope) {
                     console.log($scope.services.autoTemplates.templates[i].name);
                 }
             }
+
+            // Call to API
+            backendFactory.selectServices($scope.services)
+                    .succes(function (data) {
+                        if (data.success === 1) {
+                            showMessage = true;
+                            $scope.message = "Your choices have been saved. Yay!";
+                        }
+                        else {
+                            showMessage = true;
+                            $scope.message = "Unable to save your choices, sorry.";
+                        }
+                    })
+                    .error(function (error) {
+                        showMessage = true;
+                        $scope.message = "Unable to save your choices, sorry: " + error.message + ".";
+                    });
 
             showMessage = true;
             $scope.message = "Your choices have been saved.";

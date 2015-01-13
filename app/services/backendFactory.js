@@ -32,19 +32,25 @@ lanj.factory('backendFactory', function($http, userFactory){
         },
         stopVM : function(vmid){
             return $http.get(baseUrl + '/:provider/vm/:vmid/stop');
+        },
+        
+        /*********/
+        
+        getVMState: function() {
+            return $http.get(baseUrl + '/:provider/vm/:vmid/state');
+        },
+        
+        selectServices: function(services) {
+            return $http.post(baseUrl + '/:provider/services', services);
         }
-        /* Endpoint restants
-         * getVMState
-         * GET /{provider}/vm/{vmid}/state
-         * 
-         * selectServices
-         * POST /{provider}/services
-         * 
-         * getOSTemplates
-         * GET /{provider}/templates/OS
-         * 
-         * getTemplates
-         * GET /{provider}/templates/{user}
-         */
+
+        /*
+        getOSTemplates: function() {
+            return $http.get(baseUrl + '/:provider/templates/OS');
+        },
+        
+        getTemplates: function() {
+            return $http.get('/:provider/templates/:user');
+        }*/
     };   
 });

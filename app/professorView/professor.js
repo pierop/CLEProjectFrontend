@@ -5,7 +5,7 @@
  */
 'use strict';
 
-lanj.controller('ProfessorController', function ($scope, userFactory) {
+lanj.controller('ProfessorController', function ($scope, userFactory, backendFactory) {
     // 0 for 'VMs' tab
     // 1 for 'Templates' tab
     var show = 0;
@@ -54,8 +54,8 @@ lanj.controller('ProfessorController', function ($scope, userFactory) {
         authentication: {
             selected: true
         }};
+    
     $scope.userVMs = userFactory.getUser().vms;
-
     $scope.vm = {}; // vm variable for the creation
     $scope.toDisplay = { groupOfVMs: false };
 

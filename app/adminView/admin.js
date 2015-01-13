@@ -13,7 +13,7 @@ lanj.controller('AdminController', function ($scope, backendFactory, userFactory
         {name: 'Student', value: 1}];
     $scope.select = {selectedType: $scope.userTypes[0]};
     
-    $scope.user = {type: "", login: "", password: ""};
+    $scope.user = {role: "", login: "", password: ""};
     $scope.userVMs = userFactory.getUser().vms;
     $scope.showMessage = false;
     
