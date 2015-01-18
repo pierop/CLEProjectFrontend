@@ -10,39 +10,52 @@ lanj.factory('backendFactory', function($http, userFactory){
         authenticate : function(login, password){
             return $http.post(baseUrl + '/users/authenticate', { login : login, password : password });
         },
+        
         createAdmin : function(admin){
-            return $http.post(baseUrl + '/:provider/users/admins', admin);
+            var provider = userFactory.getUser().provider;
+            return $http.post(baseUrl + '/' + provider + '/users/admins', admin);
         },
+        
         createProfessor : function(professor){
-            return $http.post(baseUrl + '/:provider/users/professors', professor);
+            var provider = userFactory.getUser().provider;
+            return $http.post(baseUrl + '/' + provider + '/users/professors', professor);
         },
+        
         createStudent : function(student){
-            return $http.post(baseUrl + '/:provider/users/students', student);
-        },        
+            var provider = userFactory.getUser().provider;
+            return $http.post(baseUrl + '/' + provider + '/users/students', student);
+        },    
+        
         /* Services endpoints */
         createVM : function(vm){
-            //var data = { login : userFactory};
-            return $http.post(baseUrl + '/:provider/vm/:login', vm);
+            var user = userFactory.getUser();
+            return $http.post(baseUrl + '/' + user.provider + '/vm/' + user.login, vm);
         },
         
         deleteVM : function(vmid){
-            return $http.delete(baseUrl + '/:provider/vm/:vmid',vmid);
+            var provider = userFactory.getUser().provider;
+            return $http.delete(baseUrl + '/' + provider + '/vm/' + vmid);
         },
         
         startVM : function(vmid){
-            return $http.get(baseUrl + '/:provider/vm/:vmid/start',vmid);
+            var provider = userFactory.getUser().provider;
+            return $http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/start');
         },
         
         stopVM : function(vmid){
-            return $http.get(baseUrl + '/:provider/vm/:vmid/stop');
+            var provider = userFactory.getUser().provider;
+            return $http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/stop');
         },
         
-        getVMState: function() {
-            return $http.get(baseUrl + '/:provider/vm/:vmid/state');
+        getVMState: function(vmid) {
+            var provider = userFactory.getUser().provider;
+            return $http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/state');
         },
+        
         /* Fait */
         selectServices: function(services) {
-            return $http.post(baseUrl + '/:provider/services', services);
+            var provider = userFactory.getUser().provider;
+            return $http.post(baseUrl + '/' + provider + '/services', services);
         }
 
         /*

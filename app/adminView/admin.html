@@ -32,7 +32,8 @@ and open the template in the editor.
     <div ng-if="isCreateUserShown()">
         <form name="createUserForm" ng-submit="createUserForm.$valid && createUserAccount()">
             Select a type
-            <select ng-model="select.selectedType" ng-options="type.name for type in userTypes" required>
+            <select ng-model="select.selectedType" required>
+                <option ng-repeat="role in userRoles" value="{{role}}">{{role}}</option>
             </select>
             <br/>
             Login

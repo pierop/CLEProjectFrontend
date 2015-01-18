@@ -136,10 +136,10 @@ lanj.controller('ProfessorController', function ($scope, userFactory, backendFac
         console.log("create the vm");
         console.log($scope.vm);
         showCreateVMPage = false;
-        /*
-         * TODO: Call the API: POST /{provider}/vm/{login}
-         * Add the created VM to the list of VMs displayed
-         */
+        // Call the API
+        backendFactory.createVM($scope.vm).success(function(data) {
+            
+        })
     };
 
     $scope.showVMsTab = function () {

@@ -68,8 +68,21 @@ lanj.controller('ProviderController', function ($scope, backendFactory) {
         console.log("login: " + $scope.admin.login + " - password: " + $scope.admin.password);
         // Reset admin
         $scope.admin = {login: "", password: ""};
-        showMessage = true;
         // Call to API: POST /{provider}/admin
+        backendFactory.createAdmin($scope.admin).succes(function (data) {
+            if (data.success) {
+                showMessage = true;
+                $scope.message = "The admin account has been successfully created.";
+            }
+            else {
+                showMessage = true;
+                $scope.message = "The admin creation has failed for some reason.";
+            }
+        })
+                .error(function (error) {
+                    showMessage = true;
+                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                });
     };
 
     $scope.isMessageShown = function () {
@@ -144,7 +157,7 @@ lanj.controller('ProviderController', function ($scope, backendFactory) {
 
             // Call to API
             backendFactory.selectServices($scope.services)
-                    .succes(function (data) {
+                    .success(function (data) {
                         if (data.success === 1) {
                             showMessage = true;
                             $scope.message = "Your choices have been saved. Yay!";
