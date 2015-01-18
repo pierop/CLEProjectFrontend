@@ -25,7 +25,7 @@ and open the template in the editor.
                     <span>{{vm.vmName}}</span>
                     <button type="button" ng-show="vm.state === 'on'" ng-click="stopVM(vm)">stop</button>
                     <button type="button" ng-show="vm.state === 'off'" ng-click="startVM(vm)">start</button>
-                    <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
+                    <span ng-show="vm.state === 'on'">IP address: {{vm.ipAddress}}</span>
                 </div>
             </li>
             
@@ -53,7 +53,7 @@ and open the template in the editor.
                 <div ng-if="isAutoTemplatesServiceOffered()">
                     Template
                     <select ng-model="vm.vmTemplate" required>
-                        <option ng-repeat="template in services.autoTemplates.templates" value="{{template}}">{{template}}</option>
+                        <option ng-repeat="template in services.autoTemplates.templates" value="{{template.name}}">{{template.name}}</option>
                     </select> 
                     <br />
                 </div>
@@ -74,7 +74,7 @@ and open the template in the editor.
                     <div ng-if="isOSShown()">
                         OS
                         <select ng-model="vm.os" required>
-                            <option ng-repeat="template in services.os.templates" value="{{template}}">{{template}}</option>
+                            <option ng-repeat="template in services.os.templates" value="{{template.name}}">{{template.name}}</option>
                         </select> 
                         <br />
                     </div>

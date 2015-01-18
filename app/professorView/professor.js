@@ -45,12 +45,9 @@ lanj.controller('ProfessorController', function ($scope, userFactory, backendFac
      min: "",
      max: ""
      },
-     ipAddress: {
-     selected: true
-     },
-     authentication: {
-     selected: true
-     }};
+     ipAddressSelected: true,
+     authenticationSelected: true
+     };
      */
 
     $scope.userVMs = userFactory.getUser().vms;
@@ -87,10 +84,10 @@ lanj.controller('ProfessorController', function ($scope, userFactory, backendFac
             if ($scope.services.cpus.selected) {
                 $scope.vm['cpus'] = 0;
             }
-            if ($scope.services.ipAddress.selected) {
+            if ($scope.services.ipAddressSelected) {
                 $scope.vm['ipAddress'] = "";
             }
-            if ($scope.services.authentication.selected) {
+            if ($scope.services.authenticationSelected) {
                 $scope.vm['password'] = "";
             }
         }
@@ -125,11 +122,11 @@ lanj.controller('ProfessorController', function ($scope, userFactory, backendFac
     };
 
     $scope.isIPAddressShown = function () {
-        return $scope.services.ipAddress.selected;
+        return $scope.services.ipAddressSelected;
     };
 
     $scope.isAuthenticationShown = function () {
-        return $scope.services.authentication.selected;
+        return $scope.services.authenticationSelected;
     };
 
     $scope.createVM = function () {

@@ -38,12 +38,9 @@ lanj.controller('ProviderController', function ($scope, backendFactory, userFact
             min: "",
             max: ""
         },
-        ipAddress: {
-            selected: false
-        },
-        authentication: {
-            selected: false
-        }};*/
+        ipAddressSelected: false,
+        authenticationSelected: false
+        };*/
     
     $scope.admin = {login: "", password: ""};
     // 0 for 'Manage Services' tab
@@ -99,7 +96,7 @@ lanj.controller('ProviderController', function ($scope, backendFactory, userFact
         }
         else if ($scope.services.manualTemplatesSelected && !$scope.services.ram.selected && !$scope.services.hdd.selected
                 && !$scope.services.os.selected && !$scope.services.swap.selected && !$scope.services.cpus.selected
-                && !$scope.services.ipAddress.selected && !$scope.services.authentication.selected) {
+                && !$scope.services.ipAddressSelected && !$scope.services.authenticationSelected) {
             showMessage = true;
             $scope.message = "You should select at least one field.";
         }
@@ -119,8 +116,8 @@ lanj.controller('ProviderController', function ($scope, backendFactory, userFact
                     + " - os: " + $scope.services.os.selected
                     + " - swap: " + $scope.services.swap.selected
                     + " - cpus: " + $scope.services.cpus.selected
-                    + " - ipAddress: " + $scope.services.ipAddress.selected
-                    + " - authentication: " + $scope.services.authentication.selected);
+                    + " - ipAddress: " + $scope.services.ipAddressSelected
+                    + " - authentication: " + $scope.services.authenticationSelected);
 
             if ($scope.services.os.selected) {
                 console.log("OS templates:");
