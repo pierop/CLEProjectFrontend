@@ -93,12 +93,12 @@ lanj.controller('AdminController', function ($scope, backendFactory, userFactory
     };
 
     $scope.startVM = function (vm) {
-        console.log("start vm with name " + vm.name + " and id " + vm.id);
+        console.log("start vm with name " + vm.vmName + " and id " + vm.id);
         this.changeVMState(vm, "on");
     };
 
     $scope.stopVM = function (vm) {
-        console.log("stop vm with name " + vm.name + " and id " + vm.id);
+        console.log("stop vm with name " + vm.vmName + " and id " + vm.id);
         this.changeVMState(vm, "off");
     };
 

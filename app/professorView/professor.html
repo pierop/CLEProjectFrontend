@@ -19,15 +19,16 @@ and open the template in the editor.
     <div ng-if="areVMsShown()">
         <div ng-hide="isCreateVMPageShown()">
             Here is the list of your virtual machines <br/>
+            
             <li ng-repeat="vm in userVMs" ng-show="userVMs.length">
                 <div>
-                    <span>{{vm.name}}</span>
+                    <span>{{vm.vmName}}</span>
                     <button type="button" ng-show="vm.state === 'on'" ng-click="stopVM(vm)">stop</button>
                     <button type="button" ng-show="vm.state === 'off'" ng-click="startVM(vm)">start</button>
                     <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
                 </div>
-                <div> Description : {{vm.description}}</div>
             </li>
+            
             <button type="button" ng-click="initVM()">Create a new virtual machine</button>
         </div>
 
@@ -46,15 +47,12 @@ and open the template in the editor.
                 </div>
 
                 Name 
-                <input type="text" ng-model="vm.name" required /> 
-                <br />
-                Description
-                <textarea ng-model="vm.description"></textarea> 
+                <input type="text" ng-model="vm.vmName" required /> 
                 <br />
 
                 <div ng-if="isAutoTemplatesServiceOffered()">
                     Template
-                    <select ng-model="vm.template" required>
+                    <select ng-model="vm.vmTemplate" required>
                         <option ng-repeat="template in services.autoTemplates.templates" value="{{template}}">{{template}}</option>
                     </select> 
                     <br />
@@ -106,6 +104,10 @@ and open the template in the editor.
                     </div>
                 </div>
 
+                Student 
+                <input type="text" ng-model="vm.student" required /> 
+                <br />
+                
                 <input type="submit" value="Create" />
             </form>
         </div>
@@ -115,7 +117,7 @@ and open the template in the editor.
         Here is the list of available templates. <br/>
 
         <ul>
-            <li ng-repeat="template in availableTemplates">{{template}}</li>
+            <li ng-repeat="template in services.autoTemplates.templates">{{template}}</li>
         </ul>
     </div>
 </div>

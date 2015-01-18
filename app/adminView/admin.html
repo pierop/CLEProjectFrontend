@@ -20,12 +20,11 @@ and open the template in the editor.
         List of VMs
         <li ng-repeat="vm in userVMs" ng-show="userVMs.length">
             <div>
-                <span>{{vm.name}}</span>
+                <span>{{vm.vmName}}</span>
                 <button type="button" ng-show="vm.state === 'on'" ng-click="stopVM(vm)">stop</button>
                 <button type="button" ng-show="vm.state === 'off'" ng-click="startVM(vm)">start</button>
                 <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
             </div>
-            <div> Description : {{vm.description}}</div>
         </li>
     </div>
 

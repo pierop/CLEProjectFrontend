@@ -35,7 +35,7 @@ and open the template in the editor.
         Please select the services you want to offer. <br />
 
         <form name="servicesForm" ng-submit="servicesForm.$valid && saveServices()">
-        <input type="checkbox" ng-model="services.network.selected" /> Network (private subnets) <br />
+        <input type="checkbox" ng-model="services.networkSelected" /> Network (private subnets) <br />
         
         <input type="checkbox" ng-model="services.autoTemplates.selected" ng-change="autoTemplatesChoiceChanged()" /> Auto templates <br />
         <div ng-if="areAutoTemplatesShown()">
@@ -47,7 +47,7 @@ and open the template in the editor.
             <button type="button" ng-click="addAutoTemplate()">New template</button>
         </div>
         
-        <input type="checkbox" ng-model="services.manualTemplates.selected" ng-change="manualTemplatesChoiceChanged()" /> Manual templates <br />
+        <input type="checkbox" ng-model="services.manualTemplatesSelected" ng-change="manualTemplatesChoiceChanged()" /> Manual templates <br />
         <ul class="manual-template-list" ng-if="areManualTemplatesShown()">
             <li><input type="checkbox" ng-model="services.ram.selected" /> RAM 
                 <div ng-if="isRAMShown()">

@@ -3,11 +3,10 @@
 <ul ng-controller="StudentController as studentCtrl">
     <li ng-repeat="vm in studentCtrl.userVMs" ng-show="studentCtrl.userVMs.length">
         <div>
-            <span>{{vm.name}}</span>
+            <span>{{vm.vmName}}</span>
             <button type="button" ng-show="vm.state === 'on'" ng-click="studentCtrl.stopVM(vm)">stop</button>
             <button type="button" ng-show="vm.state === 'off'" ng-click="studentCtrl.startVM(vm)">start</button>
             <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
         </div>
-        <div> Description : {{vm.description}}</div>
     </li>
 </ul>
