@@ -16,7 +16,6 @@ lanj.controller('LoginController', function ($location, backendFactory, userFact
                 console.log("authentication success for " + user.user.role);
                 userFactory.setUser(user.user);
                 // Redirect url
-                //var type = user.role;
                 $location.path('/' + user.user.role.toLowerCase());
                 /*if (type === 'admin'){
                  $location.path("/admin");

@@ -49,7 +49,8 @@ lanj.controller('AdminController', function ($scope, backendFactory, userFactory
             case 'Student':
                 // Create a student account
                 // Call to API: POST /{provider}/student
-                console.log("user account created.");
+                console.log("student account created.");
+                
                 backendFactory.createStudent($scope.user).success(function(data) {
                     if (data.success) {
                         console.log("student added");

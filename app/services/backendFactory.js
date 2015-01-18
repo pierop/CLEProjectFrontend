@@ -25,7 +25,7 @@ lanj.factory('backendFactory', function($http, userFactory){
             var provider = userFactory.getUser().provider;
             return $http.post(baseUrl + '/' + provider + '/users/students', student);
         },    
-        
+
         /* Services endpoints */
         createVM : function(vm){
             var user = userFactory.getUser();
