@@ -25,6 +25,10 @@ lanj.config(['$routeProvider', function ($routeProvider) {
                     templateUrl: 'studentView/student.html',
                     controller: 'StudentController'
                 })
+                .when('/backend', {
+                    templateUrl: 'backendView/backend.html',
+                    controler: 'BackendController'
+                })
                 .when('/404', {
                     templateUrl: 'errorView/404.html'
                 })
