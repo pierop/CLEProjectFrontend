@@ -26,6 +26,7 @@ and open the template in the editor.
                     <span>{{vm.vmName}}</span>
                     <button type="button" ng-show="vm.state === 'on'" ng-click="stopVM(vm)">stop</button>
                     <button type="button" ng-show="vm.state === 'off'" ng-click="startVM(vm)">start</button>
+                    <button type="button" ng-click="updateVM(vm)">Update</button>
                     <span ng-show="vm.state === 'on'">IP address: {{vm.ipAddress}}</span>
                 </div>
                 <div>Description : {{vm.description}}</div>
@@ -112,9 +113,7 @@ and open the template in the editor.
                 <input type="submit" value="Create" />
             </form>
         </div>
-    </div>        //var length = $scope.services.autoTemplates.templates.length;
-        //$scope.services.autoTemplates.templates[length - 1] = $scope.templateName;
-
+    </div>        
 
     <div ng-if="areTemplatesShown()">
         Here is the list of available templates. <br/>

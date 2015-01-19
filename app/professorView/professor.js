@@ -16,44 +16,50 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     // True if an error occured when trying to start/stop a vm
     // False if no error occured when trying to start/stop a vm
     $scope.showVMAlert = false;
-       
+
     // This will be initialized with the real services after authentication
-    $scope.services = $scope.user.services;
-    /*$scope.services = {
-     networkSelected: true,
-     autoTemplates: {
-     selected: true,
-     templates: ['Template1', 'Template2', 'Template3']
-     },
-     manualTemplatesSelected: true,
-     ram: {
-     selected: true,
-     min: "0",
-     max: "10"
-     },
-     hdd: {
-     selected: true,
-     min: "",
-     max: ""
-     },
-     os: {
-     selected: true,
-     templates: ['Linux', 'Windows', 'Mac']
-     },
-     swap: {
-     selected: true,
-     min: "",
-     max: ""
-     },
-     cpus: {
-     selected: true,
-     min: "",
-     max: ""
-     },
-     ipAddressSelected: true,
-     authenticationSelected: true
-     };
-     */
+    //$scope.services = $scope.user.services;
+    $scope.services = {
+        networkSelected: true,
+        autoTemplates: {
+            selected: true,
+            templates: [
+                { name: 'Template1' }, 
+                { name: 'Template2' }, 
+                { name: 'Template3' }]
+        },
+        manualTemplatesSelected: true,
+        ram: {
+            selected: true,
+            min: "0",
+            max: "10"
+        },
+        hdd: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        os: {
+            selected: true,
+            templates: [
+                { name: 'Linux'}, 
+                { name: 'Windows'}, 
+                { name: 'Mac' }]
+        },
+        swap: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        cpus: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        ipAddressSelected: true,
+        authenticationSelected: true
+    };
+
     $scope.vm = {}; // vm variable for the creation
     $scope.toDisplay = {groupOfVMs: false};
 
@@ -63,8 +69,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             admin: "",
             vmName: ""
         };
-        $scope.vm.admin = $scope.user.admin;
-        $scope.vm.login = $scope.user.login;
+        //$scope.vm.admin = $scope.user.admin;
+        //$scope.vm.login = $scope.user.login;
 
         $scope.toDisplay.groupOfVMs = false;
 
@@ -158,22 +164,27 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                     $scope.message = "Ooops, I did it again: " + error.message + ".";
                 });
     };
-    
-    $scope.deleteVM = function (vm){
-        backendFactory.deleteVM(vm.vmId).success(function(res){
-            if (res.status){
+
+    $scope.updateVM = function (vm) {
+        showCreateVMPage = true;
+        $scope.vm = vm;
+    };
+
+    $scope.deleteVM = function (vm) {
+        backendFactory.deleteVM(vm.vmId).success(function (res) {
+            if (res.status) {
                 var index = $scope.user.vms.indexOf(vm);
                 if (index > -1)
-                    $scope.user.vms.slice(index,1);
+                    $scope.user.vms.slice(index, 1);
                 else
                     console.log("vm not found in $scope.user.vms");
             } else {
                 console.error("ERROR : [deleteVM in professor.js] operation failed");
             }
         })
-        .error(function(err){
-            console.error("ERROR : [deleteVM in professor.js] " + err);
-        });
+                .error(function (err) {
+                    console.error("ERROR : [deleteVM in professor.js] " + err);
+                });
     };
 
     $scope.showVMsTab = function () {
@@ -209,38 +220,38 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.isCreateVMPageShown = function () {
         return showCreateVMPage;
     };
-    
-    $scope.startVM = function(vm){
+
+    $scope.startVM = function (vm) {
         console.log("start vm with nodename " + vm.nodename + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function(res){
-            if(res.status)
-                $scope.changeVMState(vm,"on");
+        backendFactory.startVM(vm.vmId).success(function (res) {
+            if (res.status)
+                $scope.changeVMState(vm, "on");
             else
                 console.error("an error occured while trying to start vm");
         })
-        .error(function(){
-            $scope.showVMAlert = true;
-        });
-   };
-   
-   $scope.stopVM = function(vm){
+                .error(function () {
+                    $scope.showVMAlert = true;
+                });
+    };
+
+    $scope.stopVM = function (vm) {
         console.log("stop vm with nodename " + vm.nodename + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function(res){
-            if(res.status)
-                $scope.changeVMState(vm,"off");
+        backendFactory.startVM(vm.vmId).success(function (res) {
+            if (res.status)
+                $scope.changeVMState(vm, "off");
             else
                 console.error("an error occured while trying to stop vm");
         })
-        .error(function(){
-            $scope.showVMAlert = true;
-        });
-   };
-   
-   $scope.changeVMState = function (vm, state){
+                .error(function () {
+                    $scope.showVMAlert = true;
+                });
+    };
+
+    $scope.changeVMState = function (vm, state) {
         vm.state = state;
-   };
-   
-   $scope.logout = function (){
+    };
+
+    $scope.logout = function () {
         userFactory.setUser(null);
         $location.path('/');
     };
