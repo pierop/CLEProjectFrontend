@@ -17,16 +17,18 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     // False if no error occured when trying to start/stop a vm
     $scope.showVMAlert = false;
 
+    var showStudentsArray = false;
+
     // This will be initialized with the real services after authentication
-    //$scope.services = $scope.user.services;
-    $scope.services = {
+    $scope.services = $scope.user.services;
+    /*$scope.services = {
         networkSelected: true,
         autoTemplates: {
             selected: true,
             templates: [
-                { name: 'Template1' }, 
-                { name: 'Template2' }, 
-                { name: 'Template3' }]
+                {name: 'Template1'},
+                {name: 'Template2'},
+                {name: 'Template3'}]
         },
         manualTemplatesSelected: true,
         ram: {
@@ -42,9 +44,9 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         os: {
             selected: true,
             templates: [
-                { name: 'Linux'}, 
-                { name: 'Windows'}, 
-                { name: 'Mac' }]
+                {name: 'Linux'},
+                {name: 'Windows'},
+                {name: 'Mac'}]
         },
         swap: {
             selected: true,
@@ -58,7 +60,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         },
         ipAddressSelected: true,
         authenticationSelected: true
-    };
+    };*/
 
     $scope.vm = {}; // vm variable for the creation
     $scope.toDisplay = {groupOfVMs: false};
@@ -69,8 +71,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             admin: "",
             vmName: ""
         };
-        //$scope.vm.admin = $scope.user.admin;
-        //$scope.vm.login = $scope.user.login;
+        $scope.vm.admin = $scope.user.admin;
+        $scope.vm.login = $scope.user.login;
 
         $scope.toDisplay.groupOfVMs = false;
 
@@ -110,6 +112,18 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         console.dir($scope.vm);
     };
 
+    $scope.initStudentsArray = function () {
+        $scope.vm['students'] = [];
+        for (var i = 0; i < $scope.vm.numberOfVMs; i++) {
+            $scope.vm.students.push({name: ""});
+        }
+        showStudentsArray = true;
+    };
+
+    $scope.isStudentsArrayShown = function () {
+        return showStudentsArray;
+    };
+
     $scope.isGroupOfVMsShown = function () {
         return $scope.toDisplay.groupOfVMs;
     };
@@ -145,7 +159,13 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.createVM = function () {
         console.log("create the vm");
         showCreateVMPage = false;
-        // Call the API
+        
+        // Si on veut créer un réseau
+        if (showStudentsArray) {
+            // Appel au backend
+        }
+        // Si on veut créer une seule VM
+        else {
         backendFactory.createVM($scope.vm).success(function (data) {
             if (data.success) {
                 showMessage = true;
@@ -163,6 +183,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                     showMessage = true;
                     $scope.message = "Ooops, I did it again: " + error.message + ".";
                 });
+            }
     };
 
     $scope.updateVM = function (vm) {

@@ -41,3 +41,7 @@
 .manual-template-list {
     list-style: none;
 }
+
+.logOutButton {
+    float: right;
+}
