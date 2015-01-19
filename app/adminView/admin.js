@@ -5,7 +5,7 @@
  */
 'use strict';
 
-lanj.controller('AdminController', function ($scope, backendFactory, userFactory) {
+lanj.controller('AdminController', function ($scope, $location, backendFactory, userFactory) {
     // 0 for 'VMs' tab
     // 1 for 'Create User' tab
     $scope.show = 0;
@@ -13,8 +13,9 @@ lanj.controller('AdminController', function ($scope, backendFactory, userFactory
     $scope.select = {selectedType: $scope.userRoles[0]};
 
     $scope.user = {login: "", password: ""};
-    $scope.userVMs = userFactory.getUser().vms;
+    $scope.userVMs = userFactory.getUser().vm;
     $scope.showMessage = false;
+    $scope.showVMAlert = false;
 
     $scope.isMessageShown = function () {
         return $scope.showMessage;
@@ -92,18 +93,56 @@ lanj.controller('AdminController', function ($scope, backendFactory, userFactory
         return $scope.show === 1;
     };
 
-    $scope.startVM = function (vm) {
-        console.log("start vm with name " + vm.vmName + " and id " + vm.id);
-        this.changeVMState(vm, "on");
+    $scope.deleteVM = function (vm){
+        backendFactory.deleteVM(vm.vmId).success(function(res){
+            if (res.success){
+                var index = $scope.user.vm.indexOf(vm);
+                if (index > -1)
+                    $scope.user.vm.slice(index,1);
+                else
+                    console.log("vm not found in userVMs");
+            } else {
+                console.error("ERROR : [deleteVM in professor.js] operation failed");
+            }
+        })
+        .error(function(err){
+            console.error("ERROR : [deleteVM in professor.js] " + err.message);
+        });
     };
 
-    $scope.stopVM = function (vm) {
-        console.log("stop vm with name " + vm.vmName + " and id " + vm.id);
-        this.changeVMState(vm, "off");
-    };
+    $scope.startVM = function(vm){
+        console.log("start vm with nodename " + vm.nodename + " and id " + vm.vmId);
+        backendFactory.startVM(vm.vmId).success(function(res){
+            if(res.success)
+                $scope.changeVMState(vm,"on");
+            else
+                console.error("an error occured while trying to start vm");
+        })
+        .error(function(){
+            $scope.showVMAlert = true;
+        });
+   };
+   
+   $scope.stopVM = function(vm){
+        console.log("stop vm with nodename " + vm.nodename + " and id " + vm.vmId);
+        backendFactory.startVM(vm.vmId).success(function(res){
+            if(res.success)
+                $scope.changeVMState(vm,"off");
+            else
+                console.error("an error occured while trying to stop vm");
+        })
+        .error(function(){
+            $scope.showVMAlert = true;
+        });
+   };
 
     $scope.changeVMState = function (vm, state) {
         vm.state = state;
+    };
+    
+    $scope.logout = function (){
+        userFactory.setUser(null);
+        $location.path('/');
     };
 });
 

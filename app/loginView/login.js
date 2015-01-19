@@ -15,25 +15,12 @@ lanj.controller('LoginController', function ($location, backendFactory, userFact
             if (user.success) {
                 console.log("authentication success for " + user.user.role);
                 userFactory.setUser(user.user);
+                
                 // Redirect url
                 $location.path('/' + user.user.role.toLowerCase());
-                /*if (type === 'admin'){
-                 $location.path("/admin");
-                 } else if (type === 'student'){
-                 $location.path("/student");
-                 } else if (type === 'provider'){
-                 $location.path("/provider");
-                 } else if (type === 'professor') {
-                 $location.path("/professor");
-                 } else {
-                 console.error("unknown user type");
-                 }*/
             } else {
                 console.log("authentication fail");
                 document.getElementById("logAlert").innerHTML = "Invalid login or password";
-                setTimeout(function () {
-                    document.getElementById("logAlert").innerHTML = ""
-                }, 3000);
             }
 
             // reset the form

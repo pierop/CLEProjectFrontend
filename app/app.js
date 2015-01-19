@@ -25,5 +25,8 @@ lanj.config(['$routeProvider', function ($routeProvider) {
                     templateUrl: 'studentView/student.html',
                     controller: 'StudentController'
                 })
-                .otherwise({redirectTo: '/view1'});
+                .when('/404', {
+                    templateUrl: 'errorView/404.html'
+                })
+                .otherwise({redirectTo: '/404'});
     }]);

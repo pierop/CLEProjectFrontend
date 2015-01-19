@@ -20,12 +20,14 @@ and open the template in the editor.
         List of VMs
         <li ng-repeat="vm in userVMs" ng-show="userVMs.length">
             <div>
-                <span>{{vm.vmName}}</span>
+                <button type="button" ng-click="deleteVM(vm)">delete</button>
+                <span>{{vm.name}}</span>
                 <button type="button" ng-show="vm.state === 'on'" ng-click="stopVM(vm)">stop</button>
                 <button type="button" ng-show="vm.state === 'off'" ng-click="startVM(vm)">start</button>
                 <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
             </div>
         </li>
+        <div ng-show="{{showVMAlert}}">An error occured while doing operation on the vm</div>
     </div>
 
     <div ng-if="isCreateUserShown()">
@@ -46,4 +48,5 @@ and open the template in the editor.
         
         <div ng-if="isMessageMShown()">The user account has been created.</div>
     </div>
+    <button type="button" ng-click="logout()">log out</button>
 </div>

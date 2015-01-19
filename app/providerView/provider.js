@@ -5,9 +5,9 @@
  */
 'use strict';
 
-lanj.controller('ProviderController', function ($scope, backendFactory, userFactory) {
-    //$scope.services = userFactory.getUser().services;
-    $scope.services = {
+lanj.controller('ProviderController', function ($scope, $location, backendFactory, userFactory) {
+    $scope.services = userFactory.getUser().services;
+    /*$scope.services = {
         networkSelected: false,
         autoTemplates: {
             selected: false,
@@ -22,7 +22,7 @@ lanj.controller('ProviderController', function ($scope, backendFactory, userFact
         hdd: {
             selected: false,
             min: "",
-            max: ""
+            max: "">>>>>>> bbd5861b52d9233ac3f5fa87bd9ee037861855ee
         },
         os: {
             selected: false,
@@ -40,7 +40,7 @@ lanj.controller('ProviderController', function ($scope, backendFactory, userFact
         },
         ipAddressSelected: false,
         authenticationSelected: false
-        };
+        };*/
     
     $scope.admin = {login: "", password: ""};
     // 0 for 'Manage Services' tab
@@ -229,22 +229,18 @@ lanj.controller('ProviderController', function ($scope, backendFactory, userFact
     };
 
     $scope.addAutoTemplate = function () {
-        /*$scope.services.autoTemplates.templates.push({
+        $scope.services.autoTemplates.templates.push({
             name: ""
-        });*/
-        //var length = $scope.services.autoTemplates.templates.length;
-        //$scope.services.autoTemplates.templates[length - 1] = $scope.templateName;
-        //$scope.templateName = "";
-        console.log($scope.templateName.name);
-        $scope.services.autoTemplates.templates[$scope.services.autoTemplates.templates.length - 1] = $scope.templateName.name;
-        $scope.services.autoTemplates.templates.push("");
-        $scope.templateName.name = "";
-        console.log($scope.services.autoTemplates.templates);
+        });
     };
 
     $scope.isMessageShown = function () {
         return showMessage;
     };
-    $scope.templateName = {name: ""};
+    
+    $scope.logout = function (){
+        userFactory.setUser(null);
+        $location.path('/');
+    };
 });
 
