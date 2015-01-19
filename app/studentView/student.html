@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <h1>Student view</h1>
 <h2>My space</h2>
 <ul ng-controller="StudentController as studentCtrl">
@@ -10,4 +11,6 @@
         </div>
         <div> Description : {{vm.description}}</div>
     </li>
+    <div ng-show="{{studentCtrl.showMessage}}">An error occured while doing operation on the vm</div>
+    <button type="button" ng-click="studentCtrl.logout()">log out</button>
 </ul>

@@ -5,7 +5,7 @@
  */
 'use strict';
 
-lanj.controller('ProviderController', function ($scope, backendFactory) {
+lanj.controller('ProviderController', function ($scope, $location, backendFactory, userFactory) {
     $scope.services = {
         network: {
             selected: false
@@ -234,6 +234,11 @@ lanj.controller('ProviderController', function ($scope, backendFactory) {
 
     $scope.isMessageShown = function () {
         return showMessage;
+    };
+    
+    $scope.logout = function (){
+        userFactory.setUser(null);
+        $location.path('/');
     };
 });
 

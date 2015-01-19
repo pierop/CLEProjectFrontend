@@ -25,7 +25,7 @@ lanj.factory('backendFactory', function($http, userFactory){
         /* Services endpoints */
         createVM : function(vm){
             var user = userFactory.getUser();
-            return $http.post(baseUrl + '/' + user.provider + '/vm/' + user.login, vm);
+            return $http.post(baseUrl + '/' + user.provider + '/vm', vm);
         },
         deleteVM : function(vmid){
             var provider = userFactory.getUser().provider;
@@ -33,19 +33,19 @@ lanj.factory('backendFactory', function($http, userFactory){
         },
         startVM : function(vmid){
             var provider = userFactory.getUser().provider;
-            return $http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/start');
+            return $http.post(baseUrl + '/' + provider + '/vm/' + vmid + '/start',{}); // à tester sans argument
         },
         stopVM : function(vmid){
             var provider = userFactory.getUser().provider;
-            return $http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/stop');
+            return $http.post(baseUrl + '/' + provider + '/vm/' + vmid + '/stop',{}); // à tester sans argument
         },
         
         /*********/
         
-        getVMState: function(vmid) {
+        /*getVMState: function(vmid) {
             var provider = userFactory.getUser().provider;
             return $http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/state');
-        },
+        },*/
         
         selectServices: function(services) {
             var provider = userFactory.getUser().provider;
