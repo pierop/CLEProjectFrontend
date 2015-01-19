@@ -6,6 +6,7 @@
 'use strict';
 
 lanj.controller('ProfessorController', function ($scope, $location, userFactory, backendFactory) {
+    $scope.user = userFactory.getUser();
     // 0 for 'VMs' tab
     // 1 for 'Templates' tab
     var show = 0;
@@ -17,7 +18,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.showVMAlert = false;
        
     // This will be initialized with the real services after authentication
-    $scope.services = userFactory.getUser().services;
+    $scope.services = $scope.user.services;
     /*$scope.services = {
      networkSelected: true,
      autoTemplates: {
@@ -53,8 +54,6 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
      authenticationSelected: true
      };
      */
-
-    $scope.userVMs = userFactory.getUser().vms;
     $scope.vm = {}; // vm variable for the creation
     $scope.toDisplay = {groupOfVMs: false};
 
@@ -63,7 +62,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         $scope.vm = {login: "",
             vmName: ""
         };
-        $scope.vm.login = userFactory.getUser().login;
+        $scope.vm.login = $scope.user.login;
 
         $scope.toDisplay.groupOfVMs = false;
 
@@ -143,9 +142,9 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             if (data.success) {
                 showMessage = true;
                 $scope.message = "The virtual machine has been successfully created.";
-                $scope.vm.vmId = res.vmId; // add a vm id
-                $scope.vm.ipAddress = res.ipAddress; // add an vm ipAddress
-                $scope.user.vm.push($scope.vm);
+                $scope.vm.vmId = data.vmId; // add a vm id
+                $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
+                $scope.user.vms.push($scope.vm);
             }
             else {
                 showMessage = true;
@@ -161,11 +160,11 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.deleteVM = function (vm){
         backendFactory.deleteVM(vm.vmId).success(function(res){
             if (res.status){
-                var index = $scope.user.vm.indexOf(vm);
+                var index = $scope.user.vms.indexOf(vm);
                 if (index > -1)
-                    $scope.user.vm.slice(index,1);
+                    $scope.user.vms.slice(index,1);
                 else
-                    console.log("vm not found in userVMs");
+                    console.log("vm not found in $scope.user.vms");
             } else {
                 console.error("ERROR : [deleteVM in professor.js] operation failed");
             }
