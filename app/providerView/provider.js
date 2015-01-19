@@ -140,7 +140,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             if ($scope.services.autoTemplates.selected) {
                 console.log("templates:");
                 for (var i = 0; i < $scope.services.autoTemplates.templates.length; i++) {
-                    console.log($scope.services.autoTemplates.templates[i]);
+                    console.log($scope.services.autoTemplates.templates[i].name);
                 }
             }
 
