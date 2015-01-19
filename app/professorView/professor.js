@@ -60,8 +60,10 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.initVM = function () {
         console.log("initialize the vm");
         $scope.vm = {login: "",
+            admin: "",
             vmName: ""
         };
+        $scope.vm.admin = $scope.user.admin;
         $scope.vm.login = $scope.user.login;
 
         $scope.toDisplay.groupOfVMs = false;
