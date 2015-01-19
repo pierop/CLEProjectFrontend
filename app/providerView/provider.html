@@ -41,7 +41,7 @@ and open the template in the editor.
         <div ng-if="areAutoTemplatesShown()">
             Please enter the name of your templates. <br />
             <div ng-repeat="template in services.autoTemplates.templates">
-                Name <input type="text" ng-model="template.name" required /> 
+                Name <input type="text" ng-model="templateName.name" required /> 
                 <br />
             </div>
             <button type="button" ng-click="addAutoTemplate()">New template</button>
