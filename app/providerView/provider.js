@@ -6,17 +6,14 @@
 'use strict';
 
 lanj.controller('ProviderController', function ($scope, $location, backendFactory, userFactory) {
-    $scope.services = {
-        network: {
-            selected: false
-        },
+    $scope.services = userFactory.getUser().services;
+    /*$scope.services = {
+        networkSelected: false,
         autoTemplates: {
             selected: false,
             templates: []
         },
-        manualTemplates: {
-            selected: false
-        },
+        manualTemplatesSelected: false,
         ram: {
             selected: false,
             min: "",
@@ -41,12 +38,10 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             min: "",
             max: ""
         },
-        ipAddress: {
-            selected: false
-        },
-        authentication: {
-            selected: false
-        }};
+        ipAddressSelected: false,
+        authenticationSelected: false
+        };*/
+    
     $scope.admin = {login: "", password: ""};
     // 0 for 'Manage Services' tab
     // 1 for 'Create Admin' tab
@@ -55,12 +50,6 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     // false before the first click on 'Save' button
     // true after
     var initServices = false;
-    $scope.osTemplates = [];
-    $scope.autoTemplates = [];
-    $scope.ram = {min: "", max: ""};
-    $scope.hdd = {min: "", max: ""};
-    $scope.swap = {min: "", max: ""};
-    $scope.cpus = {min: "", max: ""};
     $scope.message = "";
     var showMessage = false;
 
@@ -68,8 +57,21 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         console.log("login: " + $scope.admin.login + " - password: " + $scope.admin.password);
         // Reset admin
         $scope.admin = {login: "", password: ""};
-        showMessage = true;
         // Call to API: POST /{provider}/admin
+        backendFactory.createAdmin($scope.admin).succes(function (data) {
+            if (data.success) {
+                showMessage = true;
+                $scope.message = "The admin account has been successfully created.";
+            }
+            else {
+                showMessage = true;
+                $scope.message = "The admin creation has failed for some reason.";
+            }
+        })
+                .error(function (error) {
+                    showMessage = true;
+                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                });
     };
 
     $scope.isMessageShown = function () {
@@ -78,12 +80,12 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
 
     $scope.saveServices = function () {
         // Check that at least one service is selected
-        if (!$scope.services.network.selected && !$scope.services.autoTemplates.selected && !$scope.services.manualTemplates.selected) {
+        if (!$scope.services.networkSelected && !$scope.services.autoTemplates.selected && !$scope.services.manualTemplatesSelected) {
             showMessage = true;
             $scope.message = "You have to select at least one service!";
         }
         // Check that the user have choosen between manual and auto templates
-        else if (!$scope.services.autoTemplates.selected && !$scope.services.manualTemplates.selected) {
+        else if (!$scope.services.autoTemplates.selected && !$scope.services.manualTemplatesSelected) {
             showMessage = true;
             $scope.message = "You have to select manual or auto templates.";
         }
@@ -92,9 +94,9 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             showMessage = true;
             $scope.message = "You should indicate at least one template.";
         }
-        else if ($scope.services.manualTemplates.selected && !$scope.services.ram.selected && !$scope.services.hdd.selected
+        else if ($scope.services.manualTemplatesSelected && !$scope.services.ram.selected && !$scope.services.hdd.selected
                 && !$scope.services.os.selected && !$scope.services.swap.selected && !$scope.services.cpus.selected
-                && !$scope.services.ipAddress.selected && !$scope.services.authentication.selected) {
+                && !$scope.services.ipAddressSelected && !$scope.services.authenticationSelected) {
             showMessage = true;
             $scope.message = "You should select at least one field.";
         }
@@ -106,16 +108,16 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         else {
             initServices = true;
             console.log("your services have been saved.");
-            console.log("network: " + $scope.services.network.selected
+            console.log("network: " + $scope.services.networkSelected
                     + " - autoTemplates: " + $scope.services.autoTemplates.selected
-                    + " - manualTemplates: " + $scope.services.manualTemplates.selected
+                    + " - manualTemplates: " + $scope.services.manualTemplatesSelected
                     + " - ram: " + $scope.services.ram.selected
                     + " - hdd: " + $scope.services.hdd.selected
                     + " - os: " + $scope.services.os.selected
                     + " - swap: " + $scope.services.swap.selected
                     + " - cpus: " + $scope.services.cpus.selected
-                    + " - ipAddress: " + $scope.services.ipAddress.selected
-                    + " - authentication: " + $scope.services.authentication.selected);
+                    + " - ipAddress: " + $scope.services.ipAddressSelected
+                    + " - authentication: " + $scope.services.authenticationSelected);
 
             if ($scope.services.os.selected) {
                 console.log("OS templates:");
@@ -138,7 +140,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             if ($scope.services.autoTemplates.selected) {
                 console.log("templates:");
                 for (var i = 0; i < $scope.services.autoTemplates.templates.length; i++) {
-                    console.log($scope.services.autoTemplates.templates[i].name);
+                    console.log($scope.services.autoTemplates.templates[i]);
                 }
             }
 
@@ -169,7 +171,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     };
 
     $scope.autoTemplatesChoiceChanged = function () {
-        $scope.services.manualTemplates.selected = false;
+        $scope.services.manualTemplatesSelected = false;
     };
 
     $scope.areAutoTemplatesShown = function () {
@@ -177,7 +179,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     };
 
     $scope.areManualTemplatesShown = function () {
-        return $scope.services.manualTemplates.selected;
+        return $scope.services.manualTemplatesSelected;
     };
 
     $scope.isRAMShown = function () {

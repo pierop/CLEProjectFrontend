@@ -17,70 +17,63 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.showVMAlert = false;
        
     // This will be initialized with the real services after authentication
-   $scope.services = {
-        network: {
-            selected: true
-        },
-        autoTemplates: {
-            selected: true,
-            templates: ['Template1', 'Template2', 'Template3']
-        },
-        manualTemplates: {
-            selected: true
-        },
-        ram: {
-            selected: true,
-            min: "0",
-            max: "10"
-        },
-        hdd: {
-            selected: true,
-            min: "",
-            max: ""
-        },
-        os: {
-            selected: true,
-            templates: ['Linux', 'Windows', 'Mac']
-        },
-        swap: {
-            selected: true,
-            min: "",
-            max: ""
-        },
-        cpus: {
-            selected: true,
-            min: "",
-            max: ""
-        },
-        ipAddress: {
-            selected: true
-        },
-        authentication: {
-            selected: true
-        }};
-    
-    $scope.user = userFactory.getUser();
-    //$scope.userVMs = $scope.user.vm;
+    $scope.services = userFactory.getUser().services;
+    /*$scope.services = {
+     networkSelected: true,
+     autoTemplates: {
+     selected: true,
+     templates: ['Template1', 'Template2', 'Template3']
+     },
+     manualTemplatesSelected: true,
+     ram: {
+     selected: true,
+     min: "0",
+     max: "10"
+     },
+     hdd: {
+     selected: true,
+     min: "",
+     max: ""
+     },
+     os: {
+     selected: true,
+     templates: ['Linux', 'Windows', 'Mac']
+     },
+     swap: {
+     selected: true,
+     min: "",
+     max: ""
+     },
+     cpus: {
+     selected: true,
+     min: "",
+     max: ""
+     },
+     ipAddressSelected: true,
+     authenticationSelected: true
+     };
+     */
+
+    $scope.userVMs = userFactory.getUser().vms;
     $scope.vm = {}; // vm variable for the creation
-    $scope.toDisplay = { groupOfVMs: false };
+    $scope.toDisplay = {groupOfVMs: false};
 
     $scope.initVM = function () {
         console.log("initialize the vm");
-        // version sans admin - deprecated
-        $scope.vm = { nodename: "", vmName: "", description: "" , login: $scope.user.login, state: "off"}; // we suppose that by default the vm is off
-        // version presque finale avec admin
-        //$scope.vm = { nodename: "", description: "" , login: $scope.user.login, admin: $scope.user.admin, state: "off"}; // we suppose that by default the vm is off
+        $scope.vm = {login: "",
+            vmName: ""
+        };
+        $scope.vm.login = userFactory.getUser().login;
+
         $scope.toDisplay.groupOfVMs = false;
-        
-        if ($scope.services.network.selected) {
+
+        if ($scope.services.networkSelected) {
             $scope.vm['numberOfVMs'] = 1;
         }
         if ($scope.services.autoTemplates.selected) {
-            $scope.vm['usePredefinedTemplate'] = true;
-            $scope.vm['template'] = "";
+            $scope.vm['vmTemplate'] = "";
         }
-        if ($scope.services.manualTemplates.selected) {
-            $scope.vm['usePredefinedTemplate'] = false;
+        if ($scope.services.manualTemplatesSelected) {
             if ($scope.services.ram.selected) {
                 $scope.vm['ram'] = 0;
             }
@@ -96,14 +89,15 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             if ($scope.services.cpus.selected) {
                 $scope.vm['cpu'] = 0; // POST data contains 'cpu' instead of 'cpus'
             }
-            if ($scope.services.ipAddress.selected) {
+            if ($scope.services.ipAddressSelected) {
                 $scope.vm['ipAddress'] = "";
             }
-            if ($scope.services.authentication.selected) {
+            if ($scope.services.authenticationSelected) {
                 $scope.vm['password'] = "";
             }
         }
-        
+        $scope.vm['student'] = "";
+
         showCreateVMPage = true;
         console.log("creating a new vm...");
         console.dir($scope.vm);
@@ -112,59 +106,56 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.isGroupOfVMsShown = function () {
         return $scope.toDisplay.groupOfVMs;
     };
-    
-    $scope.isRAMShown = function() {
+
+    $scope.isRAMShown = function () {
         return $scope.services.ram.selected;
     };
-    
-    $scope.isHDDShown = function() {
+
+    $scope.isHDDShown = function () {
         return $scope.services.hdd.selected;
     };
-    
-    $scope.isOSShown = function() {
+
+    $scope.isOSShown = function () {
         return $scope.services.os.selected;
     };
-    
-    $scope.isCPUsShown = function() {
+
+    $scope.isCPUsShown = function () {
         return $scope.services.cpus.selected;
     };
-    
-    $scope.isSWAPShown = function() {
+
+    $scope.isSWAPShown = function () {
         return $scope.services.swap.selected;
     };
-    
-    $scope.isIPAddressShown = function() {
-        return $scope.services.ipAddress.selected;
+
+    $scope.isIPAddressShown = function () {
+        return $scope.services.ipAddressSelected;
     };
-    
-    $scope.isAuthenticationShown = function() {
-        return $scope.services.authentication.selected;
+
+    $scope.isAuthenticationShown = function () {
+        return $scope.services.authenticationSelected;
     };
 
     $scope.createVM = function () {
         console.log("create the vm");
         showCreateVMPage = false;
-        /*
-         * TODO: Call the API: POST /{provider}/vm/{login}
-         * Add the created VM to the list of VMs displayed
-         */
-        backendFactory.createVM($scope.vm).success(function(res){
-            
-            if(res.status){
-                console.log("vm creation success");
+        // Call the API
+        backendFactory.createVM($scope.vm).success(function (data) {
+            if (data.success) {
+                showMessage = true;
+                $scope.message = "The virtual machine has been successfully created.";
                 $scope.vm.vmId = res.vmId; // add a vm id
                 $scope.vm.ipAddress = res.ipAddress; // add an vm ipAddress
-                console.dir($scope.vm);
                 $scope.user.vm.push($scope.vm);
-            } else {
-                // display a message : "the vm hasn't been created"
-                console.error("mince il y a eu un problème à la création de la vm, pas de vm");
+            }
+            else {
+                showMessage = true;
+                $scope.message = "The creation of the virtual machine has failed for some reason.";
             }
         })
-        .error(function(){
-            console.error("vm creation fail");
-            console.dir($scope.vm);
-        })   
+                .error(function (error) {
+                    showMessage = true;
+                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                });
     };
     
     $scope.deleteVM = function (vm){
@@ -181,8 +172,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         })
         .error(function(err){
             console.error("ERROR : [deleteVM in professor.js] " + err);
-        })
-    }
+        });
+    };
 
     $scope.showVMsTab = function () {
         show = 0;
@@ -207,14 +198,14 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.isManualTemplatesServiceOffered = function () {
-        return $scope.services.manualTemplates.selected;
+        return $scope.services.manualTemplatesSelected;
     };
 
     $scope.isNetworkServiceOffered = function () {
-        return $scope.services.network.selected;
+        return $scope.services.networkSelected;
     };
-    
-    $scope.isCreateVMPageShown = function() {
+
+    $scope.isCreateVMPageShown = function () {
         return showCreateVMPage;
     };
     

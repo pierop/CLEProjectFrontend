@@ -31,8 +31,8 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
             case 'Professor':
                 // Create a professor account
                 // Call to API: POST /{provider}/professor
-                backendFactory.createProfessor($scope.user).success(function (data) {
-                    if (data.success === 1) {
+                backendFactory.createProfessor($scope.user).success(function(data) {
+                    if (data.success) {
                         console.log("professor added");
                         $scope.message = "The professor account has been successfully created.";
                         $scope.showMessage = true;
@@ -50,9 +50,10 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
             case 'Student':
                 // Create a student account
                 // Call to API: POST /{provider}/student
-                console.log("user account created.");
-                backendFactory.createStudent($scope.user).success(function (data) {
-                    if (data.success === 1) {
+                console.log("student account created.");
+                
+                backendFactory.createStudent($scope.user).success(function(data) {
+                    if (data.success) {
                         console.log("student added");
                         $scope.message = "The student account has been successfully created.";
                         $scope.showMessage = true;
@@ -106,8 +107,8 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
         })
         .error(function(err){
             console.error("ERROR : [deleteVM in professor.js] " + err.message);
-        })
-    }
+        });
+    };
 
     $scope.startVM = function(vm){
         console.log("start vm with nodename " + vm.nodename + " and id " + vm.vmId);
