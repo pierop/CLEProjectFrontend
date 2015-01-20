@@ -26,15 +26,15 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     
     backendFactory.getServices()
             .success(function(data){
-                if (data.success){
+                if (data.success === "true"){
                     $scope.services = data.services;
                 }
                 else {
-                    console.log("getServices failed");
+                    console.log("getServices backend error");
                 }
     })
             .error(function(){
-                console.log("error in getServices");
+                console.log("error on getServices request");
     });
     /*$scope.services = {
         networkSelected: true,
@@ -187,7 +187,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             else {
 
                 backendFactory.createVM($scope.vm).success(function (data) {
-                    if (data.success) {
+                    if (data.success === "true") {
                         showMessage = true;
                         $scope.message = "The virtual machine has been successfully created.";
                         $scope.vm.id = data.id; // add a vm id
@@ -210,7 +210,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             if (!showStudentsArray) {
                 // Appel au backend
                 backendFactory.updateVM($scope.vm).success(function (data) {
-                    if (data.success) {
+                    if (data.success === "true") {
                         showMessage = true;
                         $scope.message = "The virtual machine has been successfully updated.";
                         var vmIndex = $scope.user.vm.indexOf($scope.vm);
@@ -236,8 +236,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.deleteVM = function (vm) {
-        backendFactory.deleteVM(vm.vmId).success(function (res) {
-            if (res.status) {
+        backendFactory.deleteVM(vm.vmId).success(function (data) {
+            if (data.success === "true") {
                 var index = $scope.user.vm.indexOf(vm);
                 if (index > -1)
                     $scope.user.vms.slice(index, 1);
@@ -289,7 +289,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.startVM = function (vm) {
         console.log("start vm with name " + vm.name + " and id " + vm.vmId);
         backendFactory.startVM(vm.vmId).success(function (res) {
-            if (res.status)
+            if (res.success === "true")
                 $scope.changeVMState(vm, "on");
             else
                 console.error("an error occured while trying to start vm");
@@ -301,8 +301,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
     $scope.stopVM = function (vm) {
         console.log("stop vm with name " + vm.name + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function (res) {
-            if (res.status)
+        backendFactory.stopVM(vm.vmId).success(function (res) {
+            if (res.success === "true")
                 $scope.changeVMState(vm, "off");
             else
                 console.error("an error occured while trying to stop vm");
