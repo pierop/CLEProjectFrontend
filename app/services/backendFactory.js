@@ -65,9 +65,9 @@ lanj.factory('backendFactory', function($http, userFactory){
         selectServices: function(services) {
             var provider = userFactory.getUser().provider;
             return $http.post(baseUrl + '/' + provider + '/services', services);
-        }
+        },
         
-        /* return { success : true/false, services : [] }
+        // return { success : true/false, services : {} }
         getServices: function() {
             var provider = userFactory.getUser().provider;
             return $http.get(baseUrl + '/' + provider + '/services');

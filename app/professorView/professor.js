@@ -23,7 +23,19 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     var showStudentsArray = false;
 
     // This will be initialized with the real services after authentication
-    $scope.services = $scope.user.services;
+    
+    backendFactory.getServices()
+            .success(function(data){
+                if (data.success){
+                    $scope.services = data.services;
+                }
+                else {
+                    console.log("getServices failed");
+                }
+    })
+            .error(function(){
+                console.log("error in getServices");
+    });
     /*$scope.services = {
         networkSelected: true,
         autoTemplates: {
