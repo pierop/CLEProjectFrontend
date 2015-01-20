@@ -16,11 +16,26 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     // True if an error occured when trying to start/stop a vm
     // False if no error occured when trying to start/stop a vm
     $scope.showVMAlert = false;
+    var showMessage = false;
+    var isVMCreated = false;
+    $scope.message = "";
 
     var showStudentsArray = false;
 
     // This will be initialized with the real services after authentication
-    $scope.services = $scope.user.services;
+    
+    backendFactory.getServices()
+            .success(function(data){
+                if (data.success){
+                    $scope.services = data.services;
+                }
+                else {
+                    console.log("getServices failed");
+                }
+    })
+            .error(function(){
+                console.log("error in getServices");
+    });
     /*$scope.services = {
         networkSelected: true,
         autoTemplates: {
@@ -62,14 +77,16 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         authenticationSelected: true
     };*/
 
-    $scope.vm = {}; // vm variable for the creation
     $scope.toDisplay = {groupOfVMs: false};
-
+    
     $scope.initVM = function () {
         console.log("initialize the vm");
+
+        isVMCreated = true;
+
         $scope.vm = {login: "",
             admin: "",
-            vmName: ""
+            name: ""
         };
         $scope.vm.admin = $scope.user.admin;
         $scope.vm.login = $scope.user.login;
@@ -159,42 +176,69 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.createVM = function () {
         console.log("create the vm");
         showCreateVMPage = false;
-        
-        // Si on veut créer un réseau
-        if (showStudentsArray) {
-            // Appel au backend
-        }
-        // Si on veut créer une seule VM
-        else {
-        backendFactory.createVM($scope.vm).success(function (data) {
-            if (data.success) {
-                showMessage = true;
-                $scope.message = "The virtual machine has been successfully created.";
-                $scope.vm.vmId = data.vmId; // add a vm id
-                $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
-                $scope.user.vms.push($scope.vm);
+       
+        // Call the API
+        if (!isVMCreated) {
+             // Si on veut créer un réseau
+            if (showStudentsArray) {
+                // Appel au backend
             }
+            // Si on veut créer une seule VM
             else {
-                showMessage = true;
-                $scope.message = "The creation of the virtual machine has failed for some reason.";
-            }
-        })
+
+                backendFactory.createVM($scope.vm).success(function (data) {
+                    if (data.success) {
+                        showMessage = true;
+                        $scope.message = "The virtual machine has been successfully created.";
+                        $scope.vm.id = data.id; // add a vm id
+                        $scope.vm.vmProviderID = data.vmProviderID;
+                        $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
+                        $scope.user.vm.push($scope.vm);
+                    }
+                    else {
+                        showMessage = true;
+                        $scope.message = "The creation of the virtual machine has failed for some reason.";
+                    }
+                })
                 .error(function (error) {
                     showMessage = true;
                     $scope.message = "Ooops, I did it again: " + error.message + ".";
                 });
-            }
+            } 
+        } else {
+            // Si on veut créer un réseau
+            if (!showStudentsArray) {
+                // Appel au backend
+                backendFactory.updateVM($scope.vm).success(function (data) {
+                    if (data.success) {
+                        showMessage = true;
+                        $scope.message = "The virtual machine has been successfully updated.";
+                        var vmIndex = $scope.user.vm.indexOf($scope.vm);
+                        $scope.user.vm[vmIndex] = $scope.vm;
+                    }
+                    else {
+                        showMessage = true;
+                        $scope.message = "The creation of the virtual machine has failed for some reason.";
+                    }
+                })
+                .error(function (error) {
+                    showMessage = true;
+                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                });
+            }             
+        }
     };
 
     $scope.updateVM = function (vm) {
         showCreateVMPage = true;
+        isVMCreated = false;
         $scope.vm = vm;
     };
 
     $scope.deleteVM = function (vm) {
         backendFactory.deleteVM(vm.vmId).success(function (res) {
             if (res.status) {
-                var index = $scope.user.vms.indexOf(vm);
+                var index = $scope.user.vm.indexOf(vm);
                 if (index > -1)
                     $scope.user.vms.slice(index, 1);
                 else
@@ -243,33 +287,37 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.startVM = function (vm) {
-        console.log("start vm with nodename " + vm.nodename + " and id " + vm.vmId);
+        console.log("start vm with name " + vm.name + " and id " + vm.vmId);
         backendFactory.startVM(vm.vmId).success(function (res) {
             if (res.status)
                 $scope.changeVMState(vm, "on");
             else
                 console.error("an error occured while trying to start vm");
         })
-                .error(function () {
-                    $scope.showVMAlert = true;
-                });
+        .error(function () {
+            $scope.showVMAlert = true;
+        });
     };
 
     $scope.stopVM = function (vm) {
-        console.log("stop vm with nodename " + vm.nodename + " and id " + vm.vmId);
+        console.log("stop vm with name " + vm.name + " and id " + vm.vmId);
         backendFactory.startVM(vm.vmId).success(function (res) {
             if (res.status)
                 $scope.changeVMState(vm, "off");
             else
                 console.error("an error occured while trying to stop vm");
         })
-                .error(function () {
-                    $scope.showVMAlert = true;
-                });
+        .error(function () {
+            $scope.showVMAlert = true;
+        });
     };
 
     $scope.changeVMState = function (vm, state) {
         vm.state = state;
+    };
+
+    $scope.isMessageShown = function () {
+        return showMessage;
     };
 
     $scope.logout = function () {

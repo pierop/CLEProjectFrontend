@@ -42,6 +42,16 @@
     list-style: none;
 }
 
+/**** Validation ****/
+.ng-invalid.ng-dirty {
+    border-color: red;
+}
+
+.ng-valid.ng-dirty {
+    border-color: green;
+}
+
 .logOutButton {
     float: right;
+
 }

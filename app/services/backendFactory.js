@@ -11,6 +11,10 @@ lanj.factory('backendFactory', function($http, userFactory){
             return $http.post(baseUrl + '/users/authenticate', { login : login, password : password });
         },
         
+        authenticateProvider : function(login, password){
+            return $http.post(baseUrl + '/providers/authenticate', { login : login, password : password });
+        },
+        
         createAdmin : function(admin){
             var provider = userFactory.getUser().provider;
             return $http.post(baseUrl + '/' + provider + '/users/admins', admin);
@@ -32,6 +36,11 @@ lanj.factory('backendFactory', function($http, userFactory){
             return $http.post(baseUrl + '/' + user.provider + '/vm', vm);
         },
         
+        updateVM : function(vm){
+            var user = userFactory.getUser();
+            return $http.put(baseUrl + '/' + user.provider + '/vm/' + vm.id, vm);
+        },
+        
         deleteVM : function(vmid){
             var provider = userFactory.getUser().provider;
             return $http.delete(baseUrl + '/' + provider + '/vm/' + vmid);
@@ -47,17 +56,21 @@ lanj.factory('backendFactory', function($http, userFactory){
             return $http.post(baseUrl + '/' + provider + '/vm/' + vmid + '/stop',{}); // à tester sans argument
         },
         
-        /*********/
-        
-        /*getVMState: function(vmid) {
+        getVMState: function(vmid) {
             var provider = userFactory.getUser().provider;
-            return $http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/state');
-        },*/
+            return "running";//$http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/state');
+        },
         
         /* Fait */
         selectServices: function(services) {
             var provider = userFactory.getUser().provider;
             return $http.post(baseUrl + '/' + provider + '/services', services);
+        },
+        
+        // return { success : true/false, services : {} }
+        getServices: function() {
+            var provider = userFactory.getUser().provider;
+            return $http.get(baseUrl + '/' + provider + '/services');
         }
 
         /*

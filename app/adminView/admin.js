@@ -139,6 +139,22 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
                 });
     };
 
+   $scope.getVMState = function (vmId){
+        console.log("get vm state");
+        /*
+         * { status:  running/stopped} running stopped
+         */
+        backendFactory.getVMState(vmId).success(function(data){
+            if(data.success)
+                return data;
+            else
+                return null;
+        })
+        .error(function(data){
+            
+        });
+   };
+
     $scope.changeVMState = function (vm, state) {
         vm.state = state;
     };
