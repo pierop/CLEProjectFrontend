@@ -63,7 +63,7 @@ lanj.factory('backendFactory', function($http, userFactory){
         
         getVMState: function(vmid) {
             var provider = userFactory.getUser().provider;
-            return "running";//$http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/state');
+            return {status: "running"};//$http.get(baseUrl + '/' + provider + '/vm/' + vmid + '/state');
         },
         
         /* Fait */
