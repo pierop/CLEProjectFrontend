@@ -57,18 +57,18 @@ and open the template in the editor.
 
             <input type="checkbox" ng-model="services.manualTemplatesSelected" ng-change="manualTemplatesChoiceChanged()" /> Manual templates <br />
             <ul class="manual-template-list" ng-if="areManualTemplatesShown()">
-                <li><input type="checkbox" ng-model="services.ram.selected" /> RAM 
+                <li><input type="checkbox" ng-model="services.ram.selected" /> RAM (Mo)
                     <div ng-if="isRAMShown()">
-                        Min <input type="text" ng-model="services.ram.min" required />
+                        Min <input type="number" ng-model="services.ram.min" required />
                         <br />
-                        Max <input type="text" ng-model="services.ram.max" required />
+                        Max <input type="number" ng-model="services.ram.max" required />
                     </div>
                 </li>
-                <li><input type="checkbox" ng-model="services.hdd.selected" /> HDD 
+                <li><input type="checkbox" ng-model="services.hdd.selected" /> HDD (Mo)
                     <div ng-if="isHDDShown()">
-                        Min <input type="text" ng-model="services.hdd.min" required />
+                        Min <input type="number" ng-model="services.hdd.min" required />
                         <br />
-                        Max <input type="text" ng-model="services.hdd.max" required />
+                        Max <input type="number" ng-model="services.hdd.max" required />
                     </div>
                 </li>
                 <li><input type="checkbox" ng-model="services.os.selected" /> OS 
@@ -81,18 +81,18 @@ and open the template in the editor.
                         <button type="button" ng-click="addOSTemplate()">New template</button>
                     </div>
                 </li>
-                <li><input type="checkbox" ng-model="services.swap.selected" /> Swap 
+                <li><input type="checkbox" ng-model="services.swap.selected" /> Swap (Mo)
                     <div ng-if="isSWAPShown()">
-                        Min <input type="text" ng-model="services.swap.min" required />
+                        Min <input type="number" ng-model="services.swap.min" required />
                         <br />
-                        Max <input type="text" ng-model="services.swap.max" required />
+                        Max <input type="number" ng-model="services.swap.max" required />
                     </div>
                 </li>
                 <li><input type="checkbox" ng-model="services.cpus.selected" /> CPU 
                     <div ng-if="isCPUsShown()">
-                        Min <input type="text" ng-model="services.cpus.min" required />
+                        Min <input type="number" ng-model="services.cpus.min" required />
                         <br />
-                        Max <input type="text" ng-model="services.cpus.max" required />
+                        Max <input type="number" ng-model="services.cpus.max" required />
                     </div>
                 </li>
                 <li><input type="checkbox" ng-model="services.ipAddress.selected" /> IP address 

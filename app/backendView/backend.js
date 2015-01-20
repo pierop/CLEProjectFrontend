@@ -15,7 +15,7 @@ lanj.controller('BackendController', function ($location, backendFactory, userFa
             if (user.success === "true") {
                 console.log("authentication success for " + user.provider);
                 userFactory.setUser(user.provider);
-                
+
                 // Redirect url
                 $location.path('/provider');
             } else {

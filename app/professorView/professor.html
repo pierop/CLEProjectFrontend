@@ -78,13 +78,13 @@ and open the template in the editor.
                 <div ng-if="isManualTemplatesServiceOffered()">
                     <div ng-if="isRAMShown()">
                         RAM
-                        <input type="number" ng-model="vm.ram" required/> 
+                        <input type="range" ng-model="vm.ram" min="services.ram.min" max="services.ram.max" required/> 
                         <br />
                     </div>
 
                     <div ng-if="isHDDShown()">
                         HDD
-                        <input type="number" ng-model="vm.hdd" required/> 
+                        <input type="range" ng-model="vm.hdd" min="services.hdd.min" max="services.hdd.max" required/> 
                         <br />
                     </div>
 
@@ -98,13 +98,13 @@ and open the template in the editor.
 
                     <div ng-if="isSWAPShown()">
                         SWAP
-                        <input type="number" ng-model="vm.swap" required/> 
+                        <input type="range" ng-model="vm.swap" min="services.swap.min" max="services.swap.max" required/> 
                         <br />
                     </div>
 
                     <div ng-if="isCPUsShown()">
-                        CPUs
-                        <input type="number" ng-model="vm.cpu" required/> 
+                        CPU
+                        <input type="range" ng-model="vm.cpu" min="services.cpu.min" max="services.cpu.max" required/> 
                         <br />
                     </div>
 
