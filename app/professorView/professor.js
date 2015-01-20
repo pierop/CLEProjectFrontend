@@ -24,7 +24,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
     // This will be initialized with the real services after authentication
     
-    backendFactory.getServices()
+    /*backendFactory.getServices()
             .success(function(data){
                 if (data.success){
                     $scope.services = data.services;
@@ -35,8 +35,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     })
             .error(function(){
                 console.log("error in getServices");
-    });
-    /*$scope.services = {
+    });*/
+    $scope.services = {
         networkSelected: true,
         autoTemplates: {
             selected: true,
@@ -53,8 +53,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         },
         hdd: {
             selected: true,
-            min: "",
-            max: ""
+            min: "0",
+            max: "10"
         },
         os: {
             selected: true,
@@ -65,17 +65,17 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         },
         swap: {
             selected: true,
-            min: "",
-            max: ""
+            min: "0",
+            max: "10"
         },
         cpus: {
             selected: true,
-            min: "",
-            max: ""
+            min: "0",
+            max: "10"
         },
         ipAddressSelected: true,
         authenticationSelected: true
-    };*/
+    };
 
     $scope.toDisplay = {groupOfVMs: false};
     
