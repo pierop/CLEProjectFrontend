@@ -223,7 +223,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                         $scope.vm.id = data.id; // add a vm id
                         $scope.vm.vmProviderID = data.vmProviderID;
                         $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
-                        //$scope.vm.state = "off";
+                        $scope.vm.state = "off";
                         $scope.user.vm.push($scope.vm);
                     }
                     else {
@@ -270,7 +270,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.deleteVM = function (vm) {
-        backendFactory.deleteVM(vm.vmId).success(function (data) {
+        backendFactory.deleteVM(vm.id).success(function (data) {
             if (data.success === "true") {
                 var index = $scope.user.vm.indexOf(vm);
                 if (index > -1)
@@ -321,8 +321,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.startVM = function (vm) {
-        console.log("start vm with name " + vm.name + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function (res) {
+        console.log("start vm with name " + vm.name + " and id " + vm.id);
+        backendFactory.startVM(vm.id).success(function (res) {
             if (res.success === "true")
                 $scope.changeVMState(vm, "on");
             else
@@ -334,8 +334,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.stopVM = function (vm) {
-        console.log("stop vm with name " + vm.name + " and id " + vm.vmId);
-        backendFactory.stopVM(vm.vmId).success(function (res) {
+        console.log("stop vm with name " + vm.name + " and id " + vm.id);
+        backendFactory.stopVM(vm.id).success(function (res) {
             if (res.success === "true")
                 $scope.changeVMState(vm, "off");
             else
