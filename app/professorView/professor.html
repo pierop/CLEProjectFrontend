@@ -30,7 +30,7 @@ and open the template in the editor.
                     <button type="button" ng-show="vm.state.toLowerCase() === 'on'" ng-click="stopVM(vm)">stop</button>
                     <button type="button" ng-show="vm.state.toLowerCase() === 'off'" ng-click="startVM(vm)">start</button>
                     <button type="button" ng-click="updateVM(vm)">Update</button>
-                    <span ng-show="vm.state === 'on'">IP address: {{vm.ipAddress}}</span>
+                    <span ng-show="vm.state === 'on'">IP address: {{vm.ipAdress}}</span>
                 </div>
             </li>
             <div ng-show="{{showVMAlert}}">An error occured while doing operation on the vm</div>
@@ -110,7 +110,7 @@ and open the template in the editor.
 
                     <div ng-if="isIPAddressShown()">
                         IP Address
-                        <input type="text" ng-model="vm.ipAddress" required/> 
+                        <input type="text" ng-model="vm.ipAdress" required/> 
                         <br />
                     </div>
 

@@ -28,7 +28,7 @@ and open the template in the editor.
                 <span>{{vm.name}}</span>
                 <button type="button" ng-show="vm.state.toLowerCase() === 'on'" ng-click="stopVM(vm)">Stop</button>
                 <button type="button" ng-show="vm.state.toLowerCase() === 'off'" ng-click="startVM(vm)">Start</button>
-                <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
+                <span ng-show="vm.state === 'on'">IP address : {{vm.ipAdress}}</span>
             </div>
         </li>
         <div ng-show="isMessageShown()">An error occured while doing operation on the vm</div>

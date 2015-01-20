@@ -68,7 +68,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             min: "0",
             max: "10"
         },
-        osSelected: {
+        os: {
             selected: true,
             templates: [
                 {name: 'Linux'},
@@ -119,7 +119,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             if ($scope.services.hdd.selected === "true") {
                 $scope.vm['hdd'] = 0;
             }
-            if ($scope.services.osSelected.selected === "true") {
+            if ($scope.services.os.selected === "true") {
                 $scope.vm['os'] = "";
             }
             if ($scope.services.swap.selected === "true") {
@@ -129,7 +129,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                 $scope.vm['cpu'] = 0; // POST data contains 'cpu' instead of 'cpus'
             }
             if ($scope.services.ipAddressSelected === "true") {
-                $scope.vm['ipAddress'] = "";
+                $scope.vm['ipAdress'] = "";
             }
             if ($scope.services.authenticationSelected === "true") {
                 $scope.vm['password'] = "";
@@ -167,7 +167,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.isOSShown = function () {
-        return $scope.services.osSelected.selected;
+        return $scope.services.os.selected;
     };
 
     $scope.isCPUsShown = function () {
@@ -200,7 +200,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                         $scope.message = "The subnet has been successfully created.";
                         /*$scope.vm.subID = data.subId; // add a vm id
                         $scope.vm.vmProviderID = data.vmProviderID;
-                        $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
+                        $scope.vm.ipAdress = data.ipAddress; // add an vm ipAddress
                         $scope.user.vm.push($scope.vm);*/
                     }
                     else {
@@ -222,7 +222,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                         $scope.message = "The vm has been successfully created.";
                         $scope.vm.id = data.id; // add a vm id
                         $scope.vm.vmProviderID = data.vmProviderID;
-                        $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
+                        $scope.vm.ipAdress = data.ipAddress; // add an vm ipAddress
                         $scope.vm.state = "off";
                         $scope.user.vm.push($scope.vm);
                     }
@@ -233,9 +233,10 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                 })
                 .error(function (error) {
                     showMessage = true;
-                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                    $scope.message = "Ooops, I did it again.";
                 });
             } 
+            isVMCreated = false;
         }
         // Si on veut modifier une vm déjà existante
         else {
@@ -258,7 +259,6 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                     showMessage = true;
                     $scope.message = "Ooops, I did it again .";
                 });
-                isVMCreated = false;
             }             
         }
     };
@@ -278,11 +278,11 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                 else
                     console.log("vm not found in $scope.user.vms");
             } else {
-                console.error("ERROR : [deleteVM in professor.js] operation failed");
+                console.error("ERROR : [deleteVM in professor.js] backend failed");
             }
         })
                 .error(function (err) {
-                    console.error("ERROR : [deleteVM in professor.js] " + err);
+                    console.error("ERROR : [deleteVM in professor.js] request failed");
                 });
     };
 

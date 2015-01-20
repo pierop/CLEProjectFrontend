@@ -3,11 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-lanj.controller('StudentController', function ($location, userFactory, vmFactory) {
+lanj.controller('StudentController', function ($scope, $location, userFactory, backendFactory) {
     this.user = userFactory.getUser();
     this.showMessage = false;
 
-    this.startVM = function (vm) {
+
+    $scope.startVM = function (vm) {
+        console.log("start vm with name " + vm.name + " and id " + vm.id);
+        backendFactory.startVM(vm.id).success(function (res) {
+            if (res.success === "true")
+                $scope.changeVMState(vm, "on");
+            else
+                console.error("an error occured while trying to start vm");
+        })
+        .error(function () {
+            $scope.showVMAlert = true;
+        });
+    };
+
+    $scope.stopVM = function (vm) {
+        console.log("stop vm with name " + vm.name + " and id " + vm.id);
+        backendFactory.stopVM(vm.id).success(function (res) {
+            if (res.success === "true")
+                $scope.changeVMState(vm, "off");
+            else
+                console.error("an error occured while trying to stop vm");
+        })
+        .error(function () {
+            $scope.showVMAlert = true;
+        });
+    };
+
+    $scope.changeVMState = function (vm, state) {
+        vm.state = state;
+    };
+
+
+
+    /*this.startVM = function (vm) {
         vmFactory.startVM(vm)
                 .success(function (data) {
                     if (data.success === "true"){
@@ -42,11 +75,11 @@ lanj.controller('StudentController', function ($location, userFactory, vmFactory
                 });
     };
     // COULDDO : display a message in case of error
-
+*/
     this.logout = function () {
         userFactory.setUser(null);
         $location.path('/');
     };
 
-    window.setInterval(vmFactory.checkVMStates(), 500);
+    //window.setInterval(vmFactory.checkVMStates(), 500);
 });

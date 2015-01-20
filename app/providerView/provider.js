@@ -9,11 +9,17 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     $scope.services = userFactory.getUser().services;
     $scope.services.networkSelected = ($scope.services.networkSelected === "true");
     $scope.services.autoTemplates.selected = ($scope.services.autoTemplates.selected === "true");
+    $scope.services.autoTemplates.templates = [];
     $scope.services.manualTemplatesSelected = ($scope.services.manualTemplatesSelected === "true");
     $scope.services.ram.selected = ($scope.services.ram.selected === "true");
     $scope.services.hdd.selected = ($scope.services.hdd.selected === "true");
-    $scope.services.os = {};
-    $scope.services.os.selected = ($scope.services.osSelected.selected === "true");
+    //$scope.services.os = {};
+    $scope.services.os.selected = ($scope.services.os.selected === "true");
+    //$scope.services.os.templates = [];
+    /*console.log("-- Initialisation");
+    console.dir($scope.services);
+    console.log("OS ----------------------------");
+    console.dir($scope.services.os);*/
     $scope.services.cpu.selected = ($scope.services.cpu.selected === "true");
     $scope.services.swap.selected = ($scope.services.swap.selected === "true");
     $scope.services.authenticationSelected = ($scope.services.authenticationSelected === "true");
@@ -166,6 +172,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             $scope.services.authenticationSelected = $scope.services.authenticationSelected.toString();
             $scope.services.ipAddressSelected = $scope.services.ipAddressSelected.toString();
 
+            console.log("Services -------------------------");
             console.dir($scope.services);
 
             // Call to API
