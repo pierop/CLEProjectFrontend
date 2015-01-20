@@ -165,6 +165,8 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             $scope.services.authenticationSelected = $scope.services.authenticationSelected.toString();
             $scope.services.ipAddressSelected = $scope.services.ipAddressSelected.toString();
 
+            console.dir($scope.services);
+
             // Call to API
             backendFactory.selectServices($scope.services)
                     .success(function (data) {

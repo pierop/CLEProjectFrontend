@@ -52,10 +52,6 @@ and open the template in the editor.
                     </div>
                 </div>
 
-                Name
-                <input type="text" ng-model="vm.vmName" required /> 
-                <br />
-
                 <div ng-if="!isGroupOfVMsShown()">
                     Assign a VM to a student 
                     <input type="text" ng-model="vm.student" required /> 
@@ -66,6 +62,10 @@ and open the template in the editor.
                     <input type="text" ng-model="student.name" required /> 
                     <br />
                 </div>
+                
+                Name
+                <input type="text" ng-model="vm.vmName" required /> 
+                <br />
 
                 <div ng-if="isAutoTemplatesServiceOffered()">
                     Template
@@ -119,17 +119,8 @@ and open the template in the editor.
                         <input type="password" ng-model="vm.password" required/> 
                         <br />
                     </div>
-                </div>
-
-<<<<<<< HEAD
-                Student 
-                <input type="text" ng-model="vm.student" required /> 
-                <br />
-                
+                </div>                
                 <input type="submit" value="Save" />
-=======
-                <input type="submit" value="Create" />
->>>>>>> 7d7bd491b47862ba055e747ed368ab809fc384a4
             </form>
         </div>
         
