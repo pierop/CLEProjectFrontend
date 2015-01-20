@@ -33,7 +33,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             min: "",
             max: ""
         },
-        cpus: {
+        cpu: {
             selected: false,
             min: "",
             max: ""
@@ -95,7 +95,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             $scope.message = "You should indicate at least one template.";
         }
         else if ($scope.services.manualTemplatesSelected && !$scope.services.ram.selected && !$scope.services.hdd.selected
-                && !$scope.services.os.selected && !$scope.services.swap.selected && !$scope.services.cpus.selected
+                && !$scope.services.os.selected && !$scope.services.swap.selected && !$scope.services.cpu.selected
                 && !$scope.services.ipAddressSelected && !$scope.services.authenticationSelected) {
             showMessage = true;
             $scope.message = "You should select at least one field.";
@@ -115,7 +115,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
                     + " - hdd: " + $scope.services.hdd.selected
                     + " - os: " + $scope.services.os.selected
                     + " - swap: " + $scope.services.swap.selected
-                    + " - cpus: " + $scope.services.cpus.selected
+                    + " - cpu: " + $scope.services.cpu.selected
                     + " - ipAddress: " + $scope.services.ipAddressSelected
                     + " - authentication: " + $scope.services.authenticationSelected);
 
@@ -134,8 +134,8 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             if ($scope.services.swap.selected) {
                 console.log("swap: min: " + $scope.services.swap.min + " - max: " + $scope.services.swap.max);
             }
-            if ($scope.services.cpus.selected) {
-                console.log("cpus: min: " + $scope.services.cpus.min + " - max: " + $scope.services.cpus.max);
+            if ($scope.services.cpu.selected) {
+                console.log("cpu: min: " + $scope.services.cpu.min + " - max: " + $scope.services.cpu.max);
             }
             if ($scope.services.autoTemplates.selected) {
                 console.log("templates:");
@@ -191,7 +191,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     };
 
     $scope.isCPUsShown = function () {
-        return $scope.services.cpus.selected;
+        return $scope.services.cpu.selected;
     };
 
     $scope.isSWAPShown = function () {
@@ -240,7 +240,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     
     $scope.logout = function (){
         userFactory.setUser(null);
-        $location.path('/');
+        $location.path('/backend');
     };
 });
 

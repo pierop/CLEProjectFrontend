@@ -16,8 +16,20 @@ lanj.controller('LoginController', function ($location, backendFactory, userFact
                 console.log("authentication success for " + user.user.role);
                 userFactory.setUser(user.user);
                 
-                // Redirect url
-                $location.path('/' + user.user.role.toLowerCase());
+                var isAdmin = (user.user.role === "admin");
+                var isProf = (user.user.role === "professeur");
+                var isStudent = (user.user.role === "etudiant");
+                var role = null;
+                if (isAdmin)
+                    $location.path('/' + user.user.role);
+                else if (isProf){
+                    role = "professor";
+                    $location.path('/' + role);
+                } else if (isStudent){
+                    role = "student";
+                    $location.path('/' + role);
+                } else 
+                    $location.path('/404');
             } else {
                 console.log("authentication fail");
                 document.getElementById("logAlert").innerHTML = "Invalid login or password";
@@ -27,8 +39,8 @@ lanj.controller('LoginController', function ($location, backendFactory, userFact
             this.login = "";
             this.password = "";
         })
-                .error(function () {
-                    console.log("ERROR : [login.js - logIn] an error occured on post");
-                });
+        .error(function () {
+            console.log("ERROR : [login.js - logIn] an error occured on post");
+        });
     };
 });

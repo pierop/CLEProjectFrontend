@@ -1,12 +1,11 @@
-<!DOCTYPE html>
 <h1>Student view</h1>
 <h2>My space</h2>
 <ul ng-controller="StudentController as studentCtrl">
-    <li ng-repeat="vm in studentCtrl.userVMs" ng-show="studentCtrl.userVMs.length">
+    <li ng-repeat="vm in studentCtrl.user.vm" ng-show="studentCtrl.user.vm.length">
         <div>
-            <span>{{vm.vmName}}</span>
-            <button type="button" ng-show="vm.state === 'on'" ng-click="studentCtrl.stopVM(vm)">stop</button>
-            <button type="button" ng-show="vm.state === 'off'" ng-click="studentCtrl.startVM(vm)">start</button>
+            <span>{{vm.name}}</span>
+            <button type="button" ng-show="vm.state.toLowerCase() === 'on'" ng-click="studentCtrl.stopVM(vm)">stop</button>
+            <button type="button" ng-show="vm.state.toLowerCase() === 'off'" ng-click="studentCtrl.startVM(vm)">start</button>
             <span ng-show="vm.state === 'on'">IP address : {{vm.ipAddress}}</span>
         </div>
     </li>

@@ -23,7 +23,7 @@ lanj.config(['$routeProvider', function ($routeProvider) {
                 })
                 .when('/student', {
                     templateUrl: 'studentView/student.html',
-                    controller: 'StudentController'
+                    controller: 'StudentController as studentCtrl'
                 })
                 .when('/backend', {
                     templateUrl: 'backendView/backend.html',

@@ -13,7 +13,7 @@ lanj.controller('BackendController', function ($location, backendFactory, userFa
         var authentication = backendFactory.authenticateProvider(this.login, this.password);
         authentication.success(function (user) {
             if (user.success) {
-                console.log("authentication success for " + user.provider.role);
+                console.log("authentication success for " + user.provider);
                 userFactory.setUser(user.provider);
                 
                 // Redirect url
