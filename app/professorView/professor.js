@@ -24,19 +24,19 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
     // This will be initialized with the real services after authentication
     
-    /*backendFactory.getServices()
+    backendFactory.getServices()
             .success(function(data){
-                if (data.success){
+                if (data.success === "true"){
                     $scope.services = data.services;
                 }
                 else {
-                    console.log("getServices failed");
+                    console.log("getServices backend error");
                 }
     })
             .error(function(){
-                console.log("error in getServices");
-    });*/
-    $scope.services = {
+                console.log("error on getServices request");
+    });
+    /*$scope.services = {
         networkSelected: true,
         autoTemplates: {
             selected: true,
@@ -75,7 +75,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         },
         ipAddressSelected: true,
         authenticationSelected: true
-    };
+    };*/
 
     $scope.toDisplay = {groupOfVMs: false};
     
@@ -93,32 +93,32 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
         $scope.toDisplay.groupOfVMs = false;
 
-        if ($scope.services.networkSelected) {
+        if ($scope.services.networkSelected === "true") {
             $scope.vm['nbVm'] = 1;
         }
-        if ($scope.services.autoTemplates.selected) {
+        if ($scope.services.autoTemplates.selected === "true") {
             $scope.vm['vmTemplate'] = "";
         }
-        if ($scope.services.manualTemplatesSelected) {
-            if ($scope.services.ram.selected) {
+        if ($scope.services.manualTemplatesSelected === "true") {
+            if ($scope.services.ram.selected === "true") {
                 $scope.vm['ram'] = 0;
             }
-            if ($scope.services.hdd.selected) {
+            if ($scope.services.hdd.selected === "true") {
                 $scope.vm['hdd'] = 0;
             }
-            if ($scope.services.os.selected) {
+            if ($scope.services.os.selected === "true") {
                 $scope.vm['os'] = "";
             }
-            if ($scope.services.swap.selected) {
+            if ($scope.services.swap.selected === "true") {
                 $scope.vm['swap'] = 0;
             }
-            if ($scope.services.cpus.selected) {
+            if ($scope.services.cpus.selected === "true") {
                 $scope.vm['cpu'] = 0; // POST data contains 'cpu' instead of 'cpus'
             }
-            if ($scope.services.ipAddressSelected) {
+            if ($scope.services.ipAddressSelected === "true") {
                 $scope.vm['ipAddress'] = "";
             }
-            if ($scope.services.authenticationSelected) {
+            if ($scope.services.authenticationSelected === "true") {
                 $scope.vm['password'] = "";
             }
         }
@@ -203,7 +203,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             // Si on veut créer une seule VM
             else {
                 backendFactory.createVM($scope.vm).success(function (data) {
-                    if (data.success) {
+                    if (data.success === "true") {
                         showMessage = true;
                         $scope.message = "The subnet has been successfully created.";
                         /*$scope.vm.subID = data.subId; // add a vm id
@@ -228,7 +228,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             if (!showStudentsArray) {
                 // Appel au backend
                 backendFactory.updateVM($scope.vm).success(function (data) {
-                    if (data.success) {
+                    if (data.success === "true") {
                         showMessage = true;
                         $scope.message = "The virtual machine has been successfully updated.";
                         var vmIndex = $scope.user.vm.indexOf($scope.vm);
@@ -254,8 +254,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.deleteVM = function (vm) {
-        backendFactory.deleteVM(vm.vmId).success(function (res) {
-            if (res.status) {
+        backendFactory.deleteVM(vm.vmId).success(function (data) {
+            if (data.success === "true") {
                 var index = $scope.user.vm.indexOf(vm);
                 if (index > -1)
                     $scope.user.vms.slice(index, 1);
@@ -307,7 +307,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.startVM = function (vm) {
         console.log("start vm with name " + vm.name + " and id " + vm.vmId);
         backendFactory.startVM(vm.vmId).success(function (res) {
-            if (res.status)
+            if (res.success === "true")
                 $scope.changeVMState(vm, "on");
             else
                 console.error("an error occured while trying to start vm");
@@ -319,8 +319,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
     $scope.stopVM = function (vm) {
         console.log("stop vm with name " + vm.name + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function (res) {
-            if (res.status)
+        backendFactory.stopVM(vm.vmId).success(function (res) {
+            if (res.success === "true")
                 $scope.changeVMState(vm, "off");
             else
                 console.error("an error occured while trying to stop vm");

@@ -9,13 +9,18 @@ lanj.controller('StudentController', function ($location, userFactory, vmFactory
 
     this.startVM = function (vm) {
         vmFactory.startVM(vm)
-                .success(function () {
-                    console.log("vm started");
-                    this.showMessage = false;
+                .success(function (data) {
+                    if (data.success === "true"){
+                        console.log("vm started");
+                        this.showMessage = false;
+                    } else {
+                        this.showMessage = true;
+                        console.log("error on backend start request");
+                    }
                 })
                 .error(function () {
                     this.showMessage = true;
-                    console.log("error");
+                    console.log("error on start request");
                 });
     };
     // COULDDO : display a message in case of error
@@ -23,12 +28,17 @@ lanj.controller('StudentController', function ($location, userFactory, vmFactory
     this.stopVM = function (vm) {
         vmFactory.stopVM(vm)
                 .success(function () {
-                    console.log("vm stopptd");
-                    this.showMessage = false;
+                    if (data.success === "true"){
+                        console.log("vm stopped");
+                        this.showMessage = false;
+                    } else {
+                        this.showMessage = true;
+                        console.log("error on backend stop request");
+                    }
                 })
                 .error(function () {
                     this.showMessage = true;
-                    console.log("error");
+                    console.log("error on stop request");
                 });
     };
     // COULDDO : display a message in case of error
