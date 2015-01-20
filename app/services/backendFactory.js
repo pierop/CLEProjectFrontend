@@ -36,6 +36,11 @@ lanj.factory('backendFactory', function($http, userFactory){
             return $http.post(baseUrl + '/' + user.provider + '/vm', vm);
         },
         
+        createSubnet: function(vm) {
+            var user = userFactory.getUser();
+            return $http.post(baseUrl + '/' + user.provider + '/subnets', vm);
+        },
+        
         updateVM : function(vm){
             var user = userFactory.getUser();
             return $http.put(baseUrl + '/' + user.provider + '/vm/' + vm.id, vm);
