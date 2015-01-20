@@ -53,8 +53,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         },
         hdd: {
             selected: true,
-            min: "",
-            max: ""
+            min: "0",
+            max: "10"
         },
         os: {
             selected: true,
@@ -65,13 +65,13 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         },
         swap: {
             selected: true,
-            min: "",
-            max: ""
+            min: "0",
+            max: "10"
         },
         cpus: {
             selected: true,
-            min: "",
-            max: ""
+            min: "0",
+            max: "10"
         },
         ipAddressSelected: true,
         authenticationSelected: true
@@ -93,32 +93,32 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
         $scope.toDisplay.groupOfVMs = false;
 
-        if ($scope.services.networkSelected) {
+        if ($scope.services.networkSelected === "true") {
             $scope.vm['nbVm'] = 1;
         }
-        if ($scope.services.autoTemplates.selected) {
+        if ($scope.services.autoTemplates.selected === "true") {
             $scope.vm['vmTemplate'] = "";
         }
-        if ($scope.services.manualTemplatesSelected) {
-            if ($scope.services.ram.selected) {
+        if ($scope.services.manualTemplatesSelected === "true") {
+            if ($scope.services.ram.selected === "true") {
                 $scope.vm['ram'] = 0;
             }
-            if ($scope.services.hdd.selected) {
+            if ($scope.services.hdd.selected === "true") {
                 $scope.vm['hdd'] = 0;
             }
-            if ($scope.services.os.selected) {
+            if ($scope.services.os.selected === "true") {
                 $scope.vm['os'] = "";
             }
-            if ($scope.services.swap.selected) {
+            if ($scope.services.swap.selected === "true") {
                 $scope.vm['swap'] = 0;
             }
-            if ($scope.services.cpus.selected) {
+            if ($scope.services.cpus.selected === "true") {
                 $scope.vm['cpu'] = 0; // POST data contains 'cpu' instead of 'cpus'
             }
-            if ($scope.services.ipAddressSelected) {
+            if ($scope.services.ipAddressSelected === "true") {
                 $scope.vm['ipAddress'] = "";
             }
-            if ($scope.services.authenticationSelected) {
+            if ($scope.services.authenticationSelected === "true") {
                 $scope.vm['password'] = "";
             }
         }

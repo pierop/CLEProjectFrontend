@@ -7,42 +7,51 @@
 
 lanj.controller('ProviderController', function ($scope, $location, backendFactory, userFactory) {
     $scope.services = userFactory.getUser().services;
-    /*
-    $scope.services = {
-        networkSelected: false,
-        autoTemplates: {
-            selected: false,
-            templates: []
-        },
-        manualTemplatesSelected: false,
-        ram: {
-            selected: false,
-            min: "",
-            max: ""
-        },
-        hdd: {
-            selected: false,
-            min: "",
-            max: ""
-        },
-        os: {
-            selected: false,
-            templates: []
-        },
-        swap: {
-            selected: false,
-            min: "",
-            max: ""
-        },
-        cpu: {
-            selected: false,
-            min: "",
-            max: ""
-        },
-        ipAddressSelected: false,
-        authenticationSelected: false
-        };
-    */
+    $scope.services.networkSelected = ($scope.services.networkSelected === "true");
+    $scope.services.autoTemplates.selected = ($scope.services.autoTemplates.selected === "true");
+    $scope.services.manualTemplatesSelected = ($scope.services.manualTemplatesSelected === "true");
+    $scope.services.ram.selected = ($scope.services.ram.selected === "true");
+    $scope.services.hdd.selected = ($scope.services.hdd.selected === "true");
+    $scope.services.os.selected = ($scope.services.os.selected === "true");
+    $scope.services.cpu.selected = ($scope.services.cpu.selected === "true");
+    $scope.services.swap.selected = ($scope.services.swap.selected === "true");
+    $scope.services.authenticationSelected = ($scope.services.authenticationSelected === "true");
+    $scope.services.ipAddressSelected = ($scope.services.ipAddressSelected === "true");
+    /*$scope.services = {
+     networkSelected: false,
+     autoTemplates: {
+     selected: false,
+     templates: []
+     },
+     manualTemplatesSelected: false,
+     ram: {
+     selected: false,
+     min: "",
+     max: ""
+     },
+     hdd: {
+     selected: false,
+     min: "",
+     max: ""
+     },
+     os: {
+     selected: false,
+     templates: []
+     },
+     swap: {
+     selected: false,
+     min: "",
+     max: ""
+     },
+     cpu: {
+     selected: false,
+     min: "",
+     max: ""
+     },
+     ipAddressSelected: false,
+     authenticationSelected: false
+     };*/
+
     $scope.admin = {login: "", password: "", email: ""};
     // 0 for 'Manage Services' tab
     // 1 for 'Create Admin' tab
@@ -81,28 +90,28 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
 
     $scope.saveServices = function () {
         // Check that at least one service is selected
-        if (($scope.services.networkSelected === "false") && ($scope.services.autoTemplates.selected === "false") && ($scope.services.manualTemplatesSelected === "false")) {
+        if ((!$scope.services.networkSelected) && (!$scope.services.autoTemplates.selected) && (!$scope.services.manualTemplatesSelected)) {
             showMessage = true;
             $scope.message = "You have to select at least one service!";
         }
         // Check that the user have choosen between manual and auto templates
-        else if (($scope.services.autoTemplates.selected === "false") && ($scope.services.manualTemplatesSelected === "false")) {
+        else if ((!$scope.services.autoTemplates.selected) && (!$scope.services.manualTemplatesSelected)) {
             showMessage = true;
             $scope.message = "You have to select manual or auto templates.";
         }
         // Check that user have indicated at least one template
-        else if (($scope.services.autoTemplates.selected === "true") && $scope.services.autoTemplates.templates.length === 0) {
+        else if (($scope.services.autoTemplates.selected) && $scope.services.autoTemplates.templates.length === 0) {
             showMessage = true;
             $scope.message = "You should indicate at least one template.";
         }
-        else if (($scope.services.manualTemplatesSelected === "true") && ($scope.services.ram.selected === "false") && ($scope.services.hdd.selected === "false")
-                && ($scope.services.os.selected === "false") && ($scope.services.swap.selected === "false") && ($scope.services.cpu.selected === "false")
-                && ($scope.services.ipAddressSelected === "false") && ($scope.services.authenticationSelected === "false")) {
+        else if (($scope.services.manualTemplatesSelected) && (!$scope.services.ram.selected) && (!$scope.services.hdd.selected)
+                && (!$scope.services.os.selected) && (!$scope.services.swap.selected) && (!$scope.services.cpu.selected)
+                && (!$scope.services.ipAddressSelected) && (!$scope.services.authenticationSelected)) {
             showMessage = true;
             $scope.message = "You should select at least one field.";
         }
         // Check that user have indicated at least one OS template
-        else if (($scope.services.os.selected === "true") && $scope.services.os.templates.length === 0) {
+        else if (($scope.services.os.selected) && $scope.services.os.templates.length === 0) {
             $scope.message = "You should indicate at least one OS.";
         }
         // Everything is ok
@@ -144,6 +153,17 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
                     console.log($scope.services.autoTemplates.templates[i].name);
                 }
             }
+
+            $scope.services.networkSelected = $scope.services.networkSelected.toString();
+            $scope.services.autoTemplates.selected = $scope.services.autoTemplates.selected.toString();
+            $scope.services.manualTemplatesSelected = $scope.services.manualTemplatesSelected.toString();
+            $scope.services.ram.selected = $scope.services.ram.selected.toString();
+            $scope.services.hdd.selected = $scope.services.hdd.selected.toString();
+            $scope.services.os.selected = $scope.services.os.selected.toString();
+            $scope.services.cpu.selected = $scope.services.cpu.selected.toString();
+            $scope.services.swap.selected = $scope.services.swap.selected.toString();
+            $scope.services.authenticationSelected = $scope.services.authenticationSelected.toString();
+            $scope.services.ipAddressSelected = $scope.services.ipAddressSelected.toString();
 
             // Call to API
             backendFactory.selectServices($scope.services)
@@ -238,8 +258,8 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     $scope.isMessageShown = function () {
         return showMessage;
     };
-    
-    $scope.logout = function (){
+
+    $scope.logout = function () {
         userFactory.setUser(null);
         $location.path('/backend');
     };
