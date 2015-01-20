@@ -94,7 +94,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         $scope.toDisplay.groupOfVMs = false;
 
         if ($scope.services.networkSelected) {
-            $scope.vm['numberOfVMs'] = 1;
+            $scope.vm['nbVm'] = 1;
         }
         if ($scope.services.autoTemplates.selected) {
             $scope.vm['vmTemplate'] = "";
@@ -131,7 +131,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
     $scope.initStudentsArray = function () {
         $scope.vm['students'] = [];
-        for (var i = 0; i < $scope.vm.numberOfVMs; i++) {
+        for (var i = 0; i < $scope.vm.nbVM; i++) {
             $scope.vm.students.push({name: ""});
         }
         showStudentsArray = true;
@@ -177,23 +177,39 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         console.log("create the vm");
         showCreateVMPage = false;
        
-        // Call the API
+        // Si on veut créer une nouvelle vm
         if (!isVMCreated) {
              // Si on veut créer un réseau
             if (showStudentsArray) {
-                // Appel au backend
-            }
-            // Si on veut créer une seule VM
-            else {
-
-                backendFactory.createVM($scope.vm).success(function (data) {
-                    if (data.success === "true") {
+                backendFactory.createSubnet($scope.vm).success(function(data) {
+                    if (data.success) {
                         showMessage = true;
-                        $scope.message = "The virtual machine has been successfully created.";
+                        $scope.message = "The subnet has been successfully created.";
                         $scope.vm.id = data.id; // add a vm id
                         $scope.vm.vmProviderID = data.vmProviderID;
                         $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
                         $scope.user.vm.push($scope.vm);
+                    }
+                    else {
+                        showMessage = true;
+                        $scope.message = "The creation of the subnet has failed for some reason.";
+                    }
+                })
+                        .error(function(error) {
+                            showMessage = true;
+                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                });
+            }
+            // Si on veut créer une seule VM
+            else {
+                backendFactory.createVM($scope.vm).success(function (data) {
+                    if (data.success === "true") {
+                        showMessage = true;
+                        $scope.message = "The subnet has been successfully created.";
+                        /*$scope.vm.subID = data.subId; // add a vm id
+                        $scope.vm.vmProviderID = data.vmProviderID;
+                        $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
+                        $scope.user.vm.push($scope.vm);*/
                     }
                     else {
                         showMessage = true;
@@ -205,8 +221,10 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                     $scope.message = "Ooops, I did it again: " + error.message + ".";
                 });
             } 
-        } else {
-            // Si on veut créer un réseau
+        }
+        // Si on veut modifier une vm déjà existante
+        else {
+            // Si on veut créer une seule vm
             if (!showStudentsArray) {
                 // Appel au backend
                 backendFactory.updateVM($scope.vm).success(function (data) {

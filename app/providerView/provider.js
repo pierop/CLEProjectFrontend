@@ -6,8 +6,8 @@
 'use strict';
 
 lanj.controller('ProviderController', function ($scope, $location, backendFactory, userFactory) {
-    $scope.services = userFactory.getUser().services;
-    /*$scope.services = {
+    //$scope.services = userFactory.getUser().services;
+    $scope.services = {
         networkSelected: false,
         autoTemplates: {
             selected: false,
@@ -40,7 +40,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         },
         ipAddressSelected: false,
         authenticationSelected: false
-        };*/
+        };
     
     $scope.admin = {login: "", password: "", email: ""};
     // 0 for 'Manage Services' tab
@@ -59,7 +59,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         $scope.admin = {login: "", password: "", email: ""};
         // Call to API: POST /{provider}/admin
         backendFactory.createAdmin($scope.admin).succes(function (data) {
-            if (data.success) {
+            if (data.success === "true") {
                 showMessage = true;
                 $scope.message = "The admin account has been successfully created.";
             }
@@ -80,28 +80,28 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
 
     $scope.saveServices = function () {
         // Check that at least one service is selected
-        if (!$scope.services.networkSelected && !$scope.services.autoTemplates.selected && !$scope.services.manualTemplatesSelected) {
+        if (($scope.services.networkSelected === "false") && ($scope.services.autoTemplates.selected === "false") && ($scope.services.manualTemplatesSelected === "false")) {
             showMessage = true;
             $scope.message = "You have to select at least one service!";
         }
         // Check that the user have choosen between manual and auto templates
-        else if (!$scope.services.autoTemplates.selected && !$scope.services.manualTemplatesSelected) {
+        else if (($scope.services.autoTemplates.selected === "false") && ($scope.services.manualTemplatesSelected === "false")) {
             showMessage = true;
             $scope.message = "You have to select manual or auto templates.";
         }
         // Check that user have indicated at least one template
-        else if ($scope.services.autoTemplates.selected && $scope.services.autoTemplates.templates.length === 0) {
+        else if (($scope.services.autoTemplates.selected === "true") && $scope.services.autoTemplates.templates.length === 0) {
             showMessage = true;
             $scope.message = "You should indicate at least one template.";
         }
-        else if ($scope.services.manualTemplatesSelected && !$scope.services.ram.selected && !$scope.services.hdd.selected
-                && !$scope.services.os.selected && !$scope.services.swap.selected && !$scope.services.cpu.selected
-                && !$scope.services.ipAddressSelected && !$scope.services.authenticationSelected) {
+        else if (($scope.services.manualTemplatesSelected === "true") && ($scope.services.ram.selected === "false") && ($scope.services.hdd.selected === "false")
+                && ($scope.services.os.selected === "false") && ($scope.services.swap.selected === "false") && ($scope.services.cpu.selected === "false")
+                && ($scope.services.ipAddressSelected === "false") && ($scope.services.authenticationSelected === "false")) {
             showMessage = true;
             $scope.message = "You should select at least one field.";
         }
         // Check that user have indicated at least one OS template
-        else if ($scope.services.os.selected && $scope.services.os.templates.length === 0) {
+        else if (($scope.services.os.selected === "true") && $scope.services.os.templates.length === 0) {
             $scope.message = "You should indicate at least one OS.";
         }
         // Everything is ok
@@ -147,7 +147,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
             // Call to API
             backendFactory.selectServices($scope.services)
                     .success(function (data) {
-                        if (data.success === 1) {
+                        if (data.success === "true") {
                             showMessage = true;
                             $scope.message = "Your choices have been saved. Yay!";
                         }
