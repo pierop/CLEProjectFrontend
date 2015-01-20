@@ -12,7 +12,7 @@ lanj.controller('LoginController', function ($location, backendFactory, userFact
         //var getUser = authenticationFactory(this.login, this.password);
         var authentication = backendFactory.authenticate(this.login, this.password);
         authentication.success(function (user) {
-            if (user.success) {
+            if (user.success === "true") {
                 console.log("authentication success for " + user.user.role);
                 userFactory.setUser(user.user);
                 

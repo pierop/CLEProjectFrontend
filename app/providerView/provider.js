@@ -22,7 +22,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         hdd: {
             selected: false,
             min: "",
-            max: "">>>>>>> bbd5861b52d9233ac3f5fa87bd9ee037861855ee
+            max: ""
         },
         os: {
             selected: false,
