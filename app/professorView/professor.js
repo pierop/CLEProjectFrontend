@@ -77,7 +77,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         $scope.toDisplay.groupOfVMs = false;
 
         if ($scope.services.networkSelected) {
-            $scope.vm['numberOfVMs'] = 1;
+            $scope.vm['nbVm'] = 1;
         }
         if ($scope.services.autoTemplates.selected) {
             $scope.vm['vmTemplate'] = "";
@@ -114,7 +114,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
     $scope.initStudentsArray = function () {
         $scope.vm['students'] = [];
-        for (var i = 0; i < $scope.vm.numberOfVMs; i++) {
+        for (var i = 0; i < $scope.vm.nbVM; i++) {
             $scope.vm.students.push({name: ""});
         }
         showStudentsArray = true;
