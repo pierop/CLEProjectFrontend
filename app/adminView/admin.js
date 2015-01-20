@@ -12,15 +12,14 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
     $scope.userRoles = ['Professor', 'Student'];
     $scope.select = {selectedType: $scope.userRoles[0]};
 
-    $scope.user = {login: "", password: "", admin: ""};
+    $scope.user = {login: "", password: "", email: "", admin: ""};
     // L'admin est l'utilisateur actuel
     $scope.user.admin = userFactory.getUser().login;
     $scope.userVMs = userFactory.getUser().vm;
-    $scope.showMessage = false;
-    $scope.showVMAlert = false;
+    var showMessage = false;
 
     $scope.isMessageShown = function () {
-        return $scope.showMessage;
+        return showMessage;
     };
 
     $scope.createUserAccount = function () {
@@ -33,41 +32,41 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
             case 'Professor':
                 // Create a professor account
                 // Call to API: POST /{provider}/professor
-                backendFactory.createProfessor($scope.user).success(function(data) {
+                backendFactory.createProfessor($scope.user).success(function (data) {
                     if (data.success) {
                         console.log("professor added");
                         $scope.message = "The professor account has been successfully created.";
-                        $scope.showMessage = true;
+                        showMessage = true;
                     } else {
                         console.log("professor creation failed");
                         $scope.message = "The professor creation has failed.";
-                        $scope.showMessage = true;
+                        showMessage = true;
                     }
                 })
-                .error(function (error) {
-                    $scope.message = "Oooops, an error occured: " + error.message;
-                    $scope.showMessage = true;
-                });
+                        .error(function (error) {
+                            $scope.message = "Oooops, an error occured: " + error.message;
+                            showMessage = true;
+                        });
                 break;
             case 'Student':
                 // Create a student account
                 // Call to API: POST /{provider}/student
                 console.log("student account created.");
-                
-                backendFactory.createStudent($scope.user).success(function(data) {
+
+                backendFactory.createStudent($scope.user).success(function (data) {
                     if (data.success) {
                         console.log("student added");
                         $scope.message = "The student account has been successfully created.";
-                        $scope.showMessage = true;
+                        showMessage = true;
                     } else {
                         console.log("student creation failed");
                         $scope.message = "The student creation has failed.";
-                        $scope.showMessage = true;
+                        showMessage = true;
                     }
                 })
                         .error(function (error) {
                             $scope.message = "Oooops, an error occured: " + error.message;
-                            $scope.showMessage = true;
+                            showMessage = true;
                         });
                 break;
             default:
@@ -75,8 +74,10 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
         }
 
         //Reset the user object
-        $scope.user = {login: "", password: ""};
-        $scope.showMessage = true;
+        $scope.user = {login: "", password: "", email: "", admin: ""};
+        // L'admin est l'utilisateur actuel
+        $scope.user.admin = userFactory.getUser().login;
+        showMessage = true;
     };
 
     $scope.showVMsTab = function () {
@@ -95,49 +96,49 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
         return $scope.show === 1;
     };
 
-    $scope.deleteVM = function (vm){
-        backendFactory.deleteVM(vm.vmId).success(function(res){
-            if (res.success){
+    $scope.deleteVM = function (vm) {
+        backendFactory.deleteVM(vm.vmId).success(function (res) {
+            if (res.success) {
                 var index = $scope.user.vm.indexOf(vm);
                 if (index > -1)
-                    $scope.user.vm.slice(index,1);
+                    $scope.user.vm.slice(index, 1);
                 else
                     console.log("vm not found in userVMs");
             } else {
                 console.error("ERROR : [deleteVM in professor.js] operation failed");
             }
         })
-        .error(function(err){
-            console.error("ERROR : [deleteVM in professor.js] " + err.message);
-        });
+                .error(function (err) {
+                    console.error("ERROR : [deleteVM in professor.js] " + err.message);
+                });
     };
 
-    $scope.startVM = function(vm){
+    $scope.startVM = function (vm) {
         console.log("start vm with nodename " + vm.nodename + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function(res){
-            if(res.success)
-                $scope.changeVMState(vm,"on");
+        backendFactory.startVM(vm.vmId).success(function (res) {
+            if (res.success)
+                $scope.changeVMState(vm, "on");
             else
                 console.error("an error occured while trying to start vm");
         })
-        .error(function(){
-            $scope.showVMAlert = true;
-        });
-   };
-   
-   $scope.stopVM = function(vm){
+                .error(function () {
+                    showMessage = true;
+                });
+    };
+
+    $scope.stopVM = function (vm) {
         console.log("stop vm with nodename " + vm.nodename + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function(res){
-            if(res.success)
-                $scope.changeVMState(vm,"off");
+        backendFactory.startVM(vm.vmId).success(function (res) {
+            if (res.success)
+                $scope.changeVMState(vm, "off");
             else
                 console.error("an error occured while trying to stop vm");
         })
-        .error(function(){
-            $scope.showVMAlert = true;
-        });
-   };
-   
+                .error(function () {
+                    showMessage = true;
+                });
+    };
+
    $scope.getVMState = function (vmId){
         console.log("get vm state");
         /*
@@ -157,8 +158,8 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
     $scope.changeVMState = function (vm, state) {
         vm.state = state;
     };
-    
-    $scope.logout = function (){
+
+    $scope.logout = function () {
         userFactory.setUser(null);
         $location.path('/');
     };

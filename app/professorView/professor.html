@@ -7,6 +7,10 @@ and open the template in the editor.
 <div ng-controller="ProfessorController">
     <h1>Professor view</h1>
 
+    <div class="logOutButton">
+        <button type="button" ng-click="logout()">Log out</button>
+    </div>
+
     <ul class="nav-buttons">
         <li>
             <button type="button" ng-click="showVMsTab()">Virtual Machines</button>
@@ -19,7 +23,6 @@ and open the template in the editor.
     <div ng-if="areVMsShown()">
         <div ng-hide="isCreateVMPageShown()">
             Here is the list of your virtual machines <br/>
-            
             <li ng-repeat="vm in user.vm" ng-show="user.vm.length">
                 <div>
                     <button type="button" ng-click="deleteVM(vm)">delete</button>
@@ -45,12 +48,25 @@ and open the template in the editor.
                         Number of virtual machines
                         <input type="number" min="1" ng-model="vm.numberOfVMs" required/> 
                         <br />
+                        <button type="button" ng-click="initStudentsArray()">Assign students to VMs</button>
                     </div>
                 </div>
 
                 Name
                 <input type="text" ng-model="vm.vmName" required /> 
                 <br />
+
+                <div ng-if="!isGroupOfVMsShown()">
+                    Assign a VM to a student 
+                    <input type="text" ng-model="vm.student" required /> 
+                    <br />
+                </div>
+                <div ng-if="isStudentsArrayShown()" ng-repeat="student in vm.students">
+                    Student
+                    <input type="text" ng-model="student.name" required /> 
+                    <br />
+                </div>
+
                 <div ng-if="isAutoTemplatesServiceOffered()">
                     Template
                     <select ng-model="vm.vmTemplate" required>
@@ -105,11 +121,15 @@ and open the template in the editor.
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 Student 
                 <input type="text" ng-model="vm.student" required /> 
                 <br />
                 
                 <input type="submit" value="Save" />
+=======
+                <input type="submit" value="Create" />
+>>>>>>> 7d7bd491b47862ba055e747ed368ab809fc384a4
             </form>
         </div>
         
@@ -123,5 +143,4 @@ and open the template in the editor.
             <li ng-repeat="template in services.autoTemplates.templates">{{template}}</li>
         </ul>
     </div>
-    <button type="button" ng-click="logout()">log out</button>
 </div>

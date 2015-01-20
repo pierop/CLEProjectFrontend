@@ -42,7 +42,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         authenticationSelected: false
         };*/
     
-    $scope.admin = {login: "", password: ""};
+    $scope.admin = {login: "", password: "", email: ""};
     // 0 for 'Manage Services' tab
     // 1 for 'Create Admin' tab
     var show = 0;
@@ -56,7 +56,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     $scope.createAdminAccount = function () {
         console.log("login: " + $scope.admin.login + " - password: " + $scope.admin.password);
         // Reset admin
-        $scope.admin = {login: "", password: ""};
+        $scope.admin = {login: "", password: "", email: ""};
         // Call to API: POST /{provider}/admin
         backendFactory.createAdmin($scope.admin).succes(function (data) {
             if (data.success) {

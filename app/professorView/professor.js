@@ -20,61 +20,65 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     var isVMCreated = false;
     $scope.message = "";
 
+    var showStudentsArray = false;
+
     // This will be initialized with the real services after authentication
-    //$scope.services = $scope.user.services;
-    $scope.services = {
-     networkSelected: true,
-     autoTemplates: {
-     selected: true,
-     templates: [
-     { name: 'Template1' }, 
-     { name: 'Template2' }, 
-     { name: 'Template3' }]
-     },
-     manualTemplatesSelected: false,
-     ram: {
-     selected: true,
-     min: "0",
-     max: "10"
-     },
-     hdd: {
-     selected: true,
-     min: "",
-     max: ""
-     },
-     os: {
-     selected: true,
-     templates: [
-     { name: 'Linux'}, 
-     { name: 'Windows'}, 
-     { name: 'Mac' }]
-     },
-     swap: {
-     selected: true,
-     min: "",
-     max: ""
-     },
-     cpus: {
-     selected: true,
-     min: "",
-     max: ""
-     },
-     ipAddressSelected: true,
-     authenticationSelected: true
-     };
+    $scope.services = $scope.user.services;
+    /*$scope.services = {
+        networkSelected: true,
+        autoTemplates: {
+            selected: true,
+            templates: [
+                {name: 'Template1'},
+                {name: 'Template2'},
+                {name: 'Template3'}]
+        },
+        manualTemplatesSelected: true,
+        ram: {
+            selected: true,
+            min: "0",
+            max: "10"
+        },
+        hdd: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        os: {
+            selected: true,
+            templates: [
+                {name: 'Linux'},
+                {name: 'Windows'},
+                {name: 'Mac'}]
+        },
+        swap: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        cpus: {
+            selected: true,
+            min: "",
+            max: ""
+        },
+        ipAddressSelected: true,
+        authenticationSelected: true
+    };*/
 
     $scope.toDisplay = {groupOfVMs: false};
-    $scope.vm = {
-        login: "", 
-        admin: "", 
-        vmName: ""
-    };
-    $scope.vm.admin = $scope.user.admin;
-    $scope.vm.login = $scope.user.login;
-
+    
     $scope.initVM = function () {
         console.log("initialize the vm");
+
         isVMCreated = true;
+
+        $scope.vm = {login: "",
+            admin: "",
+            name: ""
+        };
+        $scope.vm.admin = $scope.user.admin;
+        $scope.vm.login = $scope.user.login;
+
         $scope.toDisplay.groupOfVMs = false;
 
         if ($scope.services.networkSelected) {
@@ -113,6 +117,18 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         console.dir($scope.vm);
     };
 
+    $scope.initStudentsArray = function () {
+        $scope.vm['students'] = [];
+        for (var i = 0; i < $scope.vm.numberOfVMs; i++) {
+            $scope.vm.students.push({name: ""});
+        }
+        showStudentsArray = true;
+    };
+
+    $scope.isStudentsArrayShown = function () {
+        return showStudentsArray;
+    };
+
     $scope.isGroupOfVMsShown = function () {
         return $scope.toDisplay.groupOfVMs;
     };
@@ -148,45 +164,57 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     $scope.createVM = function () {
         console.log("create the vm");
         showCreateVMPage = false;
+       
         // Call the API
-        if (isVMCreated) {
-            backendFactory.createVM($scope.vm).success(function (data) {
-                if (data.success) {
+        if (!isVMCreated) {
+             // Si on veut créer un réseau
+            if (showStudentsArray) {
+                // Appel au backend
+            }
+            // Si on veut créer une seule VM
+            else {
+
+                backendFactory.createVM($scope.vm).success(function (data) {
+                    if (data.success) {
+                        showMessage = true;
+                        $scope.message = "The virtual machine has been successfully created.";
+                        $scope.vm.id = data.id; // add a vm id
+                        $scope.vm.vmProviderID = data.vmProviderID;
+                        $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
+                        $scope.user.vm.push($scope.vm);
+                    }
+                    else {
+                        showMessage = true;
+                        $scope.message = "The creation of the virtual machine has failed for some reason.";
+                    }
+                })
+                .error(function (error) {
                     showMessage = true;
-                    $scope.message = "The virtual machine has been successfully created.";
-                    $scope.vm.id = data.id; // add a vm id
-                    $scope.vm.vmProviderID = data.vmProviderID;
-                    $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
-                    $scope.user.vm.push($scope.vm);
-                }
-                else {
-                    showMessage = true;
-                    $scope.message = "The creation of the virtual machine has failed for some reason.";
-                }
-            })
-            .error(function (error) {
-                showMessage = true;
-                $scope.message = "Ooops, I did it again: " + error.message + ".";
-            });
+                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                });
+            } 
         } else {
-            backendFactory.updateVM($scope.vm).success(function (data) {
-                if (data.success) {
+            // Si on veut créer un réseau
+            if (!showStudentsArray) {
+                // Appel au backend
+                backendFactory.updateVM($scope.vm).success(function (data) {
+                    if (data.success) {
+                        showMessage = true;
+                        $scope.message = "The virtual machine has been successfully updated.";
+                        var vmIndex = $scope.user.vm.indexOf($scope.vm);
+                        $scope.user.vm[vmIndex] = $scope.vm;
+                    }
+                    else {
+                        showMessage = true;
+                        $scope.message = "The creation of the virtual machine has failed for some reason.";
+                    }
+                })
+                .error(function (error) {
                     showMessage = true;
-                    $scope.message = "The virtual machine has been successfully updated.";
-                    var vmIndex = $scope.user.vm.indexOf($scope.vm);
-                    $scope.user.vm[vmIndex] = $scope.vm;
-                }
-                else {
-                    showMessage = true;
-                    $scope.message = "The creation of the virtual machine has failed for some reason.";
-                }
-            })
-            .error(function (error) {
-                showMessage = true;
-                $scope.message = "Ooops, I did it again: " + error.message + ".";
-            });
+                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                });
+            }             
         }
-            
     };
 
     $scope.updateVM = function (vm) {
