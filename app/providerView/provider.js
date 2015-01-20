@@ -6,7 +6,8 @@
 'use strict';
 
 lanj.controller('ProviderController', function ($scope, $location, backendFactory, userFactory) {
-    //$scope.services = userFactory.getUser().services;
+    $scope.services = userFactory.getUser().services;
+    /*
     $scope.services = {
         networkSelected: false,
         autoTemplates: {
@@ -41,7 +42,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         ipAddressSelected: false,
         authenticationSelected: false
         };
-    
+    */
     $scope.admin = {login: "", password: "", email: ""};
     // 0 for 'Manage Services' tab
     // 1 for 'Create Admin' tab

@@ -76,7 +76,7 @@ lanj.factory('vmFactory', function (userFactory, backendFactory) {
     };
 
     this.stopVM = function (vm) {
-       return backendFactory.startVM(vm.id);
+       return backendFactory.stopVM(vm.id);
     };
 
     this.checkVMStates = function () {
