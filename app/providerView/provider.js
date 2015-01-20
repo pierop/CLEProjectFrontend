@@ -12,6 +12,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     $scope.services.manualTemplatesSelected = ($scope.services.manualTemplatesSelected === "true");
     $scope.services.ram.selected = ($scope.services.ram.selected === "true");
     $scope.services.hdd.selected = ($scope.services.hdd.selected === "true");
+    $scope.services.os = {};
     $scope.services.os.selected = ($scope.services.osSelected.selected === "true");
     $scope.services.cpu.selected = ($scope.services.cpu.selected === "true");
     $scope.services.swap.selected = ($scope.services.swap.selected === "true");
