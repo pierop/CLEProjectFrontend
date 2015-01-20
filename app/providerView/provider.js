@@ -6,8 +6,8 @@
 'use strict';
 
 lanj.controller('ProviderController', function ($scope, $location, backendFactory, userFactory) {
-    $scope.services = userFactory.getUser().services;
-    /*$scope.services = {
+    //$scope.services = userFactory.getUser().services;
+    $scope.services = {
         networkSelected: false,
         autoTemplates: {
             selected: false,
@@ -22,7 +22,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         hdd: {
             selected: false,
             min: "",
-            max: "">>>>>>> bbd5861b52d9233ac3f5fa87bd9ee037861855ee
+            max: ""
         },
         os: {
             selected: false,
@@ -40,7 +40,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         },
         ipAddressSelected: false,
         authenticationSelected: false
-        };*/
+        };
     
     $scope.admin = {login: "", password: "", email: ""};
     // 0 for 'Manage Services' tab
