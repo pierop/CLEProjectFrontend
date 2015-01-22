@@ -288,7 +288,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             if (data.success === "true") {
                 var index = $scope.user.vm.indexOf(vm);
                 if (index > -1) {
-                    $scope.user.vms.slice(index, 1);
+                    $scope.user.vm.slice(index, 1);
                     console.log("vm deleted");
                 }
                 else
