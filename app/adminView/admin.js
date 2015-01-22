@@ -114,7 +114,7 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
     };
 
     $scope.startVM = function (vm) {
-        console.log("start vm with nodename " + vm.nodename + " and id " + vm.id);
+        console.log("start vm with name " + vm.name + " and id " + vm.id);
         backendFactory.startVM(vm.id).success(function (res) {
             if (res.success === "true")
                 $scope.changeVMState(vm, "on");
@@ -127,7 +127,7 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
     };
 
     $scope.stopVM = function (vm) {
-        console.log("stop vm with nodename " + vm.nodename + " and id " + vm.id);
+        console.log("stop vm with name " + vm.name + " and id " + vm.id);
         backendFactory.stopVM(vm.id).success(function (res) {
             if (res.success === "true")
                 $scope.changeVMState(vm, "off");
