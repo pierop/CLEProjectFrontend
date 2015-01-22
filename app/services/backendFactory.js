@@ -55,8 +55,8 @@ lanj.factory('backendFactory', function($http, userFactory){
         },
         
         deleteVM : function(vmid){
-            var provider = userFactory.getUser().provider;
-            return $http.delete(baseUrl + '/' + provider + '/vm/' + vmid);
+            var user = userFactory.getUser();
+            return $http.delete(baseUrl + '/' + user.provider + '/vm/' + vmid, user.login);
         },
         
         startVM : function(vmid){

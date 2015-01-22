@@ -23,7 +23,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     $scope.services.cpu.selected = ($scope.services.cpu.selected === "true");
     $scope.services.swap.selected = ($scope.services.swap.selected === "true");
     $scope.services.authenticationSelected = ($scope.services.authenticationSelected === "true");
-    $scope.services.ipAddressSelected = ($scope.services.ipAddressSelected === "true");*/
+    $scope.services.ipAddressSelected = ($scope.services.ipAddressSelected === "true");
     $scope.services = {
      networkSelected: false,
      autoTemplates: {
