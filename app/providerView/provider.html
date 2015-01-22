@@ -36,7 +36,7 @@ and open the template in the editor.
             <input type="submit" value="Create" />
         </form>
 
-        <div ng-if="isMessageShown()">The admin account has been created.</div>
+        <div ng-if="isMessageShown()">{{message}}</div>
     </div>
 
     <div ng-if="isManageServicesShown()">

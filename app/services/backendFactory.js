@@ -14,7 +14,7 @@ lanj.factory('backendFactory', function ($http, userFactory) {
             return $http.post(baseUrl + '/providers/authenticate', {login: login, password: password});
         },
         createAdmin: function (admin) {
-            var provider = userFactory.getUser().provider;
+            var provider = userFactory.getUser().login;
             return $http.post(baseUrl + '/' + provider + '/users/admins', admin);
         },
         createProfessor: function (professor) {
