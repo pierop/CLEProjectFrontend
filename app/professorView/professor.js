@@ -23,7 +23,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     var showStudentsArray = false;
 
     // This will be initialized with the real services after authentication
-    
+    $scope.services = {};
     backendFactory.getServices()
             .success(function(data){
                 if (data.success === "true"){

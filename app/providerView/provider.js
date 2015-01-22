@@ -75,7 +75,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
         // Reset admin
         $scope.admin = {login: "", password: "", email: ""};
         // Call to API: POST /{provider}/admin
-        backendFactory.createAdmin($scope.admin).succes(function (data) {
+        backendFactory.createAdmin($scope.admin).success(function (data) {
             if (data.success === "true") {
                 showMessage = true;
                 $scope.message = "The admin account has been successfully created.";
@@ -187,9 +187,9 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
                             $scope.message = "Unable to save your choices, sorry.";
                         }
                     })
-                    .error(function (error) {
+                    .error(function () {
                         showMessage = true;
-                        $scope.message = "Unable to save your choices, sorry: " + error.message + ".";
+                        $scope.message = "Unable to save your choices, sorry. life still cool";
                     });
 
             showMessage = true;

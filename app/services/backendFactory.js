@@ -8,15 +8,7 @@ lanj.factory('backendFactory', function($http, userFactory){
     return {
         /* User endpoints */
         authenticate : function(login, password){
-            /*var profAuto;
-            var profManual;
-            if (login === profAuto.login){
-                return profAuto;
-            } else if (login === profManual.login){
-                return profManual;
-            } else {*/
-                return $http.post(baseUrl + '/users/authenticate', { login : login, password : password });
-            //}
+            return $http.post(baseUrl + '/users/authenticate', { login : login, password : password });
         },
         
         authenticateProvider : function(login, password){
@@ -86,24 +78,7 @@ lanj.factory('backendFactory', function($http, userFactory){
         getServices: function() {
             var provider = userFactory.getUser().provider;
             return $http.get(baseUrl + '/' + provider + '/services');
-            /*if (provider === "provider1"){
-                return { success : "true", services : servicesAuto };
-            } else if (provider === "providerNico"){
-                return { success : "true", services : servicesManual };
-            } else {
-                return $http.get(baseUrl + '/' + provider + '/services');
-            }
-            */
         }
-
-        /*
-        getOSTemplates: function() {
-            return $http.get(baseUrl + '/:provider/templates/OS');
-        },
-        
-        getTemplates: function() {
-            return $http.get('/:provider/templates/:user');
-        }*/
     };   
 });
 
