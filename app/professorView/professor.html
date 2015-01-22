@@ -103,7 +103,7 @@ and open the template in the editor.
                     </div>
 
                     <div ng-if="isCPUsShown()">
-                        CPU
+                        CPUs
                         <input type="range" ng-model="vm.cpu" min="services.cpu.min" max="services.cpu.max" required/> 
                         <br />
                     </div>
@@ -119,7 +119,8 @@ and open the template in the editor.
                         <input type="password" ng-model="vm.password" required/> 
                         <br />
                     </div>
-                </div>                
+                </div>
+                
                 <input type="submit" value="Save" />
             </form>
         </div>

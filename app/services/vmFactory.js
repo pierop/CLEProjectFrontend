@@ -83,12 +83,17 @@ lanj.factory('vmFactory', function (userFactory, backendFactory) {
         var user = userFactory.getUser();
         var i;
         for (i = 0; i < user.vm; i++) {
+            console.log("----- checking vm state for " + user.vm[i].name);
             backendFactory.getVMState(user.vm[i])
             .success(function (data) {
-                if (data.status === "running")
+                if (data.status === "running") {
+                    console.log("running");
                     user.vm[i].state = "on";
-                else if (data.status === "stopped")
+                }
+                else if (data.status === "stopped") {
                     user.vm[i].state = "off";
+                    console.log("stopped");
+                }
                 userFactory.setUser(user);
             })
             .error(function () {

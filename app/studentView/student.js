@@ -81,5 +81,5 @@ lanj.controller('StudentController', function ($scope, $location, userFactory, b
         $location.path('/');
     };
 
-    //window.setInterval(vmFactory.checkVMStates(), 500);
+    window.setInterval(vmFactory.checkVMStates(), 500);
 });
