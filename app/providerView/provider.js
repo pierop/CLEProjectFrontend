@@ -6,8 +6,8 @@
 'use strict';
 
 lanj.controller('ProviderController', function ($scope, $location, backendFactory, userFactory) {
-    $scope.services = userFactory.getUser().services;
-    $scope.services.networkSelected = ($scope.services.networkSelected === "true");
+    //$scope.services = userFactory.getUser().services;
+    /*$scope.services.networkSelected = ($scope.services.networkSelected === "true");
     $scope.services.autoTemplates.selected = ($scope.services.autoTemplates.selected === "true");
     $scope.services.manualTemplatesSelected = ($scope.services.manualTemplatesSelected === "true");
     $scope.services.ram.selected = ($scope.services.ram.selected === "true");
@@ -16,8 +16,8 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
     $scope.services.cpu.selected = ($scope.services.cpu.selected === "true");
     $scope.services.swap.selected = ($scope.services.swap.selected === "true");
     $scope.services.authenticationSelected = ($scope.services.authenticationSelected === "true");
-    $scope.services.ipAddressSelected = ($scope.services.ipAddressSelected === "true");
-    /*$scope.services = {
+    $scope.services.ipAddressSelected = ($scope.services.ipAddressSelected === "true");*/
+    $scope.services = {
      networkSelected: false,
      autoTemplates: {
      selected: false,
@@ -50,7 +50,7 @@ lanj.controller('ProviderController', function ($scope, $location, backendFactor
      },
      ipAddressSelected: false,
      authenticationSelected: false
-     };*/
+     };
 
     $scope.admin = {login: "", password: "", email: ""};
     // 0 for 'Manage Services' tab

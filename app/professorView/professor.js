@@ -84,9 +84,10 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
         isVMCreated = true;
 
-        $scope.vm = {login: "",
+        $scope.vm = { login: "",
             admin: "",
-            name: ""
+            name: "",
+            student: ""
         };
         $scope.vm.admin = $scope.user.admin;
         $scope.vm.login = $scope.user.login;
@@ -122,7 +123,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                 $scope.vm['password'] = "";
             }
         }
-        $scope.vm['student'] = "";
+        //$scope.vm['student'] = "";
 
         showCreateVMPage = true;
         console.log("creating a new vm...");
