@@ -97,7 +97,7 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
     };
 
     $scope.deleteVM = function (vm) {
-        backendFactory.deleteVM(vm.vmId).success(function (res) {
+        backendFactory.deleteVM(vm.id).success(function (res) {
             if (res.success === "true") {
                 var index = $scope.user.vm.indexOf(vm);
                 if (index > -1)
@@ -114,8 +114,8 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
     };
 
     $scope.startVM = function (vm) {
-        console.log("start vm with nodename " + vm.nodename + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function (res) {
+        console.log("start vm with nodename " + vm.nodename + " and id " + vm.id);
+        backendFactory.startVM(vm.id).success(function (res) {
             if (res.success === "true")
                 $scope.changeVMState(vm, "on");
             else
@@ -127,8 +127,8 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
     };
 
     $scope.stopVM = function (vm) {
-        console.log("stop vm with nodename " + vm.nodename + " and id " + vm.vmId);
-        backendFactory.stopVM(vm.vmId).success(function (res) {
+        console.log("stop vm with nodename " + vm.nodename + " and id " + vm.id);
+        backendFactory.stopVM(vm.id).success(function (res) {
             if (res.success === "true")
                 $scope.changeVMState(vm, "off");
             else
@@ -139,12 +139,12 @@ lanj.controller('AdminController', function ($scope, $location, backendFactory, 
                 });
     };
 
-   $scope.getVMState = function (vmId){
+   $scope.getVMState = function (id){
         console.log("get vm state");
         /*
          * { status:  running/stopped} running stopped
          */
-        backendFactory.getVMState(vmId).success(function(data){
+        backendFactory.getVMState(id).success(function(data){
             if(data.success === "true")
                 return data;
             else

@@ -36,7 +36,19 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             .error(function(){
                 console.log("error on getServices request");
     });
-    /*$scope.services = {
+    /*console.log("--------------------------------------------------------");
+    var data = backendFactory.getServices();
+    console.log("----------------------------------------" + data.success);
+    console.dir(data.services);
+    if (data.success === "true"){
+        $scope.services = data.services;
+    }
+    else {
+        console.log("getServices backend error");
+    }*/
+    
+    /*
+    $scope.services = {
         networkSelected: true,
         autoTemplates: {
             selected: true,
@@ -75,14 +87,15 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
         },
         ipAddressSelected: true,
         authenticationSelected: true
-    };*/
-
+    };
+    */
+    
     $scope.toDisplay = {groupOfVMs: false};
     
     $scope.initVM = function () {
         console.log("initialize the vm");
 
-        isVMCreated = true;
+        isVMCreated = false;
 
         $scope.vm = { login: "",
             admin: "",
@@ -117,7 +130,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                 $scope.vm['cpu'] = 0; // POST data contains 'cpu' instead of 'cpus'
             }
             if ($scope.services.ipAddressSelected === "true") {
-                $scope.vm['ipAddress'] = "";
+                $scope.vm['ipAdress'] = "";
             }
             if ($scope.services.authenticationSelected === "true") {
                 $scope.vm['password'] = "";
@@ -132,7 +145,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
     $scope.initStudentsArray = function () {
         $scope.vm['students'] = [];
-        for (var i = 0; i < $scope.vm.nbVM; i++) {
+        for (var i = 0; i < $scope.vm.nbVm; i++) {
             $scope.vm.students.push({name: ""});
         }
         showStudentsArray = true;
@@ -186,10 +199,10 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                     if (data.success) {
                         showMessage = true;
                         $scope.message = "The subnet has been successfully created.";
-                        $scope.vm.id = data.id; // add a vm id
+                        /*$scope.vm.subID = data.subId; // add a vm id
                         $scope.vm.vmProviderID = data.vmProviderID;
-                        $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
-                        $scope.user.vm.push($scope.vm);
+                        $scope.vm.ipAdress = data.ipAddress; // add an vm ipAddress
+                        $scope.user.vm.push($scope.vm);*/
                     }
                     else {
                         showMessage = true;
@@ -203,14 +216,16 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
             }
             // Si on veut créer une seule VM
             else {
+                console.dir($scope.vm);
                 backendFactory.createVM($scope.vm).success(function (data) {
                     if (data.success === "true") {
                         showMessage = true;
-                        $scope.message = "The subnet has been successfully created.";
-                        /*$scope.vm.subID = data.subId; // add a vm id
+                        $scope.message = "The vm has been successfully created.";
+                        $scope.vm.id = data.id; // add a vm id
                         $scope.vm.vmProviderID = data.vmProviderID;
-                        $scope.vm.ipAddress = data.ipAddress; // add an vm ipAddress
-                        $scope.user.vm.push($scope.vm);*/
+                        $scope.vm.ipAdress = data.ipAddress; // add an vm ipAddress
+                        $scope.vm.state = "off";
+                        $scope.user.vm.push($scope.vm);
                     }
                     else {
                         showMessage = true;
@@ -219,9 +234,10 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                 })
                 .error(function (error) {
                     showMessage = true;
-                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                    $scope.message = "Ooops, I did it again.";
                 });
             } 
+            isVMCreated = false;
         }
         // Si on veut modifier une vm déjà existante
         else {
@@ -242,7 +258,7 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                 })
                 .error(function (error) {
                     showMessage = true;
-                    $scope.message = "Ooops, I did it again: " + error.message + ".";
+                    $scope.message = "Ooops, I did it again .";
                 });
             }             
         }
@@ -250,12 +266,12 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
 
     $scope.updateVM = function (vm) {
         showCreateVMPage = true;
-        isVMCreated = false;
+        isVMCreated = true;
         $scope.vm = vm;
     };
 
     $scope.deleteVM = function (vm) {
-        backendFactory.deleteVM(vm.vmId).success(function (data) {
+        backendFactory.deleteVM(vm.id).success(function (data) {
             if (data.success === "true") {
                 var index = $scope.user.vm.indexOf(vm);
                 if (index > -1)
@@ -263,11 +279,11 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
                 else
                     console.log("vm not found in $scope.user.vms");
             } else {
-                console.error("ERROR : [deleteVM in professor.js] operation failed");
+                console.error("ERROR : [deleteVM in professor.js] backend failed");
             }
         })
                 .error(function (err) {
-                    console.error("ERROR : [deleteVM in professor.js] " + err);
+                    console.error("ERROR : [deleteVM in professor.js] request failed");
                 });
     };
 
@@ -306,8 +322,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.startVM = function (vm) {
-        console.log("start vm with name " + vm.name + " and id " + vm.vmId);
-        backendFactory.startVM(vm.vmId).success(function (res) {
+        console.log("start vm with name " + vm.name + " and id " + vm.id);
+        backendFactory.startVM(vm.id).success(function (res) {
             if (res.success === "true")
                 $scope.changeVMState(vm, "on");
             else
@@ -319,8 +335,8 @@ lanj.controller('ProfessorController', function ($scope, $location, userFactory,
     };
 
     $scope.stopVM = function (vm) {
-        console.log("stop vm with name " + vm.name + " and id " + vm.vmId);
-        backendFactory.stopVM(vm.vmId).success(function (res) {
+        console.log("stop vm with name " + vm.name + " and id " + vm.id);
+        backendFactory.stopVM(vm.id).success(function (res) {
             if (res.success === "true")
                 $scope.changeVMState(vm, "off");
             else

@@ -8,7 +8,15 @@ lanj.factory('backendFactory', function($http, userFactory){
     return {
         /* User endpoints */
         authenticate : function(login, password){
-            return $http.post(baseUrl + '/users/authenticate', { login : login, password : password });
+            /*var profAuto;
+            var profManual;
+            if (login === profAuto.login){
+                return profAuto;
+            } else if (login === profManual.login){
+                return profManual;
+            } else {*/
+                return $http.post(baseUrl + '/users/authenticate', { login : login, password : password });
+            //}
         },
         
         authenticateProvider : function(login, password){
@@ -68,14 +76,24 @@ lanj.factory('backendFactory', function($http, userFactory){
         
         /* Fait */
         selectServices: function(services) {
-            var provider = userFactory.getUser().provider;
-            return $http.post(baseUrl + '/' + provider + '/services', services);
+            var provider = userFactory.getUser().login;
+            var data = { services: services};
+            console.dir(data);
+            return $http.post(baseUrl + '/' + provider + '/services', data);
         },
         
         // return { success : true/false, services : {} }
         getServices: function() {
             var provider = userFactory.getUser().provider;
             return $http.get(baseUrl + '/' + provider + '/services');
+            /*if (provider === "provider1"){
+                return { success : "true", services : servicesAuto };
+            } else if (provider === "providerNico"){
+                return { success : "true", services : servicesManual };
+            } else {
+                return $http.get(baseUrl + '/' + provider + '/services');
+            }
+            */
         }
 
         /*
@@ -88,3 +106,81 @@ lanj.factory('backendFactory', function($http, userFactory){
         }*/
     };   
 });
+
+var servicesAuto = {
+        networkSelected: "true",
+        autoTemplates: {
+            selected: "true",
+            templates: [
+                {name: 'Debian'},
+                {name: 'Ubuntu'},
+                {name: 'CentOS'}]
+        },
+        manualTemplatesSelected: false,
+        ram: {
+            selected: "false",
+            min: "0",
+            max: "10"
+        },
+        hdd: {
+            selected: "false",
+            min: "0",
+            max: "10"
+        },
+        os: {
+            selected: "false",
+            templates: [
+                {name: 'Linux'},
+                {name: 'Windows'},
+                {name: 'Mac'}]
+        },
+        swap: {
+            selected: "false",
+            min: "0",
+            max: "10"
+        },
+        cpus: {
+            selected: "false",
+            min: "0",
+            max: "10"
+        },
+        ipAddressSelected: "false",
+        authenticationSelected: "false"
+    };
+    
+var servicesManual = {
+        networkSelected: "false",
+        autoTemplates: {
+            selected: "false",
+            templates: []
+        },
+        manualTemplatesSelected: "true",
+        ram: {
+            selected: "true",
+            min: "0",
+            max: "10"
+        },
+        hdd: {
+            selected: "true",
+            min: "0",
+            max: "10"
+        },
+        os: {
+            selected: "true",
+            templates: [
+                {name: 'Ubuntu'},
+                {name: 'Debian'}]
+        },
+        swap: {
+            selected: "true",
+            min: "0",
+            max: "10"
+        },
+        cpus: {
+            selected: "true",
+            min: "0",
+            max: "10"
+        },
+        ipAddressSelected: "false",
+        authenticationSelected: "false"
+    };

@@ -30,7 +30,7 @@ and open the template in the editor.
                     <button type="button" ng-show="vm.state.toLowerCase() === 'on'" ng-click="stopVM(vm)">stop</button>
                     <button type="button" ng-show="vm.state.toLowerCase() === 'off'" ng-click="startVM(vm)">start</button>
                     <button type="button" ng-click="updateVM(vm)">Update</button>
-                    <span ng-show="vm.state === 'on'">IP address: {{vm.ipAddress}}</span>
+                    <span ng-show="vm.state === 'on'">IP address: {{vm.ipAdress}}</span>
                 </div>
             </li>
             <div ng-show="{{showVMAlert}}">An error occured while doing operation on the vm</div>
@@ -52,10 +52,6 @@ and open the template in the editor.
                     </div>
                 </div>
 
-                Name
-                <input type="text" ng-model="vm.vmName" required /> 
-                <br />
-
                 <div ng-if="!isGroupOfVMsShown()">
                     Assign a VM to a student 
                     <input type="text" ng-model="vm.student" required /> 
@@ -66,6 +62,10 @@ and open the template in the editor.
                     <input type="text" ng-model="student.name" required /> 
                     <br />
                 </div>
+                
+                Name
+                <input type="text" ng-model="vm.name" required /> 
+                <br />
 
                 <div ng-if="isAutoTemplatesServiceOffered()">
                     Template
@@ -91,7 +91,7 @@ and open the template in the editor.
                     <div ng-if="isOSShown()">
                         OS
                         <select ng-model="vm.os" required>
-                            <option ng-repeat="template in services.os.templates" value="{{template.name}}">{{template.name}}</option>
+                            <option ng-repeat="template in services.osSelected.templates" value="{{template.name}}">{{template.name}}</option>
                         </select> 
                         <br />
                     </div>
@@ -110,7 +110,7 @@ and open the template in the editor.
 
                     <div ng-if="isIPAddressShown()">
                         IP Address
-                        <input type="text" ng-model="vm.ipAddress" required/> 
+                        <input type="text" ng-model="vm.ipAdress" required/> 
                         <br />
                     </div>
 
@@ -132,7 +132,7 @@ and open the template in the editor.
         Here is the list of available templates. <br/>
 
         <ul>
-            <li ng-repeat="template in services.autoTemplates.templates">{{template}}</li>
+            <li ng-repeat="template in services.autoTemplates.templates">{{template.name}}</li>
         </ul>
     </div>
 </div>
